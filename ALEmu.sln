@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlefLogin", "AlefLogin\AlefLogin.vcxproj", "{37337FC3-8029-4115-A435-B8BB8505EC02}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19} = {1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlefWorld", "AlefWorld\AlefWorld.vcxproj", "{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19} = {1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlefCommon", "AlefCommon\AlefCommon.vcxproj", "{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37337FC3-8029-4115-A435-B8BB8505EC02}.Debug|x64.ActiveCfg = Debug|x64
+		{37337FC3-8029-4115-A435-B8BB8505EC02}.Debug|x64.Build.0 = Debug|x64
+		{37337FC3-8029-4115-A435-B8BB8505EC02}.Debug|x86.ActiveCfg = Debug|Win32
+		{37337FC3-8029-4115-A435-B8BB8505EC02}.Debug|x86.Build.0 = Debug|Win32
+		{37337FC3-8029-4115-A435-B8BB8505EC02}.Release|x64.ActiveCfg = Release|x64
+		{37337FC3-8029-4115-A435-B8BB8505EC02}.Release|x64.Build.0 = Release|x64
+		{37337FC3-8029-4115-A435-B8BB8505EC02}.Release|x86.ActiveCfg = Release|Win32
+		{37337FC3-8029-4115-A435-B8BB8505EC02}.Release|x86.Build.0 = Release|Win32
+		{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}.Debug|x64.ActiveCfg = Debug|x64
+		{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}.Debug|x64.Build.0 = Debug|x64
+		{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}.Debug|x86.ActiveCfg = Debug|Win32
+		{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}.Debug|x86.Build.0 = Debug|Win32
+		{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}.Release|x64.ActiveCfg = Release|x64
+		{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}.Release|x64.Build.0 = Release|x64
+		{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}.Release|x86.ActiveCfg = Release|Win32
+		{AF1F7B51-523E-4CAC-8421-9AB4B8866A88}.Release|x86.Build.0 = Release|Win32
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}.Debug|x64.ActiveCfg = Debug|x64
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}.Debug|x64.Build.0 = Debug|x64
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}.Debug|x86.ActiveCfg = Debug|Win32
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}.Debug|x86.Build.0 = Debug|Win32
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}.Release|x64.ActiveCfg = Release|x64
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}.Release|x64.Build.0 = Release|x64
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}.Release|x86.ActiveCfg = Release|Win32
+		{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
