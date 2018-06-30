@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+using std::cout;
+using std::endl;
 
 #include "AlefConnectionFactory.h"
 #include "AlefLoginPacketHandler.h"
@@ -10,7 +13,11 @@ public:
 	AlefLoginClientFactory(AlefLoginPacketHandler* handler) : packetHandler(handler) {};
 	virtual ~AlefLoginClientFactory() {};
 
-	virtual AlefLoginClientConnection* createConnection(const StreamSocket& socket) { return new AlefLoginClientConnection(socket, packetHandler); };
+	virtual AlefLoginClientConnection* createConnection(const StreamSocket& socket) 
+	{ 
+		cout << "New connection recieved, spawning AlefLoginClientConnection" << endl;
+		return new AlefLoginClientConnection(socket, packetHandler); 
+	}
 
 private:
 	AlefLoginPacketHandler * packetHandler;

@@ -1,4 +1,5 @@
 #pragma once
+#pragma pack(push,1)
 
 #include <Poco/Foundation.h>
 
@@ -6,13 +7,13 @@ using namespace Poco;
 
 struct AlefPacketHeader
 {
-	Int8 GuardByte;
-	Int16 PacketSize;
-	Int8 PacketType;
-	Int64 Flag1;
-	Int8 Flag2;
-	Int8 PacketOp;
-	Int8 UnkOp;
+	UInt8 GuardByte;
+	UInt16 PacketSize;
+	UInt8 PacketType;
+	UInt64 Flag1;
+	UInt8 Flag2;
+	UInt8 PacketFlag;
+	UInt8 PacketOperation;
 };
 
 class AlefPacket
@@ -20,13 +21,13 @@ class AlefPacket
 public:
 	AlefPacket();
 	AlefPacket(int initialSize);
-	AlefPacket(const char* buffer, int bufSize);
-	AlefPacket(Int16 packetSize, Int8 PacketType, Int8 PacketOp, Int8 UnkOp);
+	AlefPacket(char* buffer, int bufSize);
+	AlefPacket(Int16 packetSize, Int8 PacketType, Int8 PacketFlag, Int8 PacketOp);
 	~AlefPacket();
 
 	void Resize(int newSize);
 
-	void WriteHeader(Int16 packetSize, Int8 PacketType, Int8 PacketOp, Int8 UnkOpcode);
+	void WriteHeader(Int16 packetSize, Int8 PacketType, Int8 PacketFlag, Int8 PacketOp);
 	void WriteFooter() { WriteInt8((Int8)0x6B); };
 
 	void WriteInt8(Int8 data);
@@ -76,6 +77,8 @@ public:
 
 	//inline char* getBuffer() { return &buf[pos]; };
 	inline char* getBuffer() { return buf; };
+	inline char* getBufferAt(int pos) { return &buf[pos]; }
+	inline char* getBufferAtCurPos() { return &buf[pos]; }
 	inline char getSingleElement(int pos) { return buf[pos]; };
 	inline int getPosition() { return pos; };
 

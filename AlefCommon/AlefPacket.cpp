@@ -14,10 +14,10 @@ AlefPacket::AlefPacket(int initialSize)
 	pos = 0;
 }
 
-AlefPacket::AlefPacket(const char *buffer, int bufSize)
+AlefPacket::AlefPacket(char *buffer, int bufSize)
 {
 	buf = new char[bufSize];
-	memcpy(buf, buffer, size);
+	memcpy(buf, buffer, bufSize);
 	size = bufSize;
 	pos = 0;
 }
@@ -35,36 +35,36 @@ AlefPacket::~AlefPacket()
 	delete[] buf;
 }
 
-void AlefPacket::WriteHeader(Int16 packetSize, Int8 PacketType, Int8 PacketOp, Int8 UnkOpcode)
+void AlefPacket::WriteHeader(Int16 packetSize, Int8 PacketType, Int8 PacketFlag, Int8 PacketOp)
 {
 	/*Header
 	guardByte - 1 Byte (Osy emu has d6 as the guardbyte here every time, is this intentional?)
 	packetSize - 2 Bytes
 	PacketType - 1 Byte
 	Unk - 9 Bytes (IDA says these are flags, Osy server emu never sends anything here initially, client however has data in this field)
-	Opcode2 (Packet Operation) - 1 Byte
-	Opcode3 - 1 Byte
+	Opcode2 (Packet Flag) - 1 Byte
+	Opcode3 (Packet Operation) - 1 Byte
 	Total : 15 Bytes(edited)*/
 	WriteInt8((Int8)0xD6); //GuardByte - 1Byte D6 is International guard byte
 	WriteInt16(packetSize); //Packetsize
 	WriteInt8(PacketType); //PacketType (Opcode1) - 1Byte
 	WriteInt64(0); //Unk - Flag? - 8Bytes
 	WriteInt8(0); //Unk - Flag? - 1Byte
-	WriteInt8(PacketOp); //Packet Operation (Opcode2) - 1Byte
-	WriteInt8(UnkOpcode); //Unkown Opcode - 1Byte
+	WriteInt8(PacketFlag); //Packet Flag (Opcode2) - 1Byte
+	WriteInt8(PacketOp); //Packet Operation(Opcode3) - 1Byte
 
 }
 
 AlefPacketHeader AlefPacket::GetPacketHeader(bool resetPos)
 {
 	AlefPacketHeader header;
-	GetInt8(header.GuardByte);
-	GetInt16(header.PacketSize);
-	GetInt8(header.PacketType);
-	GetInt64(header.Flag1);
-	GetInt8(header.Flag2);
-	GetInt8(header.PacketOp);
-	GetInt8(header.UnkOp);
+	GetUInt8(header.GuardByte);
+	GetUInt16(header.PacketSize);
+	GetUInt8(header.PacketType);
+	GetUInt64(header.Flag1);
+	GetUInt8(header.Flag2);
+	GetUInt8(header.PacketFlag);
+	GetUInt8(header.PacketOperation);
 
 	if (resetPos)
 		pos -= (sizeof(Int8) + sizeof(Int16) + sizeof(Int8) + sizeof(Int64) + sizeof(Int8) + sizeof(Int8) + sizeof(Int8));
@@ -80,8 +80,8 @@ void AlefPacket::Resize(int newSize)
 		EnsureBufSize(newSize);
 	else
 	{
-		char *tmp = new char[size];
-		memcpy(tmp, buf, size);
+		char *tmp = new char[newSize];
+		memcpy(tmp, buf, newSize);
 		delete[] buf;
 		buf = tmp;
 		size = newSize;
@@ -153,12 +153,12 @@ void AlefPacket::WriteArbitraryData(const void *data, int len)
 
 void AlefPacket::WriteByteArray(const char* array)
 {
-	WriteArbitraryData(array, (int)(strlen(array) + 1));
+	WriteArbitraryData(array, (int)(strlen(array)));
 }
 
 void AlefPacket::WriteByteArray(const UInt8* array)
 {
-	WriteArbitraryData(array, (int)(strlen((char*)array) + 1));
+	WriteArbitraryData(array, (int)(strlen((char*)array)));
 }
 
 void AlefPacket::GetInt8(Int8 &data)
