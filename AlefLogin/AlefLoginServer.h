@@ -25,7 +25,6 @@ public:
 private:
 	AlefLoginClientFactory * clientFactory;
 	TCPServer * loginServer;
-	//ServerSocket * serverSock;
 	AlefLoginPacketHandler * handler;
 	TCPServerParams * params;
 

@@ -17,20 +17,14 @@ const int maxReceiveBytes = 2048;
 class AlefLoginClientConnection : public AlefServerConnection
 {
 public:
-	//AlefLoginClientConnection() {};
 	AlefLoginClientConnection(const AlefSocket& socket, AlefLoginPacketHandler* packetHandler) : AlefServerConnection(socket, handler), handler(packetHandler), sock(socket)
 	{
 		cryptSession = new blowfish_session;
-		//blowfish_session * bfSession = new blowfish_session;
-		//blowfish_context * serverctx = new blowfish_context;
-		//blowfish_context * clientctx = new blowfish_context;
 		cryptSession->serverCtx = new blowfish_context;
 		cryptSession->clientCtx = new blowfish_context;
 		blowfish_init(cryptSession->serverCtx);
 		blowfish_init(cryptSession->clientCtx);
 		sock.setCryptoSession(cryptSession);
-		//blowfish_init(&session.serverCtx);
-		//blowfish_init(&session.clientCtx);
 	};
 	virtual ~AlefLoginClientConnection() 
 	{
@@ -38,20 +32,16 @@ public:
 		delete cryptSession->clientCtx;
 		delete cryptSession;
 		cout << "Client disconnected" << endl;
-		//blowfish_free(&session.serverCtx);
-		//blowfish_free(&session.clientCtx);
 	};
 
 	virtual void run()
 	{
-		//cout << "AlefLoginClientConnection Spawned...Now waiting data..." << endl;
 		unsigned char tempBuf[maxReceiveBytes + 1] = { 0 };
 		int numBytesRead = 1;
 		for (;numBytesRead;)
 		{
 			try
 			{
-				//numBytesRead = socket().receiveBytes(tempBuf, maxReceiveBytes);
 				numBytesRead = sock.receiveBytes(tempBuf, maxReceiveBytes);
 				if (numBytesRead)
 				{
@@ -65,7 +55,7 @@ public:
 					packetInfo info(sock);
 					AlefPacketHeader header;
 					header = packet->GetPacketHeader(true);
-					info.PacketType = header.PacketType;//packet->GetPacketHeader(true).PacketType;
+					info.PacketType = header.PacketType;
 					info.PacketFlag = header.PacketFlag;
 					info.PacketOperation = header.PacketOperation;
 					info.packet = packet;

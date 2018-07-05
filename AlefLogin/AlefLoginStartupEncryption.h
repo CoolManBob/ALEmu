@@ -12,7 +12,7 @@ public:
 	AlefLoginStartupEncryption() {};
 	virtual ~AlefLoginStartupEncryption() {};
 
-	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet/*, blowfish_session& session*/);
+	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
 	bool processInitialPacket(AlefSocket& sock, AlefPacket * packet);
 	bool processCryptoPacket(AlefSocket& sock, AlefPacket * packet);
 

@@ -2,7 +2,6 @@
 
 AlefLoginServer::AlefLoginServer()
 {
-	//serverSock = new ServerSocket(11002);
 	handler = new AlefLoginPacketHandler();
 	clientFactory = new AlefLoginClientFactory(handler);
 	params = new TCPServerParams();

@@ -11,5 +11,5 @@ public:
 	AlefPacketProcessor(AlefPacket* packet) { /*processPacket(packet);*/ };
 	virtual ~AlefPacketProcessor() {};
 
-	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet/*, blowfish_session& session*/) { return true; };
+	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet) { return true; };
 };

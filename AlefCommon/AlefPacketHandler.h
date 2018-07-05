@@ -15,12 +15,11 @@ using namespace Poco;
 
 struct packetInfo //TODO: This needs to be moved
 {
-	packetInfo(AlefSocket& socket/*, blowfish_session& session*/) : sock(socket)/*, cryptoSession(session)*/ {};
+	packetInfo(AlefSocket& socket) : sock(socket) {};
 	Int8 PacketType;
 	Int8 PacketFlag;
 	Int8 PacketOperation;
 	AlefPacket* packet;
-	//blowfish_session* cryptoSession;
 	AlefSocket & sock;
 };
 
