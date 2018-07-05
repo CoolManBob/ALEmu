@@ -39,9 +39,9 @@ bool AlefLoginStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 
 	//blowfish_setkey(sock.getCryptoSession()->serverCtx, (unsigned char*)"11111111111111111111111111111111", (0x20 << 3));
 	blowfish_setkey(sock.getCryptoSession()->serverCtx, serverKey, (0x20 << 3));
-	for (UInt32 i = 0; i < (0x20 >> 3); i++) {
+	/*for (UInt32 i = 0; i < (0x20 >> 3); i++) {
 		blowfish_encrypt(sock.getCryptoSession()->serverCtx, (UInt32*)(serverKey + i * 8), (UInt32*)(serverKey + i * 8 + 4));
-	}
+	}*/
 	keyResponse.WriteByteArray(serverKey);
 	keyResponse.WriteInt8(0x6B);
 
