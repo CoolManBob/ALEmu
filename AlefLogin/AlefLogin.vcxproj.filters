@@ -27,6 +27,9 @@
     <ClCompile Include="AlefLoginStartupEncryption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AlefLoginClientLogin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlefLoginServer.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlefLoginApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginClientLogin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

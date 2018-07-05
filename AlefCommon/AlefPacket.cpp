@@ -22,12 +22,12 @@ AlefPacket::AlefPacket(unsigned char *buffer, int bufSize)
 	pos = 0;
 }
 
-AlefPacket::AlefPacket(UInt16 PacketSize, UInt8 PacketType, UInt8 PacketOp, UInt8 UnkOp)
+AlefPacket::AlefPacket(UInt16 PacketSize, UInt8 PacketType, UInt8 PacketFlag, UInt8 PacketOp)
 {
 	buf = new unsigned char[PacketSize];
 	size = PacketSize;
 	pos = 0;
-	WriteHeader(PacketSize, PacketType, PacketOp, UnkOp);
+	WriteHeader(PacketSize, PacketType, PacketFlag, PacketOp);
 }
 
 AlefPacket::~AlefPacket()
@@ -74,13 +74,23 @@ AlefPacketHeader AlefPacket::GetPacketHeader(bool resetPos)
 
 void AlefPacket::Resize(int newSize)
 {
-	if (size == newSize)
+	/*if (size == newSize)
 		return;
 	else if (size < newSize)
 		EnsureBufSize(newSize);
 	else
 	{
 		unsigned char *tmp = new unsigned char[newSize];
+		memcpy(tmp, buf, newSize);
+		delete[] buf;
+		buf = tmp;
+		size = newSize;
+	}*/
+	if (size == newSize)
+		return;
+	else
+	{
+		unsigned char * tmp = new unsigned char[newSize];
 		memcpy(tmp, buf, newSize);
 		delete[] buf;
 		buf = tmp;

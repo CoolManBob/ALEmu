@@ -12,7 +12,7 @@ using Poco::Exception;
 #include "AlefSocket.h"
 #include "AlefCrypto.h"
 
-const int maxReceiveBytes = 2048;
+const int maxReceiveBytes = 4096;
 
 class AlefLoginClientConnection : public AlefServerConnection
 {
@@ -22,6 +22,7 @@ public:
 		cryptSession = new blowfish_session;
 		cryptSession->serverCtx = new blowfish_context;
 		cryptSession->clientCtx = new blowfish_context;
+		cryptSession->packetCounter = 0;
 		blowfish_init(cryptSession->serverCtx);
 		blowfish_init(cryptSession->clientCtx);
 		sock.setCryptoSession(cryptSession);

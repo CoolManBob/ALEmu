@@ -282,6 +282,7 @@ typedef struct _blowfish_context
 struct blowfish_session {
 	blowfish_context *serverCtx;
 	blowfish_context *clientCtx;
+	UInt32 packetCounter;
 };
 
 static void zeroize(void *v, size_t n) {

@@ -15,7 +15,4 @@ public:
 	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
 	bool processInitialPacket(AlefSocket& sock, AlefPacket * packet);
 	bool processCryptoPacket(AlefSocket& sock, AlefPacket * packet);
-
-private:
-	blowfish_session *cryptoSession;
 };

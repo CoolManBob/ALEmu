@@ -3,6 +3,7 @@
 enum AlefPacketType
 {
 	AGPMSTARTUPENCRYPTION_PACKET_TYPE = 0x48,
+	AGPMLOGIN_PACKET_TYPE = 0x0D,
 };
 
 /*enum ePacketType
