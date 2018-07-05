@@ -6,6 +6,7 @@ using std::endl;
 #include "AlefConnectionFactory.h"
 #include "AlefLoginPacketHandler.h"
 #include "AlefLoginClientConnection.h"
+#include "AlefSocket.h"
 
 class AlefLoginClientFactory : public AlefConnectionFactory
 {

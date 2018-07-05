@@ -2,29 +2,29 @@
 
 AlefPacket::AlefPacket()
 {
-	buf = new char[1024]; //Default settings
+	buf = new unsigned char[1024]; //Default settings
 	size = 1024;
 	pos = 0;
 }
 
 AlefPacket::AlefPacket(int initialSize)
 {
-	buf = new char[initialSize];
+	buf = new unsigned char[initialSize];
 	size = initialSize;
 	pos = 0;
 }
 
-AlefPacket::AlefPacket(char *buffer, int bufSize)
+AlefPacket::AlefPacket(unsigned char *buffer, int bufSize)
 {
-	buf = new char[bufSize];
+	buf = new unsigned char[bufSize];
 	memcpy(buf, buffer, bufSize);
 	size = bufSize;
 	pos = 0;
 }
 
-AlefPacket::AlefPacket(Int16 PacketSize, Int8 PacketType, Int8 PacketOp, Int8 UnkOp)
+AlefPacket::AlefPacket(UInt16 PacketSize, UInt8 PacketType, UInt8 PacketOp, UInt8 UnkOp)
 {
-	buf = new char[PacketSize];
+	buf = new unsigned char[PacketSize];
 	size = PacketSize;
 	pos = 0;
 	WriteHeader(PacketSize, PacketType, PacketOp, UnkOp);
@@ -35,7 +35,7 @@ AlefPacket::~AlefPacket()
 	delete[] buf;
 }
 
-void AlefPacket::WriteHeader(Int16 packetSize, Int8 PacketType, Int8 PacketFlag, Int8 PacketOp)
+void AlefPacket::WriteHeader(UInt16 packetSize, UInt8 PacketType, UInt8 PacketFlag, UInt8 PacketOp)
 {
 	/*Header
 	guardByte - 1 Byte (Osy emu has d6 as the guardbyte here every time, is this intentional?)
@@ -45,13 +45,13 @@ void AlefPacket::WriteHeader(Int16 packetSize, Int8 PacketType, Int8 PacketFlag,
 	Opcode2 (Packet Flag) - 1 Byte
 	Opcode3 (Packet Operation) - 1 Byte
 	Total : 15 Bytes(edited)*/
-	WriteInt8((Int8)0xD6); //GuardByte - 1Byte D6 is International guard byte
-	WriteInt16(packetSize); //Packetsize
-	WriteInt8(PacketType); //PacketType (Opcode1) - 1Byte
-	WriteInt64(0); //Unk - Flag? - 8Bytes
-	WriteInt8(0); //Unk - Flag? - 1Byte
-	WriteInt8(PacketFlag); //Packet Flag (Opcode2) - 1Byte
-	WriteInt8(PacketOp); //Packet Operation(Opcode3) - 1Byte
+	WriteUInt8(0xD6); //GuardByte - 1Byte D6 is International guard byte
+	WriteUInt16(packetSize); //Packetsize
+	WriteUInt8(PacketType); //PacketType (Opcode1) - 1Byte
+	WriteUInt64(0); //Unk - Flag? - 8Bytes
+	WriteUInt8(0); //Unk - Flag? - 1Byte
+	WriteUInt8(PacketFlag); //Packet Flag (Opcode2) - 1Byte
+	WriteUInt8(PacketOp); //Packet Operation(Opcode3) - 1Byte
 
 }
 
@@ -67,7 +67,7 @@ AlefPacketHeader AlefPacket::GetPacketHeader(bool resetPos)
 	GetUInt8(header.PacketOperation);
 
 	if (resetPos)
-		pos -= (sizeof(Int8) + sizeof(Int16) + sizeof(Int8) + sizeof(Int64) + sizeof(Int8) + sizeof(Int8) + sizeof(Int8));
+		pos -= (sizeof(UInt8) + sizeof(UInt16) + sizeof(UInt8) + sizeof(UInt64) + sizeof(UInt8) + sizeof(UInt8) + sizeof(UInt8));
 
 	return header;
 }
@@ -80,7 +80,7 @@ void AlefPacket::Resize(int newSize)
 		EnsureBufSize(newSize);
 	else
 	{
-		char *tmp = new char[newSize];
+		unsigned char *tmp = new unsigned char[newSize];
 		memcpy(tmp, buf, newSize);
 		delete[] buf;
 		buf = tmp;

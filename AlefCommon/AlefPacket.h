@@ -21,14 +21,14 @@ class AlefPacket
 public:
 	AlefPacket();
 	AlefPacket(int initialSize);
-	AlefPacket(char* buffer, int bufSize);
-	AlefPacket(Int16 packetSize, Int8 PacketType, Int8 PacketFlag, Int8 PacketOp);
+	AlefPacket(unsigned char* buffer, int bufSize);
+	AlefPacket(UInt16 packetSize, UInt8 PacketType, UInt8 PacketFlag, UInt8 PacketOp);
 	~AlefPacket();
 
 	void Resize(int newSize);
 
-	void WriteHeader(Int16 packetSize, Int8 PacketType, Int8 PacketFlag, Int8 PacketOp);
-	void WriteFooter() { WriteInt8((Int8)0x6B); };
+	void WriteHeader(UInt16 packetSize, UInt8 PacketType, UInt8 PacketFlag, UInt8 PacketOp);
+	void WriteFooter() { WriteUInt8(0x6B); };
 
 	void WriteInt8(Int8 data);
 	void WriteInt16(Int16 data);
@@ -76,18 +76,19 @@ public:
 	void SetDataAt(int position, const data val);*/
 
 	//inline char* getBuffer() { return &buf[pos]; };
-	inline char* getBuffer() { return buf; };
-	inline char* getBufferAt(int pos) { return &buf[pos]; }
-	inline char* getBufferAtCurPos() { return &buf[pos]; }
-	inline char getSingleElement(int pos) { return buf[pos]; };
+	inline unsigned char* getBuffer() { return buf; };
+	inline unsigned char* getBufferAt(int pos) { return &buf[pos]; }
+	inline unsigned char* getBufferAtCurPos() { return &buf[pos]; }
+	inline unsigned char getSingleElement(int pos) { return buf[pos]; };
 	inline int getPosition() { return pos; };
 
 	inline void setPosition(int newPos) { pos = newPos; };
+	inline void setSize(int newSize) { size = newSize; }
 
 	inline int getSize() { return size; }
 
 private:
-	char * buf;
+	unsigned char * buf;
 	int size;
 	int pos;
 
@@ -101,7 +102,7 @@ private:
 				newSize <<= 1;
 			} while (newSize < size);
 
-			char *tmp = new char[newSize];
+			unsigned char *tmp = new unsigned char[newSize];
 			memcpy(tmp, buf, size);
 			delete[] buf;
 			buf = tmp;

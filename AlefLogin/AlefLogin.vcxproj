@@ -122,6 +122,7 @@
       <OutputFile>../out/$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>../AlefDependencies/Libs;../out</AdditionalLibraryDirectories>
       <AdditionalDependencies>AlefCommon_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -9,18 +9,19 @@
 
 #include "AlefPacketProcessor.h"
 #include "AlefCrypto.h"
+#include "AlefSocket.h"
 
 using namespace Poco;
 
-struct packetInfo
+struct packetInfo //TODO: This needs to be moved
 {
-	packetInfo(StreamSocket& socket, blowfish_session& session) : sock(socket), cryptoSession(session) {};
+	packetInfo(AlefSocket& socket/*, blowfish_session& session*/) : sock(socket)/*, cryptoSession(session)*/ {};
 	Int8 PacketType;
 	Int8 PacketFlag;
 	Int8 PacketOperation;
 	AlefPacket* packet;
-	blowfish_session& cryptoSession;
-	StreamSocket & sock;
+	//blowfish_session* cryptoSession;
+	AlefSocket & sock;
 };
 
 class AlefPacketHandler : public ActiveDispatcher
@@ -36,7 +37,7 @@ private:
 		HashMap<Int8, AlefPacketProcessor*>::Iterator Itr = processorMap.find(packet.PacketType);
 		if (Itr != processorMap.end())
 		{
-			return Itr->second->processPacket(packet.sock, packet.packet, packet.cryptoSession);
+			return Itr->second->processPacket(packet.sock, packet.packet);
 		}
 		else
 			return false;

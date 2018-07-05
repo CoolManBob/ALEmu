@@ -125,7 +125,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Alef.h" />
     <ClInclude Include="AlefConnectionFactory.h" />
     <ClInclude Include="AlefCrypto.h" />
     <ClInclude Include="AlefPacket.h" />
@@ -135,6 +134,7 @@
     <ClInclude Include="AlefServer.h" />
     <ClInclude Include="AlefServerConnection.h" />
     <ClInclude Include="AlefSocket.h" />
+    <ClInclude Include="AlefSocketImpl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlefPacket.cpp" />

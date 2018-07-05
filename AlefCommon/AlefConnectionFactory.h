@@ -5,6 +5,7 @@
 
 #include "AlefPacketHandler.h"
 #include "AlefServerConnection.h"
+#include "AlefSocket.h"
 
 using namespace Poco::Net;
 

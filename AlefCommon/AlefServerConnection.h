@@ -4,6 +4,7 @@
 #include "Poco/Net/StreamSocket.h"
 
 #include "AlefPacketHandler.h"
+#include "AlefSocket.h"
 
 using namespace Poco::Net;
 

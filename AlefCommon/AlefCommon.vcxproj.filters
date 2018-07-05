@@ -21,9 +21,6 @@
     <ClInclude Include="AlefServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Alef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AlefPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -43,6 +40,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlefCrypto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefSocketImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

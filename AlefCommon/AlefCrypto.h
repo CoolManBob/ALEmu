@@ -280,8 +280,8 @@ typedef struct _blowfish_context
 }blowfish_context;
 
 struct blowfish_session {
-	blowfish_context serverCtx;
-	blowfish_context clientCtx;
+	blowfish_context *serverCtx;
+	blowfish_context *clientCtx;
 };
 
 static void zeroize(void *v, size_t n) {
