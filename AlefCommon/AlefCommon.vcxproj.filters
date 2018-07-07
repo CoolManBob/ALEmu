@@ -45,6 +45,9 @@
     <ClInclude Include="AlefSocketImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AlefMD5Crypto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlefPacket.cpp">

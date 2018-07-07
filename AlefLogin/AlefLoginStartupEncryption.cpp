@@ -30,7 +30,8 @@ bool AlefLoginStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 
 	sock.sendPacket(&response, false);
 
-	unsigned char serverKey[] = "11111111111111111111111111111111";
+	unsigned char serverKey[] = "12345678123456781234567812345678";
+
 	AlefPacket keyResponse(0x32, 0x48, 0x03, 0x01);
 	keyResponse.WriteInt16(0x20);
 
@@ -60,7 +61,7 @@ bool AlefLoginStartupEncryption::processCryptoPacket(AlefSocket& sock, AlefPacke
 	AlefPacket * startupCryptoComplete = new AlefPacket(0x10, 0x48, 0x01, 0x03);
 	startupCryptoComplete->WriteInt8(0x6B); //Footer
 
-	sock.sendPacket(startupCryptoComplete, false);
+	sock.sendPacket(startupCryptoComplete);
 	delete startupCryptoComplete;
 
 	return true;

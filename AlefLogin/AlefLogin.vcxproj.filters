@@ -30,6 +30,12 @@
     <ClCompile Include="AlefLoginClientLogin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AlefLoginServerList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefLoginCharacterList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlefLoginServer.h">
@@ -51,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlefLoginClientLogin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginServerList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginCharacterList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

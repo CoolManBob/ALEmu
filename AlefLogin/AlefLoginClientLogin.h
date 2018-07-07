@@ -14,4 +14,5 @@ public:
 
 	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
 	bool processInitialLoginPacket(AlefSocket& sock, AlefPacket* packet);
+	bool processUserLoginPacket(AlefSocket& sock, AlefPacket* packet);
 };

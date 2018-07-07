@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClInclude Include="AlefConnectionFactory.h" />
     <ClInclude Include="AlefCrypto.h" />
+    <ClInclude Include="AlefMD5Crypto.h" />
     <ClInclude Include="AlefPacket.h" />
     <ClInclude Include="AlefPacketHandler.h" />
     <ClInclude Include="AlefPacketProcessor.h" />
