@@ -7,6 +7,7 @@
 //Packet Handlers
 #include "AlefLoginStartupEncryption.h"
 #include "AlefLoginClientLogin.h"
+#include "AlefLoginServerList.h"
 
 
 class AlefLoginPacketHandler : public AlefPacketHandler
@@ -16,6 +17,7 @@ public:
 	{
 		processorMap[AGPMSTARTUPENCRYPTION_PACKET_TYPE] = new AlefLoginStartupEncryption();
 		processorMap[AGPMLOGIN_PACKET_TYPE] = new AlefLoginClientLogin();
+		processorMap[AGPMWORLD_PACKET_TYPE] = new AlefLoginServerList();
 	}
 	virtual ~AlefLoginPacketHandler() {};
 

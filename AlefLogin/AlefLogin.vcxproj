@@ -127,7 +127,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AlefLoginApp.cpp" />
-    <ClCompile Include="AlefLoginCharacterList.cpp" />
     <ClCompile Include="AlefLoginClientLogin.cpp" />
     <ClCompile Include="AlefLoginServer.cpp" />
     <ClCompile Include="AlefLoginServerList.cpp" />
@@ -136,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlefLoginApp.h" />
-    <ClInclude Include="AlefLoginCharacterList.h" />
     <ClInclude Include="AlefLoginClientConnection.h" />
     <ClInclude Include="AlefLoginClientFactory.h" />
     <ClInclude Include="AlefLoginClientLogin.h" />
