@@ -1,28 +1,29 @@
 #pragma once
 //#pragma pack(push,1)
 #include <iostream>
-#include <string>
-#include <sstream>
 using std::cout;
 using std::endl;
+#include <string>
+#include <sstream>
 using std::string;
 using std::stringstream;
 
 #include "Poco/Exception.h"
 using Poco::Exception;
 
-#include "AlefLoginGlobal.h"
+#include "AlefWorldGlobal.h"
 #include "AlefServerConnection.h"
-#include "AlefLoginPacketHandler.h"
+#include "AlefWorldPacketHandler.h"
 #include "AlefSocket.h"
 #include "AlefCrypto.h"
+#include "AlefFlagLengthLookup.h"
 
 const int maxReceiveBytes = 4096;
 
-class AlefLoginClientConnection : public AlefServerConnection
+class AlefWorldClientConnection : public AlefServerConnection
 {
 public:
-	AlefLoginClientConnection(const AlefSocket& socket, AlefLoginPacketHandler* packetHandler) : AlefServerConnection(socket, handler), handler(packetHandler), sock(socket)
+	AlefWorldClientConnection(const AlefSocket& socket, AlefWorldPacketHandler* packetHandler) : AlefServerConnection(socket, handler), handler(packetHandler), sock(socket)
 	{
 		cryptSession = new blowfish_session;
 		cryptSession->serverCtx = new blowfish_context;
@@ -32,19 +33,19 @@ public:
 		blowfish_init(cryptSession->clientCtx);
 		sock.setCryptoSession(cryptSession);
 	};
-	virtual ~AlefLoginClientConnection() 
+	virtual ~AlefWorldClientConnection()
 	{
 		delete cryptSession->serverCtx;
 		delete cryptSession->clientCtx;
 		delete cryptSession;
-		LOG("Client Disconnected!");
+		LOG("Client disconnected");
 	};
 
 	virtual void run()
 	{
 		unsigned char tempBuf[maxReceiveBytes + 1] = { 0 };
 		int numBytesRead = 1;
-		for (;numBytesRead;)
+		for (; numBytesRead;)
 		{
 			try
 			{
@@ -55,24 +56,28 @@ public:
 					bool decryptRes = decryptPacket(packet);
 					if (!decryptRes)
 					{
-						LOG("ERROR Decrypting Packet", FATAL);
+						LOG("ERROR Decrypting Packet");
 						continue;
 					}
-
 					packetInfo info(sock);
-					bool success = pktInterface->setupPkt(packet);
-					if (!success)
+
+					packet->acquirePacketHeader();
+					UInt8 flagLen = lookup.lookUp(packet->GetPacketType());
+
+					if (flagLen == 0xFF)
 					{
 						LOG("ERROR: Could not find FlagLength!", FATAL);
 						delete packet;
 						continue;
 					}
+
+					packet->setAndAcquireFlags(flagLen);
 					info.packet = packet;
-					
+
 					stringstream outMsg;
-					outMsg << "numBytesRead: " << numBytesRead << " ";
-					outMsg << "PacketSize: " << packet->GetPacketSize() << " ";
-					outMsg << "Opcode " << (int)packet->GetPacketType();// << " " << (int)header.PacketFlag << " " << (int)header.PacketOperation;
+					outMsg << "numBytesRead: " << numBytesRead << endl;
+					outMsg << "PacketSize: " << packet->GetPacketSize() << endl;
+					outMsg << "Opcode " << (int)packet->GetPacketType();// << " " << (int)header.PacketFlag << " " << (int)header.PacketOperation << endl;
 					LOG(outMsg.str());
 					ActiveResult<bool> res = handler->packetHandler(info);
 					res.wait();
@@ -90,7 +95,7 @@ public:
 						LOG(errorMsg.str(), FATAL);
 						delete packet;
 					}
-				} 
+				}
 
 			}
 			catch (Exception&)
@@ -105,13 +110,13 @@ private:
 		UInt32 realSize = 0;
 		UInt8* packetData = packet->getBuffer();
 		int isServerPacket = (packetData[0] == 0xA1) ? 1 : 0;
-		
+
 		if (packetData[0] == 0xD6 && packet->getSize() >= 16)
 		{
 			LOG("Unencrypted Packet");
 			return true;
 		}
-		
+
 		if ((packetData[0] != 0xB1 && packetData[0] != 0xA1) || packet->getSize() < 24)
 			return false;
 
@@ -126,7 +131,8 @@ private:
 
 		return true;
 	}
-	AlefLoginPacketHandler * handler;
+	AlefFlagLengthLookup lookup;
+	AlefWorldPacketHandler * handler;
 	AlefSocket sock;
 	blowfish_session * cryptSession;
 };

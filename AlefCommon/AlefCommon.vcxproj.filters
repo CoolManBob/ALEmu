@@ -13,45 +13,81 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Packet System">
+      <UniqueIdentifier>{78405bf1-7e84-4329-a181-4fc43f9d4808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server">
+      <UniqueIdentifier>{988a3563-d167-46fb-b210-ae2ad953c0c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Crypto">
+      <UniqueIdentifier>{55f6a0e4-2cf6-4e00-abbf-4cd0f2332b64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Packet System">
+      <UniqueIdentifier>{1bcfccca-f10b-46b7-a1cd-5b53e189d19b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlefSocket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefServer.h">
+    <ClInclude Include="AlefLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlefPacket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefServerConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefConnectionFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Packet System</Filter>
     </ClInclude>
     <ClInclude Include="AlefPacketHandler.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Packet System</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefPacketInterface.h">
+      <Filter>Header Files\Packet System</Filter>
     </ClInclude>
     <ClInclude Include="AlefPacketProcessor.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Packet System</Filter>
     </ClInclude>
-    <ClInclude Include="AlefPacketTypes.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="AlefFlagLengthLookup.h">
+      <Filter>Header Files\Packet System</Filter>
     </ClInclude>
-    <ClInclude Include="AlefCrypto.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="AlefConnectionFactory.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServer.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerConnection.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefSocket.h">
+      <Filter>Header Files\Server</Filter>
     </ClInclude>
     <ClInclude Include="AlefSocketImpl.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefCrypto.h">
+      <Filter>Header Files\Crypto</Filter>
     </ClInclude>
     <ClInclude Include="AlefMD5Crypto.h">
+      <Filter>Header Files\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefFieldLookup.h">
+      <Filter>Header Files\Packet System</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AlefPacket.cpp">
+    <ClCompile Include="AlefLog.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefFlagLengthLookup.cpp">
+      <Filter>Source Files\Packet System</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefPacket.cpp">
+      <Filter>Source Files\Packet System</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefPacketInterface.cpp">
+      <Filter>Source Files\Packet System</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefFieldLookup.cpp">
+      <Filter>Source Files\Packet System</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

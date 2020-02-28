@@ -14,6 +14,11 @@ public:
 
 	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
 	bool processInitialLoginPacket(AlefSocket& sock, AlefPacket* packet);
-	bool processUserLoginPacket(AlefSocket& sock, AlefPacket* packet);
+	bool processUserLoginPacket(AlefSocket& sock, AlefPacket* packet, unsigned char* acct, UInt8 acctLen, unsigned char* pw, UInt8 pwLen);
 	bool processUserConnect(AlefSocket& sock, AlefPacket* packet);
+	bool processCharacterCreation(AlefSocket& sock, AlefPacket* packet);
+	bool processWorldEnterRequest(AlefSocket& sock, AlefPacket* packet);
+	
+private:
+	void sendDummyCharacter(AlefSocket& sock);
 };

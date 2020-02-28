@@ -59,5 +59,8 @@
     <ClInclude Include="AlefLoginServerList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AlefLoginGlobal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

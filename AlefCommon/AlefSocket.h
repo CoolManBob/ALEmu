@@ -10,8 +10,8 @@ using namespace Poco::Net;
 class AlefSocket : public StreamSocket
 {
 public:
-	AlefSocket() {};
-	AlefSocket(const Socket& sock) : StreamSocket(sock) {};
+	AlefSocket() { cryptoSession = nullptr; };
+	AlefSocket(const Socket& sock) : StreamSocket(sock) { cryptoSession = nullptr; };
 	virtual ~AlefSocket() {};
 
 	AlefSocket& operator = (const Socket& sock) 
@@ -50,10 +50,10 @@ public:
 			*(UInt16*)(packet->getBuffer() + 1) = ((UInt16)packet->getSize()); //Encrypted Size
 			*(UInt32*)(packet->getBuffer() + 3) = ++cryptoSession->packetCounter;
 			
-			return this->sendBytes(packet->getBuffer(), packet->getSize());
+			//return this->sendBytes(packet->getBuffer(), packet->getSize());
 		}
-		else
-			return this->sendBytes(packet->getBuffer(), packet->getSize());
+		
+		return this->sendBytes(packet->getBuffer(), packet->getSize());
 	}
 	int receivePacket(AlefPacket * packet) 
 	{

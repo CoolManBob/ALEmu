@@ -15,10 +15,7 @@ using namespace Poco;
 
 struct packetInfo //TODO: This needs to be moved
 {
-	packetInfo(AlefSocket& socket) : sock(socket) {};
-	Int8 PacketType;
-	Int8 PacketFlag;
-	Int8 PacketOperation;
+	packetInfo(AlefSocket& socket) : sock(socket), packet(nullptr) {};
 	AlefPacket* packet;
 	AlefSocket & sock;
 };
@@ -31,17 +28,17 @@ public:
 
 private:
 
-	bool packetProcessor(const packetInfo &packet)
+	bool packetProcessor(const packetInfo &pktInfo)
 	{
-		HashMap<Int8, AlefPacketProcessor*>::Iterator Itr = processorMap.find(packet.PacketType);
+		HashMap<Int16, AlefPacketProcessor*>::Iterator Itr = processorMap.find(pktInfo.packet->GetPacketType());
 		if (Itr != processorMap.end())
 		{
-			return Itr->second->processPacket(packet.sock, packet.packet);
+			return Itr->second->processPacket(pktInfo.sock, pktInfo.packet);
 		}
 		else
 			return false;
 	}
 
 	ActiveMethod<bool, packetInfo, AlefPacketHandler, ActiveStarter<ActiveDispatcher>> packetHandler;
-	HashMap<Int8, AlefPacketProcessor*> processorMap;
+	HashMap<Int16, AlefPacketProcessor*> processorMap;
 };

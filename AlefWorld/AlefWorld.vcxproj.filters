@@ -18,9 +18,42 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AlefWorldApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefWorldServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefWorldStartupEncryption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefWorldAGSMChar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlefWorldServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldClientConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldClientFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldPacketHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldGlobal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldStartupEncryption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldAGSMChar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

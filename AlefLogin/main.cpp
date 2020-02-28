@@ -1,6 +1,5 @@
 #include "AlefLoginApp.h"
 
-
 int main(int argc, char** argv)
 {
 	AlefLoginApp loginApplication;

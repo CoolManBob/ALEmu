@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AlefPacketHandler.h"
-#include "AlefPacketTypes.h"
+#include "AlefTypes.h"
 #include "AlefCrypto.h"
 
 //Packet Handlers
@@ -15,21 +15,21 @@ class AlefLoginPacketHandler : public AlefPacketHandler
 public:
 	AlefLoginPacketHandler() : packetHandler(this, &AlefLoginPacketHandler::packetProcessor) 
 	{
-		processorMap[AGPMSTARTUPENCRYPTION_PACKET_TYPE] = new AlefLoginStartupEncryption();
-		processorMap[AGPMLOGIN_PACKET_TYPE] = new AlefLoginClientLogin();
-		processorMap[AGPMWORLD_PACKET_TYPE] = new AlefLoginServerList();
+		processorMap[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE] = new AlefLoginStartupEncryption();
+		processorMap[Alef::AGPMLOGIN_PACKET_TYPE] = new AlefLoginClientLogin();
+		processorMap[Alef::AGPMWORLD_PACKET_TYPE] = new AlefLoginServerList();
 	}
-	virtual ~AlefLoginPacketHandler() {};
+	virtual ~AlefLoginPacketHandler() { processorMap.clear(); };
 
 	ActiveMethod<bool, packetInfo, AlefLoginPacketHandler, ActiveStarter<ActiveDispatcher>> packetHandler;
 
 private:
-	bool packetProcessor(const packetInfo &packet)
+	bool packetProcessor(const packetInfo &pktInfo)
 	{
-		HashMap<Int8, AlefPacketProcessor*>::Iterator Itr = processorMap.find(packet.PacketType);
+		HashMap<Int16, AlefPacketProcessor*>::Iterator Itr = processorMap.find(pktInfo.packet->GetPacketType());
 		if (Itr != processorMap.end())
 		{
-			return Itr->second->processPacket(packet.sock, packet.packet);
+			return Itr->second->processPacket(pktInfo.sock, pktInfo.packet);
 		}
 		else
 		{
@@ -37,5 +37,5 @@ private:
 		}
 	}
 
-	HashMap<Int8, AlefPacketProcessor*> processorMap;
+	HashMap<Int16, AlefPacketProcessor*> processorMap;
 };

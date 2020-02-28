@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1919BF1D-7D4B-4AAF-BCC5-138E8912EC19}</ProjectGuid>
     <RootNamespace>AlefCommon</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -75,12 +75,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>$(ProjectName)$(Configuration)_$(Platform)</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)$(Configuration)_$(Platform)</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../AlefDependencies/Include</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <OutputFile>../out/$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -88,6 +95,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../AlefDependencies/Include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <OutputFile>../out/$(TargetName)$(TargetExt)</OutputFile>
@@ -127,18 +135,26 @@
   <ItemGroup>
     <ClInclude Include="AlefConnectionFactory.h" />
     <ClInclude Include="AlefCrypto.h" />
+    <ClInclude Include="AlefFieldLookup.h" />
+    <ClInclude Include="AlefFlagLengthLookup.h" />
+    <ClInclude Include="AlefLog.h" />
     <ClInclude Include="AlefMD5Crypto.h" />
     <ClInclude Include="AlefPacket.h" />
     <ClInclude Include="AlefPacketHandler.h" />
     <ClInclude Include="AlefPacketProcessor.h" />
-    <ClInclude Include="AlefPacketTypes.h" />
+    <ClInclude Include="AlefPacketInterface.h" />
     <ClInclude Include="AlefServer.h" />
     <ClInclude Include="AlefServerConnection.h" />
     <ClInclude Include="AlefSocket.h" />
     <ClInclude Include="AlefSocketImpl.h" />
+    <ClInclude Include="AlefTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlefFieldLookup.cpp" />
+    <ClCompile Include="AlefFlagLengthLookup.cpp" />
+    <ClCompile Include="AlefLog.cpp" />
     <ClCompile Include="AlefPacket.cpp" />
+    <ClCompile Include="AlefPacketInterface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

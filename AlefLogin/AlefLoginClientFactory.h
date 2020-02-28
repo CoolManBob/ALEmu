@@ -16,8 +16,8 @@ public:
 
 	virtual AlefLoginClientConnection* createConnection(const StreamSocket& socket) 
 	{ 
-		cout << "New connection recieved, spawning AlefLoginClientConnection" << endl;
-		return new AlefLoginClientConnection(socket, packetHandler); 
+		LOG("New connection recieved, spawning AlefLoginClientConnection");
+		return new AlefLoginClientConnection(socket, packetHandler);
 	}
 
 private:
