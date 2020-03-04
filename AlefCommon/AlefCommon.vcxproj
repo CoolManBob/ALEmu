@@ -100,6 +100,16 @@
     <Lib>
       <OutputFile>../out/$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\CppUnit64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoEncodings64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoFoundation64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoJSON64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoNet64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoUtil64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64d.dll" "$(SolutionDir)out"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -131,6 +141,16 @@
     <Lib>
       <OutputFile>../out/$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\CppUnit64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoEncodings64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoFoundation64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoJSON64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoNet64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoUtil64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AlefConnectionFactory.h" />
