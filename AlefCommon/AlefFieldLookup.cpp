@@ -3,7 +3,7 @@
 AlefFieldLookup::AlefFieldLookup()
 {
 	initMainMaps();
-	//initMiniMaps();
+	initMiniMaps();
 }
 
 AlefFieldLookup::~AlefFieldLookup()
@@ -39,6 +39,9 @@ void AlefFieldLookup::initMiniMaps()
 {
 	//typeMap[Alef::AGPMCHAR_FACTOR_RES] = buildTypeVec({ 1, 1 });
 	//sizeMap[Alef::AGPMCHAR_FACTOR_RES] = buildSizeVec({ 1, 1 });
+
+	typeMap[Alef::AGPMLOGIN_CHAR_INFO] = buildTypeVec({ Alef::INT32, Alef::CHAR, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::CHAR });
+	sizeMap[Alef::AGPMLOGIN_CHAR_INFO] = buildSizeVec({ 1, 49, 1, 1, 1, 1, 1, 1, 49 });
 }
 
 vector<UInt8> AlefFieldLookup::buildTypeVec(UInt32 sz, UInt8 types[])

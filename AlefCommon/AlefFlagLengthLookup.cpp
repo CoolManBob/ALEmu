@@ -8,6 +8,8 @@ void AlefFlagLengthLookup::setupTable()
 	lookupTable[Alef::AGPMWORLD_PACKET_TYPE] = 1;
 	lookupTable[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE] = 1;
 
+
+	lookupTable[Alef::AGPMLOGIN_CHAR_INFO] = 2;
 		/*ALEF_SYSTEM_PACKET_TYPE = 0,
 	AGSMCHARMANAGER_PACKET_TYPE = 3,
 	AGPMLOGIN_PACKET_TYPE = 0x0D,

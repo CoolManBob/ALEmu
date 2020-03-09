@@ -10,7 +10,9 @@ AlefLoginServer::AlefLoginServer()
 
 AlefLoginServer::~AlefLoginServer()
 {
-
+	delete handler;
+	delete clientFactory;
+	delete loginServer;
 }
 
 void AlefLoginServer::runServer()

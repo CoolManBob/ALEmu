@@ -10,12 +10,18 @@ AlefPacketInterface::~AlefPacketInterface()
 
 }
 
-AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, UInt8 flagLength, ...)
+AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 {
 	va_list args;
-	va_start(args, flagLength);
+	va_start(args, packetType);
+	int dwMask = 1;
 	//Using the packetType we get the field data for this packet. Then we create a new AlefPacket, and build it using the variadic arugment list.
-	AlefPacket * response = new AlefPacket(packetType, flagLength);
+	
+	UInt8 flagLen = flagLookup.lookUp(packetType);
+	if (flagLen == 0xFF)
+		return nullptr;
+
+	AlefPacket * response = new AlefPacket(packetType, flagLen);
 
 	bool fieldsOkay = fieldLookup.getFieldInfo(response->GetFieldVec(), packetType);
 
@@ -26,141 +32,143 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, UInt8 flagLengt
 	{
 		switch (itr->FieldType)
 		{
-		case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
-		{
-			char* arg = va_arg(args, char*);
-			if (arg)
-				response->WriteArbitraryData(arg, itr->FieldSize);
-				//response->WriteByteArray(arg);
-				
-		} break;
-		case Alef::AlefType::INT8:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
+			case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
 			{
-				Int8* arg = va_arg(args, Int8*);
-				if(arg)
-					response->WriteInt8(*arg);
-			}
-		} break;
-		case Alef::AlefType::UINT8:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt8* arg = va_arg(args, UInt8*);
-				if(arg)
-					response->WriteUInt8(*arg);
-			}
-		} break;
-		case Alef::AlefType::INT16:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				Int16* arg = va_arg(args, Int16*);
-				if(arg)
-					response->WriteInt16(*arg);
-			}
-		} break;
-		case Alef::AlefType::UINT16:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt16* arg = va_arg(args, UInt16*);
-				if(arg)
-					response->WriteUInt16(*arg);
-			}
-		} break;
-		case Alef::AlefType::INT32:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				Int32* arg = va_arg(args, Int32*);
-				if(arg)
-					response->WriteInt32(*arg);
-			}
-		} break;
-		case Alef::AlefType::UINT32:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt32* arg = va_arg(args, UInt32*);
-				if(arg)
-					response->WriteUInt32(*arg);
-			}
-		} break;
-		case Alef::AlefType::INT64:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				Int64* arg = va_arg(args, Int64*);
-				if(arg)
-					response->WriteInt64(*arg);
-			}
-		} break;
-		case Alef::AlefType::UINT64:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt64* arg = va_arg(args, UInt64*);
-				if(arg)
-					response->WriteUInt64(*arg);
-			}
-		} break;
-		case Alef::AlefType::FLOAT:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				float* arg = va_arg(args, float*);
-				if(arg)
-					response->WriteFloat(*arg);
-			}
-		} break;
-		case Alef::AlefType::VEC3F:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				Alef::AlefVec3F* arg = va_arg(args, Alef::AlefVec3F*);
-				if(arg)
-					response->WriteVec3F(*arg);
-			}
-		} break;
-		case Alef::AlefType::MATRIX:
-		{
-
-		} break;
-		case Alef::AlefType::PACKET:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				AlefPacket* arg = va_arg(args, AlefPacket*);
-
-				if (arg)
-					response->WriteArbitraryData(arg->getBuffer(), arg->getSize()); //Write packet data
-			}
-		} break;
-		case Alef::AlefType::MEMORY_BLOCK:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt16* arg_sz = va_arg(args, UInt16*);
-				if(arg_sz)
-					response->WriteUInt16(*arg_sz);
-
-				
 				char* arg = va_arg(args, char*);
-				if(arg && arg_sz)
-					response->WriteArbitraryData(arg, *arg_sz);
-			}
-		} break;
-		case Alef::AlefType::POS_BASEMETER:
-		{
+				if (arg)
+					response->WriteArbitraryData(arg, itr->FieldSize);
+			} break;
+			case Alef::AlefType::INT8:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Int8* arg = va_arg(args, Int8*);
+					if(arg)
+						response->WriteInt8(*arg);
+				}
+			} break;
+			case Alef::AlefType::UINT8:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt8* arg = va_arg(args, UInt8*);
+					if(arg)
+						response->WriteUInt8(*arg);
+				}
+			} break;
+			case Alef::AlefType::INT16:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Int16* arg = va_arg(args, Int16*);
+					if(arg)
+						response->WriteInt16(*arg);
+				}
+			} break;
+			case Alef::AlefType::UINT16:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt16* arg = va_arg(args, UInt16*);
+					if(arg)
+						response->WriteUInt16(*arg);
+				}
+			} break;
+			case Alef::AlefType::INT32:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Int32* arg = va_arg(args, Int32*);
+					if(arg)
+						response->WriteInt32(*arg);
+				}
+			} break;
+			case Alef::AlefType::UINT32:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt32* arg = va_arg(args, UInt32*);
+					if(arg)
+						response->WriteUInt32(*arg);
+				}
+			} break;
+			case Alef::AlefType::INT64:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Int64* arg = va_arg(args, Int64*);
+					if(arg)
+						response->WriteInt64(*arg);
+				}
+			} break;
+			case Alef::AlefType::UINT64:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt64* arg = va_arg(args, UInt64*);
+					if(arg)
+						response->WriteUInt64(*arg);
+				}
+			} break;
+			case Alef::AlefType::FLOAT:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					float* arg = va_arg(args, float*);
+					if(arg)
+						response->WriteFloat(*arg);
+				}
+			} break;
+			case Alef::AlefType::VEC3F:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Alef::AlefVec3F* arg = va_arg(args, Alef::AlefVec3F*);
+					if(arg)
+						response->WriteVec3F(*arg);
+				}
+			} break;
+			case Alef::AlefType::MATRIX:
+			{
 
-		} break;
-		case Alef::AlefType::WCHAR:
-		{
+			} break;
+			case Alef::AlefType::PACKET:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					AlefPacket* arg = va_arg(args, AlefPacket*);
 
-		} break;
+					if (arg)
+						response->WritePacket(arg);
+				}
+			} break;
+			case Alef::AlefType::MEMORY_BLOCK:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt16* arg_sz = va_arg(args, UInt16*);
+					if(arg_sz)
+						response->WriteUInt16(*arg_sz, false);
+
+				
+					char* arg = va_arg(args, char*);
+					if(arg && arg_sz)
+						response->WriteArbitraryData(arg, *arg_sz);
+				}
+			} break;
+			case Alef::AlefType::POS_BASEMETER:
+			{
+
+			} break;
+			case Alef::AlefType::WCHAR:
+			{
+
+			} break;
 		}
+
+		dwMask *= 2;
+		response->UpdateMask(dwMask);
+
 	}
 	
 	response->ClosePacket();
@@ -168,12 +176,18 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, UInt8 flagLengt
 	return response;
 }
 
-AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, UInt8 flagLength, ...)
+AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 {
 	va_list args;
-	va_start(args, flagLength);
+	va_start(args, miniType);
+	int dwMask = 1;
 	//Using the packetType we get the field data for this packet. Then we create a new AlefPacket, and build it using the variadic arugment list.
-	AlefPacket* response = new AlefPacket(flagLength);
+	
+	UInt8 flagLen = flagLookup.lookUp(miniType);
+	if (flagLen == 0xFF)
+		return nullptr;
+
+	AlefPacket* response = new AlefPacket(flagLen);
 
 	bool fieldsOkay = fieldLookup.getFieldInfo(response->GetFieldVec(), miniType);
 
@@ -184,139 +198,142 @@ AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, UInt8 flagLeng
 	{
 		switch (itr->FieldType)
 		{
-		case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
-		{
-			char* arg = va_arg(args, char*);
-			if (arg)
-				response->WriteByteArray(arg);
-		} break;
-		case Alef::AlefType::INT8:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
+			case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
 			{
-				Int8* arg = va_arg(args, Int8*);
-				if (arg)
-					response->WriteInt8(*arg);
-			}
-		} break;
-		case Alef::AlefType::UINT8:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt8* arg = va_arg(args, UInt8*);
-				if (arg)
-					response->WriteUInt8(*arg);
-			}
-		} break;
-		case Alef::AlefType::INT16:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				Int16* arg = va_arg(args, Int16*);
-				if (arg)
-					response->WriteInt16(*arg);
-			}
-		} break;
-		case Alef::AlefType::UINT16:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt16* arg = va_arg(args, UInt16*);
-				if (arg)
-					response->WriteUInt16(*arg);
-			}
-		} break;
-		case Alef::AlefType::INT32:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				Int32* arg = va_arg(args, Int32*);
-				if (arg)
-					response->WriteInt32(*arg);
-			}
-		} break;
-		case Alef::AlefType::UINT32:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt32* arg = va_arg(args, UInt32*);
-				if (arg)
-					response->WriteUInt32(*arg);
-			}
-		} break;
-		case Alef::AlefType::INT64:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				Int64* arg = va_arg(args, Int64*);
-				if (arg)
-					response->WriteInt64(*arg);
-			}
-		} break;
-		case Alef::AlefType::UINT64:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt64* arg = va_arg(args, UInt64*);
-				if (arg)
-					response->WriteUInt64(*arg);
-			}
-		} break;
-		case Alef::AlefType::FLOAT:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				float* arg = va_arg(args, float*);
-				if (arg)
-					response->WriteFloat(*arg);
-			}
-		} break;
-		case Alef::AlefType::VEC3F:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				Alef::AlefVec3F* arg = va_arg(args, Alef::AlefVec3F*);
-				if (arg)
-					response->WriteVec3F(*arg);
-			}
-		} break;
-		case Alef::AlefType::MATRIX:
-		{
-
-		} break;
-		case Alef::AlefType::PACKET:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				AlefPacket* arg = va_arg(args, AlefPacket*);
-
-				if (arg)
-					response->WriteArbitraryData(arg->getBuffer(), arg->getSize()); //Write packet data
-			}
-		} break;
-		case Alef::AlefType::MEMORY_BLOCK:
-		{
-			for (int i = 0; i < itr->FieldSize; i++)
-			{
-				UInt16* arg_sz = va_arg(args, UInt16*);
-				if (arg_sz)
-					response->WriteUInt16(*arg_sz);
-
-
 				char* arg = va_arg(args, char*);
-				if (arg && arg_sz)
-					response->WriteArbitraryData(arg, *arg_sz);
-			}
-		} break;
-		case Alef::AlefType::POS_BASEMETER:
-		{
+				if (arg)
+					response->WriteArbitraryData(arg, itr->FieldSize);
+			} break;
+			case Alef::AlefType::INT8:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Int8* arg = va_arg(args, Int8*);
+					if (arg)
+						response->WriteInt8(*arg);
+				}
+			} break;
+			case Alef::AlefType::UINT8:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt8* arg = va_arg(args, UInt8*);
+					if (arg)
+						response->WriteUInt8(*arg);
+				}
+			} break;
+			case Alef::AlefType::INT16:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Int16* arg = va_arg(args, Int16*);
+					if (arg)
+						response->WriteInt16(*arg);
+				}
+			} break;
+			case Alef::AlefType::UINT16:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt16* arg = va_arg(args, UInt16*);
+					if (arg)
+						response->WriteUInt16(*arg);
+				}
+			} break;
+			case Alef::AlefType::INT32:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Int32* arg = va_arg(args, Int32*);
+					if (arg)
+						response->WriteInt32(*arg);
+				}
+			} break;
+			case Alef::AlefType::UINT32:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt32* arg = va_arg(args, UInt32*);
+					if (arg)
+						response->WriteUInt32(*arg);
+				}
+			} break;
+			case Alef::AlefType::INT64:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Int64* arg = va_arg(args, Int64*);
+					if (arg)
+						response->WriteInt64(*arg);
+				}
+			} break;
+			case Alef::AlefType::UINT64:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt64* arg = va_arg(args, UInt64*);
+					if (arg)
+						response->WriteUInt64(*arg);
+				}
+			} break;
+			case Alef::AlefType::FLOAT:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					float* arg = va_arg(args, float*);
+					if (arg)
+						response->WriteFloat(*arg);
+				}
+			} break;
+			case Alef::AlefType::VEC3F:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					Alef::AlefVec3F* arg = va_arg(args, Alef::AlefVec3F*);
+					if (arg)
+						response->WriteVec3F(*arg);
+				}
+			} break;
+			case Alef::AlefType::MATRIX:
+			{
 
-		} break;
-		case Alef::AlefType::WCHAR:
-		{
+			} break;
+			case Alef::AlefType::PACKET:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					AlefPacket* arg = va_arg(args, AlefPacket*);
 
-		} break;
+					if (arg)
+						response->WritePacket(arg);
+				}
+			} break;
+			case Alef::AlefType::MEMORY_BLOCK:
+			{
+				for (int i = 0; i < itr->FieldSize; i++)
+				{
+					UInt16* arg_sz = va_arg(args, UInt16*);
+					if (arg_sz)
+						response->WriteUInt16(*arg_sz, false);
+
+
+					char* arg = va_arg(args, char*);
+					if (arg && arg_sz)
+						response->WriteArbitraryData(arg, *arg_sz);
+				}
+			} break;
+			case Alef::AlefType::POS_BASEMETER:
+			{
+
+			} break;
+			case Alef::AlefType::WCHAR:
+			{
+
+			} break;
 		}
+
+		dwMask *= 2;
+		response->UpdateMask(dwMask);
 	}
 
 	response->CloseMiniPacket();

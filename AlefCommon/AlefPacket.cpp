@@ -168,18 +168,15 @@ bool AlefPacket::setFieldInfo(vector<Alef::AlefPktField> fieldVec)
 	return false;
 }
 
-void AlefPacket::UpdatePacket(UInt16 newSize)
+void AlefPacket::UpdatePacket(UInt16 newSize, bool doFlagUpd)
 {
 	if(dynamic && !isMini)
 		*(UInt16*)&buf[0x01] = newSize;
 	else if(dynamic && isMini)
-		*(UInt16*)&buf[0] = newSize;
+		*(UInt16*)&buf[0] = newSize - 2;
 
-	if (headerWritten)
-	{
+	if (headerWritten && doFlagUpd)
 		ulFlag |= dwMask;
-		dwMask *= 2;
-	}
 }
 
 void AlefPacket::ClosePacket()
@@ -304,12 +301,12 @@ void AlefPacket::WriteUInt8(UInt8 data)
 	UpdatePacket(size);
 }
 
-void AlefPacket::WriteUInt16(UInt16 data)
+void AlefPacket::WriteUInt16(UInt16 data, bool flagUpd)
 {
 	EnsureBufSize(pos + sizeof(UInt16));
 	*(UInt16*)&buf[pos] = data;
 	pos += sizeof(UInt16);
-	UpdatePacket(size);
+	UpdatePacket(size, flagUpd);
 }
 
 void AlefPacket::WriteUInt32(UInt32 data)
@@ -380,8 +377,20 @@ void AlefPacket::WriteVec3F(Alef::AlefVec3F vec3F)
 void AlefPacket::WriteArbitraryData(const void *data, int len)
 {
 	EnsureBufSize(pos + len);
-	memcpy(&buf[pos], data, len);
+	memset(&buf[pos], 0, len);
+	memcpy(&buf[pos], data, (int)(strlen((const char*)data)));
 	pos += len;
+	UpdatePacket(size);
+}
+
+void AlefPacket::WritePacket(AlefPacket* packet)
+{
+	int pktSize = packet->getSize();
+	unsigned char* pktData = packet->getBuffer();
+	EnsureBufSize(pos + pktSize);
+	memset(&buf[pos], 0, pktSize);
+	memcpy(&buf[pos], pktData, pktSize);
+	pos += pktSize;
 	UpdatePacket(size);
 }
 

@@ -51,7 +51,8 @@ public:
 	void WriteHeader();
 	void WriteMiniHeader();
 
-	void UpdatePacket(UInt16 newSize);
+	void UpdatePacket(UInt16 newSize, bool doFlagUpd = true);
+	void UpdateMask(int newMask) { dwMask = newMask; }
 
 	void ClosePacket();
 	void CloseMiniPacket();
@@ -62,7 +63,7 @@ public:
 	void WriteInt64(Int64 data);
 
 	void WriteUInt8(UInt8 data);
-	void WriteUInt16(UInt16 data);
+	void WriteUInt16(UInt16 data, bool flagUpd = true);
 	void WriteUInt32(UInt32 data);
 	void WriteUInt64(UInt64 data);
 
@@ -77,6 +78,8 @@ public:
 	void WriteByteArray(const UInt8* array);
 
 	void WriteArbitraryData(const void *data, int len);
+
+	void WritePacket(AlefPacket* packet);
 
 	template<typename data>
 	void WriteGeneric(const data val);

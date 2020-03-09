@@ -13,54 +13,66 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Packet Handlers">
+      <UniqueIdentifier>{c1e21944-67d8-404e-926b-0b8a50e7fbd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Packet Handlers">
+      <UniqueIdentifier>{ee90745a-1912-40df-9540-b036d3ef92ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Networking">
+      <UniqueIdentifier>{be753d8e-c090-43e6-8d91-4ea6336cdede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Networking">
+      <UniqueIdentifier>{d01e54bb-36d4-4d61-b026-3d7c6d242787}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AlefLoginServer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AlefLoginApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AlefLoginStartupEncryption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AlefLoginClientLogin.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Packet Handlers</Filter>
     </ClCompile>
     <ClCompile Include="AlefLoginServerList.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Packet Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefLoginStartupEncryption.cpp">
+      <Filter>Source Files\Packet Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefLoginServer.cpp">
+      <Filter>Source Files\Networking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlefLoginServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefLoginPacketHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefLoginStartupEncryption.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefLoginClientConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefLoginClientFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AlefLoginApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefLoginClientLogin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefLoginServerList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlefLoginGlobal.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginClientLogin.h">
+      <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginServerList.h">
+      <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginStartupEncryption.h">
+      <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginClientConnection.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginClientFactory.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginPacketHandler.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginServer.h">
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

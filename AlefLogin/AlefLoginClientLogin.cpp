@@ -10,6 +10,16 @@ using std::stringstream;
 #include "AlefLoginClientLogin.h"
 #include "AlefMD5Crypto.h"
 
+AlefLoginClientLogin::AlefLoginClientLogin()
+{
+
+}
+
+AlefLoginClientLogin::~AlefLoginClientLogin()
+{
+
+}
+
 bool AlefLoginClientLogin::processPacket(AlefSocket& sock, AlefPacket * packet)
 {
 	/*Alef::INT8, Alef::CHAR, Alef::CHAR, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT32, Alef::CHAR, Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::CHAR, Alef::CHAR, Alef::INT32, Alef::INT32*/
@@ -30,8 +40,10 @@ bool AlefLoginClientLogin::processPacket(AlefSocket& sock, AlefPacket * packet)
 			return processInitialLoginPacket(sock, packet); break;
 		case 1: //User Login Packet Opcode
 			return processUserLoginPacket(sock, packet, acct, acctLen, pw, pwLen); break;
-		case 0x85: //User World Connect Packet 0x0D 0x85
-			return processUserConnect(sock, packet); break;
+		case 3: //User World Union Info
+			return processUnionInfo(sock, packet); break;
+		case 6: //User Character List Request
+			return processCharacterList(sock, packet); break;
 		case 0x05: //Character Creation Request 0x0D 0x05
 			return processCharacterCreation(sock, packet); break;
 		case 0xC5: //World Enter 0x0D 0xC5
@@ -54,7 +66,7 @@ bool AlefLoginClientLogin::processInitialLoginPacket(AlefSocket& sock, AlefPacke
 	Int8 i8Operation = 0, i8Unk = 0;
 	unsigned char hashKey[] = "12345678";
 
-	AlefPacket* response = pktInterface->buildPacket(0x0D, 2, &i8Operation, 0, 0, 0, hashKey, &i8Unk, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); //MD5 Crypto Packet
+	AlefPacket * response = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, hashKey, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); //MD5 Crypto Packet
 
 	sock.sendPacket(response);
 
@@ -84,7 +96,7 @@ bool AlefLoginClientLogin::processUserLoginPacket(AlefSocket& sock, AlefPacket* 
 	Int8 i8Operation = 1;
 	Int32 i32Unk = 0;
 
-	AlefPacket* signOnResponse = pktInterface->buildPacket(0x0D, 2, &i8Operation, 0, acct, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &i32Unk, &i32Unk);
+	AlefPacket* signOnResponse = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, acct, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &i32Unk, &i32Unk);
 
 	sock.sendPacket(signOnResponse);
 
@@ -95,9 +107,31 @@ bool AlefLoginClientLogin::processUserLoginPacket(AlefSocket& sock, AlefPacket* 
 	return true;
 }
 
-bool AlefLoginClientLogin::processUserConnect(AlefSocket& sock, AlefPacket* packet)
+bool AlefLoginClientLogin::processUnionInfo(AlefSocket& sock, AlefPacket* packet)
 {
-	UInt8 operation = packet->GetPacketFlag(FlagIndex::FLAG_IDX1);
+	int unionType = 0;
+	AlefPacket* miniCharInfo = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_CHAR_INFO, 0, 0, 0, 0, &unionType, 0, 0, 0, 0);
+
+	/*Alef::INT8, Alef::CHAR, Alef::CHAR, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT32, Alef::CHAR, Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::CHAR, Alef::CHAR, Alef::INT32, Alef::INT32*/
+	Int8 i8Operation = 3;
+	AlefPacket* unionResponse = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, 0, 0, 0, 0, 0, 0, miniCharInfo, 0, 0, 0, 0, 0, 0, 0);
+
+	sock.sendPacket(unionResponse);
+
+	i8Operation = 5;
+	unsigned char acct[] = "acct";
+
+	AlefPacket* charNameFinish = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, acct, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+	sock.sendPacket(charNameFinish);
+
+	delete miniCharInfo;
+	delete unionResponse;
+	delete charNameFinish;
+
+	return true;
+
+	/*UInt8 operation = packet->GetPacketFlag(FlagIndex::FLAG_IDX1);
 	switch (operation)
 	{
 		case 0x03:
@@ -188,14 +222,27 @@ bool AlefLoginClientLogin::processUserConnect(AlefSocket& sock, AlefPacket* pack
 			LOG(errorMsg.str(), WARNING);
 			return false;
 		} break;
-	}
-	
+	}*/
+}
+
+bool AlefLoginClientLogin::processCharacterList(AlefSocket& sock, AlefPacket* packet)
+{
+	Int8 i8Operation = 7;
+	Int32 cID = 0;
+	unsigned char acct[] = "acct";
+
+	AlefPacket* sendCharInfoFinish = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, acct, 0, 0, 0, &cID, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+	sock.sendPacket(sendCharInfoFinish);
+
+	delete sendCharInfoFinish;
+
 	return true;
 }
 
 bool AlefLoginClientLogin::processCharacterCreation(AlefSocket& sock, AlefPacket* packet)
 {
-	UInt8 operation = packet->GetPacketFlag(FlagIndex::FLAG_IDX1);
+	/*UInt8 operation = packet->GetPacketFlag(FlagIndex::FLAG_IDX1);
 	switch (operation)
 	{
 		case 0x01:
@@ -204,13 +251,6 @@ bool AlefLoginClientLogin::processCharacterCreation(AlefSocket& sock, AlefPacket
 			
 			//Send Character Info (02 BF 9F)
 			AlefPacket charInfo(0x02, 0xBF, 0x9F);
-			/*charInfo.WriteUInt32(0);
-			charInfo.WriteUInt32(0);
-			charInfo.WriteUInt32(0);
-			charInfo.WriteUInt32(0);
-			charInfo.WriteUInt32(0);
-			charInfo.WriteUInt32(0);
-			charInfo.ClosePacket();*/
 
 		} break;
 		default:
@@ -219,7 +259,7 @@ bool AlefLoginClientLogin::processCharacterCreation(AlefSocket& sock, AlefPacket
 			warningMsg << "Character Creation Default Case Op: " << (int)operation;
 			LOG(warningMsg.str(), WARNING);
 		} break;
-	}
+	}*/
 	
 	return true;
 }

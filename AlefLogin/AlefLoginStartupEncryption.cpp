@@ -7,7 +7,7 @@ using std::endl;
 bool AlefLoginStartupEncryption::processPacket(AlefSocket& sock, AlefPacket * packet)
 {
 	//Parse Packet here and then handle opcode
-	int operation = 5;
+	int operation = 0;
 	int nSize = 0;
 	char* data = nullptr;
 	/*Alef::INT8, Alef::MEMORY_BLOCK*/
@@ -37,9 +37,9 @@ bool AlefLoginStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 	LOG("processInitialPacket");
 
 	Int8 i8Operation = 6;
-	UInt16 u16Sz = 0;
+	UInt16 algoType = 0;
 
-	AlefPacket* response = pktInterface->buildPacket(0x48, 1, &i8Operation, &u16Sz, 0);
+	AlefPacket* response = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, &algoType, 0);
 
 	if(response)
 		sock.sendPacket(response, false);
@@ -47,9 +47,9 @@ bool AlefLoginStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 	unsigned char serverKey[] = "12345678123456781234567812345678";
 
 	i8Operation = 1;
-	u16Sz = 32;
+	UInt16 u16Sz = 32;
 
-	AlefPacket* keyResponse = pktInterface->buildPacket(0x48, 1, &i8Operation, &u16Sz, serverKey);
+	AlefPacket* keyResponse = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, &u16Sz, serverKey);
 
 	blowfish_setkey(sock.getCryptoSession()->serverCtx, serverKey, (0x20 << 3));
 
@@ -77,7 +77,7 @@ bool AlefLoginStartupEncryption::processCryptoPacket(AlefSocket& sock, AlefPacke
 	blowfish_setkey(sock.getCryptoSession()->clientCtx, clientKey, (keySize << 3));
 	delete[] clientKey;
 
-	AlefPacket* startupCryptoComplete = pktInterface->buildPacket(0x48, 1, &i8Operation, 0, 0);
+	AlefPacket* startupCryptoComplete = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, 0, 0);
 	sock.sendPacket(startupCryptoComplete);
 	delete startupCryptoComplete;
 

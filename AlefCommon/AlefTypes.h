@@ -67,6 +67,7 @@ namespace Alef
 	{
 		AGPMCHAR_MOVE = 100,
 		AGPMCHAR_FACTOR_RES,
+		AGPMLOGIN_CHAR_INFO,
 	};
 
 	/*enum ePacketType

@@ -13,8 +13,8 @@ public:
 	AlefPacketInterface();
 	~AlefPacketInterface();
 
-	AlefPacket * buildPacket(UInt16 packetType, UInt8 flagLength, ...);
-	AlefPacket * buildMiniPacket(UInt16 miniType, UInt8 flagLength, ...);
+	AlefPacket * buildPacket(UInt16 packetType, ...);
+	AlefPacket * buildMiniPacket(UInt16 miniType, ...);
 
 	bool processPacket(AlefPacket * packet, ...);
 	bool setupPkt(AlefPacket * packet); //Sets PacketType, FlagLength, and Field information for incoming packets.
