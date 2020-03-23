@@ -2,6 +2,7 @@
 //#pragma pack(push,1)
 
 #include <Poco/Foundation.h>
+#include <Poco/SharedPtr.h>
 
 using Poco::Int8;
 using Poco::UInt8;
@@ -12,9 +13,12 @@ using Poco::UInt32;
 using Poco::Int64;
 using Poco::UInt64;
 
+using Poco::SharedPtr;
+
 #include <vector>
 
 using std::vector;
+
 
 #include "AlefTypes.h"
 
@@ -80,6 +84,7 @@ public:
 	void WriteArbitraryData(const void *data, int len);
 
 	void WritePacket(AlefPacket* packet);
+	void WritePacket(SharedPtr<AlefPacket> packet);
 
 	template<typename data>
 	void WriteGeneric(const data val);
@@ -142,8 +147,10 @@ public:
 	void GetDouble(int position, double &data);
 
 	void GetDataBlock(UInt16 blocksize, char* data);
+	void GetDataBlock(UInt16 blocksize, unsigned char* data);
 	void GetVec3F(Alef::AlefVec3F& vec3F);
 	Alef::AlefVec3F GetVec3F();
+	
 	template<typename data>
 	void GetGeneric(data& val);
 

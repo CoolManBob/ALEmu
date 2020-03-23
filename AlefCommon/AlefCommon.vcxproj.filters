@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Packet System">
       <UniqueIdentifier>{1bcfccca-f10b-46b7-a1cd-5b53e189d19b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Memory">
+      <UniqueIdentifier>{c8b7874c-c516-43fb-9c40-84046002e71c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Memory">
+      <UniqueIdentifier>{399414ba-047c-431c-b1e0-0db83d664fd9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlefLog.h">
@@ -72,6 +78,15 @@
     <ClInclude Include="AlefTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AlefPacketPool.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefPoolStrategy.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefPool.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlefLog.cpp">
@@ -88,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="AlefFieldLookup.cpp">
       <Filter>Source Files\Packet System</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefPacketPool.cpp">
+      <Filter>Source Files\Memory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

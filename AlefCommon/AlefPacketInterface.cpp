@@ -2,12 +2,10 @@
 
 AlefPacketInterface::AlefPacketInterface()
 {
-
 }
 
 AlefPacketInterface::~AlefPacketInterface()
 {
-
 }
 
 AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
@@ -34,7 +32,7 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 		{
 			case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
 			{
-				char* arg = va_arg(args, char*);
+				unsigned char* arg = va_arg(args, unsigned char*);
 				if (arg)
 					response->WriteArbitraryData(arg, itr->FieldSize);
 			} break;
@@ -136,10 +134,10 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 			{
 				for (int i = 0; i < itr->FieldSize; i++)
 				{
-					AlefPacket* arg = va_arg(args, AlefPacket*);
+					SharedPtr<AlefPacket>* arg = va_arg(args, SharedPtr<AlefPacket>*);
 
 					if (arg)
-						response->WritePacket(arg);
+						response->WritePacket(arg->get());
 				}
 			} break;
 			case Alef::AlefType::MEMORY_BLOCK:
@@ -200,7 +198,7 @@ AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 		{
 			case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
 			{
-				char* arg = va_arg(args, char*);
+				unsigned char* arg = va_arg(args, unsigned char*);
 				if (arg)
 					response->WriteArbitraryData(arg, itr->FieldSize);
 			} break;
@@ -302,10 +300,10 @@ AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 			{
 				for (int i = 0; i < itr->FieldSize; i++)
 				{
-					AlefPacket* arg = va_arg(args, AlefPacket*);
+					SharedPtr<AlefPacket>* arg = va_arg(args, SharedPtr<AlefPacket>*);
 
 					if (arg)
-						response->WritePacket(arg);
+						response->WritePacket(arg->get());
 				}
 			} break;
 			case Alef::AlefType::MEMORY_BLOCK:
@@ -379,7 +377,7 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 					{
 						UInt32 charSize = itr->FieldSize; //Is the size ALWAYS static?
 
-						char* temp = new char[charSize];
+						unsigned char* temp = new unsigned char[charSize];
 						packet->GetDataBlock(charSize, temp);
 
 						/*UInt8* arg_sz = va_arg(args, UInt8*);
@@ -484,8 +482,12 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
 						Alef::AlefVec3F* arg = va_arg(args, Alef::AlefVec3F*);
-						if(arg)
-							packet->GetVec3F(*arg);
+						if (arg)
+						{
+							(*(((Alef::AlefVec3F*)arg))).x = packet->GetVec3F().x;
+							(*(((Alef::AlefVec3F*)arg))).y = packet->GetVec3F().y;
+							(*(((Alef::AlefVec3F*)arg))).z = packet->GetVec3F().z;
+						}
 					}
 				} break;
 				case Alef::AlefType::MATRIX:
@@ -539,6 +541,8 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 						packet->GetDataBlock(blocksize, temp);
 						if (arg)
 							memcpy(arg, temp, blocksize);
+
+						delete[] temp;
 					}
 				} break;
 				case Alef::AlefType::POS_BASEMETER:

@@ -7,7 +7,7 @@
 #include <cstdarg>
 
 //Main interface for interacting with incoming/outgoing packets
-class AlefPacketInterface
+class AlefPacketInterface 
 {
 public:
 	AlefPacketInterface();

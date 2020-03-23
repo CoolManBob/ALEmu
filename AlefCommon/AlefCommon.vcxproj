@@ -161,8 +161,11 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     <ClInclude Include="AlefMD5Crypto.h" />
     <ClInclude Include="AlefPacket.h" />
     <ClInclude Include="AlefPacketHandler.h" />
+    <ClInclude Include="AlefPacketPool.h" />
     <ClInclude Include="AlefPacketProcessor.h" />
     <ClInclude Include="AlefPacketInterface.h" />
+    <ClInclude Include="AlefPool.h" />
+    <ClInclude Include="AlefPoolStrategy.h" />
     <ClInclude Include="AlefServer.h" />
     <ClInclude Include="AlefServerConnection.h" />
     <ClInclude Include="AlefSocket.h" />
@@ -175,6 +178,7 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     <ClCompile Include="AlefLog.cpp" />
     <ClCompile Include="AlefPacket.cpp" />
     <ClCompile Include="AlefPacketInterface.cpp" />
+    <ClCompile Include="AlefPacketPool.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

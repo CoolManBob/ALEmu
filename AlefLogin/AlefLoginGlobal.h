@@ -1,6 +1,9 @@
 #pragma once
 //File used for global variables if any
 
+#include <Poco/SharedPtr.h>
+using Poco::SharedPtr;
+
 #include "AlefPacketInterface.h"
 #include "AlefLog.h"
 

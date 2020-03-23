@@ -103,11 +103,13 @@ AlefPacket::AlefPacket(UInt8 FlagLen) //Mini(Internal) Packets
 }
 
 AlefPacket::~AlefPacket()
-{
+{		
 	if (packetFlags)
 		delete[] packetFlags;
 	if(buf)
 		delete[] buf;
+
+	fields.clear();
 }
 
 void AlefPacket::WriteHeader(UInt16 PacketType, UInt8 PacketFlag, UInt8 PacketOp) //Deprecated
@@ -254,7 +256,7 @@ void AlefPacket::Resize(int newSize)
 	{
 		unsigned char * tmp = new unsigned char[newSize];
 		//memset(tmp, 0, newSize);
-		memcpy(tmp, buf, newSize);
+		memmove(tmp, buf, newSize);
 		delete[] buf;
 		buf = tmp;
 		size = newSize;
@@ -384,6 +386,17 @@ void AlefPacket::WriteArbitraryData(const void *data, int len)
 }
 
 void AlefPacket::WritePacket(AlefPacket* packet)
+{
+	int pktSize = packet->getSize();
+	unsigned char* pktData = packet->getBuffer();
+	EnsureBufSize(pos + pktSize);
+	memset(&buf[pos], 0, pktSize);
+	memcpy(&buf[pos], pktData, pktSize);
+	pos += pktSize;
+	UpdatePacket(size);
+}
+
+void AlefPacket::WritePacket(SharedPtr<AlefPacket> packet)
 {
 	int pktSize = packet->getSize();
 	unsigned char* pktData = packet->getBuffer();
@@ -633,11 +646,27 @@ void AlefPacket::GetDataBlock(UInt16 blockSize, char* data)
 	pos += blockSize;
 }
 
+void AlefPacket::GetDataBlock(UInt16 blockSize, unsigned char* data)
+{
+	ValidateReadTo(pos + blockSize);
+	memcpy(data, &buf[pos], blockSize);
+	pos += blockSize;
+}
+
 void AlefPacket::GetVec3F(Alef::AlefVec3F& vec3F)
 {
 	GetFloat(vec3F.x);
 	GetFloat(vec3F.y);
 	GetFloat(vec3F.z);
+}
+
+Alef::AlefVec3F AlefPacket::GetVec3F()
+{
+	Alef::AlefVec3F vec3F;
+	GetFloat(vec3F.x);
+	GetFloat(vec3F.y);
+	GetFloat(vec3F.z);
+	return vec3F;
 }
 
 template <typename data>

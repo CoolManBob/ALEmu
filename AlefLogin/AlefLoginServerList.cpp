@@ -27,21 +27,15 @@ bool AlefLoginServerList::processPacket(AlefSocket& sock, AlefPacket* packet)
 
 bool AlefLoginServerList::processServerList(AlefSocket& sock, AlefPacket* packet)
 {
-	
-	/*serverList.WriteUInt16(serverListStrLen);
-	serverList.WriteByteArray(serverListStr);
-	serverList.WriteUInt8(0);
-	serverList.ClosePacket();*/
 
 	Int8 i8Operation = 2;
 	unsigned char serverListStr[] = "Dummy=ALEmu=0=1=0;";
 	unsigned int serverListStrLen = strlen((char*)serverListStr)+1;
 
-	AlefPacket* serverList = pktInterface->buildPacket(Alef::AGPMWORLD_PACKET_TYPE, &i8Operation, 0, 0, &serverListStrLen, serverListStr);
+	SharedPtr<AlefPacket> serverList = pktInterface->buildPacket(Alef::AGPMWORLD_PACKET_TYPE, &i8Operation, 0, 0, &serverListStrLen, serverListStr);
 
 	sock.sendPacket(serverList);
 
-	delete serverList;
 
 	return true;
 }

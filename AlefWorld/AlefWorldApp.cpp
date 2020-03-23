@@ -7,6 +7,7 @@ using std::endl;
 #include "AlefWorldServer.h"
 
 AlefLog* AlefLogger;
+AlefPacketInterface* pktInterface;
 
 int AlefWorldApp::main(const vector<string>& args)
 {
@@ -17,6 +18,7 @@ int AlefWorldApp::main(const vector<string>& args)
 	<<  "|----------------------------------------------------------------|" << endl;*/
 
 	AlefLogger = new AlefLog("AlefWorld.log", "AlefWorld");
+	pktInterface = new AlefPacketInterface();
 
 	cout << "ALEmu - AlefWorld v0.1" << endl;
 	AlefWorldServer * worldServer = new AlefWorldServer();

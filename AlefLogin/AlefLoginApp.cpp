@@ -18,7 +18,6 @@ int AlefLoginApp::main(const vector<string>& args)
 		 <<  "|----------------------------------------------------------------|" << endl;*/
 
 	AlefLogger = new AlefLog("AlefLogin.log", "AlefLogin");
-	//AlefLogger->test();
 	pktInterface = new AlefPacketInterface();
 
 	cout << "ALEmu - AlefLogin v0.1" << endl;

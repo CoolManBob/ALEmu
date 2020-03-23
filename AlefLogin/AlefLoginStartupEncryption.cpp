@@ -39,7 +39,7 @@ bool AlefLoginStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 	Int8 i8Operation = 6;
 	UInt16 algoType = 0;
 
-	AlefPacket* response = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, &algoType, 0);
+	SharedPtr<AlefPacket> response = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, &algoType, 0);
 
 	if(response)
 		sock.sendPacket(response, false);
@@ -49,15 +49,13 @@ bool AlefLoginStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 	i8Operation = 1;
 	UInt16 u16Sz = 32;
 
-	AlefPacket* keyResponse = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, &u16Sz, serverKey);
+	SharedPtr<AlefPacket> keyResponse = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, &u16Sz, serverKey);
 
 	blowfish_setkey(sock.getCryptoSession()->serverCtx, serverKey, (0x20 << 3));
 
 	if(keyResponse)
 		sock.sendPacket(keyResponse, false);
 
-	delete response;
-	delete keyResponse;
 	return true;
 }
 
@@ -77,9 +75,8 @@ bool AlefLoginStartupEncryption::processCryptoPacket(AlefSocket& sock, AlefPacke
 	blowfish_setkey(sock.getCryptoSession()->clientCtx, clientKey, (keySize << 3));
 	delete[] clientKey;
 
-	AlefPacket* startupCryptoComplete = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, 0, 0);
+	SharedPtr<AlefPacket> startupCryptoComplete = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, 0, 0);
 	sock.sendPacket(startupCryptoComplete);
-	delete startupCryptoComplete;
 
 	return true;
 }

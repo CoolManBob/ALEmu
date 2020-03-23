@@ -1,6 +1,10 @@
 #pragma once
 //File used for global variables if any
 
+#include <Poco/SharedPtr.h>
+using Poco::SharedPtr;
+
+#include "AlefPacketInterface.h"
 #include "AlefLog.h"
 
 #define LOG AlefLogger->Log
@@ -11,4 +15,5 @@
 //namespace AlefGlobal
 //{
 extern AlefLog* AlefLogger;
+extern AlefPacketInterface* pktInterface;
 //}
