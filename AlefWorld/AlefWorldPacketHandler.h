@@ -5,10 +5,11 @@
 #include "AlefCrypto.h"
 
 //Packet Handlers
+#include "AlefWorldCharacter.h"
+#include "AlefWorldAGSMCharMgr.h"
+#include "AlefWorldUIStatus.h"
+#include "AlefWorldOptimizedCharMove.h"
 #include "AlefWorldStartupEncryption.h"
-#include "AlefWorldAGSMChar.h"
-//#include "AlefWorldClientLogin.h"
-//#include "AlefWorldServerList.h"
 
 
 class AlefWorldPacketHandler : public AlefPacketHandler
@@ -16,8 +17,11 @@ class AlefWorldPacketHandler : public AlefPacketHandler
 public:
 	AlefWorldPacketHandler() : packetHandler(this, &AlefWorldPacketHandler::packetProcessor)
 	{
-		processorMap[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE] = new AlefWorldStartupEncryption();
-		processorMap[Alef::AGSMCHARMANAGER_PACKET_TYPE] = new AlefWorldAGSMChar();
+		processorMap[Alef::AGPMCHARACTER_PACKET_TYPE]			= new AlefWorldCharacter();
+		processorMap[Alef::AGSMCHARMANAGER_PACKET_TYPE]			= new AlefWorldAGSMCharMgr();
+		processorMap[Alef::AGPMUISTATUS_PACKET_TYPE]			= new AlefWorldUIStatus();
+		processorMap[Alef::AGPMOPTIMIZEDCHARMOVE_PACKET_TYPE]	= new AlefWorldOptimizedCharMove();
+		processorMap[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE]	= new AlefWorldStartupEncryption();
 	}
 	virtual ~AlefWorldPacketHandler() {};
 

@@ -131,21 +131,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AlefWorldAGSMChar.cpp" />
+    <ClCompile Include="AlefWorldAGSMCharMgr.cpp" />
     <ClCompile Include="AlefWorldApp.cpp" />
+    <ClCompile Include="AlefWorldCharacter.cpp" />
+    <ClCompile Include="AlefWorldOptimizedCharMove.cpp" />
     <ClCompile Include="AlefWorldServer.cpp" />
     <ClCompile Include="AlefWorldStartupEncryption.cpp" />
+    <ClCompile Include="AlefWorldUIStatus.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlefWorldAGSMChar.h" />
+    <ClInclude Include="AlefWorldAGSMCharMgr.h" />
     <ClInclude Include="AlefWorldApp.h" />
+    <ClInclude Include="AlefWorldCharacter.h" />
     <ClInclude Include="AlefWorldClientConnection.h" />
     <ClInclude Include="AlefWorldClientFactory.h" />
     <ClInclude Include="AlefWorldGlobal.h" />
+    <ClInclude Include="AlefWorldOptimizedCharMove.h" />
     <ClInclude Include="AlefWorldPacketHandler.h" />
     <ClInclude Include="AlefWorldServer.h" />
     <ClInclude Include="AlefWorldStartupEncryption.h" />
+    <ClInclude Include="AlefWorldUIStatus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

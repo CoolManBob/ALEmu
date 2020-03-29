@@ -15,9 +15,9 @@ class AlefLoginPacketHandler : public AlefPacketHandler
 public:
 	AlefLoginPacketHandler() : packetHandler(this, &AlefLoginPacketHandler::packetProcessor) 
 	{
-		processorMap[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE] = new AlefLoginStartupEncryption();
-		processorMap[Alef::AGPMLOGIN_PACKET_TYPE] = new AlefLoginClientLogin();
-		processorMap[Alef::AGPMWORLD_PACKET_TYPE] = new AlefLoginServerList();
+		processorMap[Alef::AGPMLOGIN_PACKET_TYPE]				= new AlefLoginClientLogin();
+		processorMap[Alef::AGPMWORLD_PACKET_TYPE]				= new AlefLoginServerList();
+		processorMap[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE]	= new AlefLoginStartupEncryption();
 	}
 	virtual ~AlefLoginPacketHandler() { processorMap.clear(); };
 

@@ -132,26 +132,29 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 			} break;
 			case Alef::AlefType::PACKET:
 			{
-				for (int i = 0; i < itr->FieldSize; i++)
-				{
+				//for (int i = 0; i < itr->FieldSize; i++)
+				//{
 					SharedPtr<AlefPacket>* arg = va_arg(args, SharedPtr<AlefPacket>*);
 
 					if (arg)
 						response->WritePacket(arg->get());
-				}
+				//}
 			} break;
 			case Alef::AlefType::MEMORY_BLOCK:
 			{
 				for (int i = 0; i < itr->FieldSize; i++)
 				{
 					UInt16* arg_sz = va_arg(args, UInt16*);
-					if(arg_sz)
+					if (arg_sz) //If arg_sz is 0 we can assume there will be no data so we never look for the arg
+					{
 						response->WriteUInt16(*arg_sz, false);
 
-				
-					char* arg = va_arg(args, char*);
-					if(arg && arg_sz)
-						response->WriteArbitraryData(arg, *arg_sz);
+						if (*arg_sz) //size of mem block != 0 
+						{
+							char* arg = va_arg(args, char*);
+							response->WriteArbitraryData(arg, *arg_sz);
+						}
+					}
 				}
 			} break;
 			case Alef::AlefType::POS_BASEMETER:
@@ -186,6 +189,7 @@ AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 		return nullptr;
 
 	AlefPacket* response = new AlefPacket(flagLen);
+	//packetPool->addPacketToPool(response);
 
 	bool fieldsOkay = fieldLookup.getFieldInfo(response->GetFieldVec(), miniType);
 
@@ -298,26 +302,29 @@ AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 			} break;
 			case Alef::AlefType::PACKET:
 			{
-				for (int i = 0; i < itr->FieldSize; i++)
-				{
+				//for (int i = 0; i < itr->FieldSize; i++)
+				//{
 					SharedPtr<AlefPacket>* arg = va_arg(args, SharedPtr<AlefPacket>*);
 
 					if (arg)
 						response->WritePacket(arg->get());
-				}
+				//}
 			} break;
 			case Alef::AlefType::MEMORY_BLOCK:
 			{
 				for (int i = 0; i < itr->FieldSize; i++)
 				{
 					UInt16* arg_sz = va_arg(args, UInt16*);
-					if (arg_sz)
+					if (arg_sz) //If arg_sz is 0 we can assume there will be no data so we never look for the arg
+					{
 						response->WriteUInt16(*arg_sz, false);
 
-
-					char* arg = va_arg(args, char*);
-					if (arg && arg_sz)
-						response->WriteArbitraryData(arg, *arg_sz);
+						if (*arg_sz) //size of mem block != 0 
+						{
+							char* arg = va_arg(args, char*);
+							response->WriteArbitraryData(arg, *arg_sz);
+						}
+					}
 				}
 			} break;
 			case Alef::AlefType::POS_BASEMETER:
@@ -496,20 +503,16 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				} break;
 				case Alef::AlefType::PACKET:
 				{
-					for (int i = 0; i < itr->FieldSize; i++)
-					{
+					//for (int i = 0; i < itr->FieldSize; i++)
+					//{
 						UInt16* arg_sz = va_arg(args, UInt16*);
 						UInt16	size = 0;
 						if (arg_sz)
 						{
 							packet->GetUInt16(*arg_sz);
 							size = *arg_sz;
-						}
 
-						AlefPacket* arg = va_arg(args, AlefPacket*);
-						
-						if (arg && arg_sz)
-						{
+							AlefPacket* arg = va_arg(args, AlefPacket*);
 							char* pktData = new char[size];
 
 							packet->GetDataBlock(size, pktData);
@@ -520,7 +523,7 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 
 							arg = temp;
 						}
-					}
+					//}
 
 					//TODO: Extend for more than one packet within the field
 				} break;

@@ -2,14 +2,22 @@
 
 void AlefFlagLengthLookup::setupTable()
 {
+	//Main Packets
 	lookupTable[Alef::ALEF_SYSTEM_PACKET_TYPE] = 1;
+	lookupTable[Alef::AGPMCONFIG_PACKET_TYPE] = 4;
 	lookupTable[Alef::AGPMCHARACTER_PACKET_TYPE] = 4;
 	lookupTable[Alef::AGSMCHARMANAGER_PACKET_TYPE] = 1;
 	lookupTable[Alef::AGPMITEM_PACKET_TYPE] = 4;
 	lookupTable[Alef::AGPMLOGIN_PACKET_TYPE] = 2;
+	lookupTable[Alef::AGPMTIMER_PACKET_TYPE] = 1;
+	lookupTable[Alef::AGPMUISTATUS_PACKET_TYPE] = 2;
 	lookupTable[Alef::AGPMWORLD_PACKET_TYPE] = 1;
+	lookupTable[Alef::AGPMOPTIMIZEDCHARMOVE_PACKET_TYPE] = 1;
+	lookupTable[Alef::AGPMOPTIMIZEDCHARACTION_PACKET_TYPE] = 2;
+	lookupTable[Alef::AGPMOPTIMIZEDVIEW_PACKET_TYPE] = 2;
 	lookupTable[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE] = 1;
 
+	//Mini Packets
 	lookupTable[Alef::AGPMLOGIN_SERVER_ADDR] = 1;
 	lookupTable[Alef::AGPMLOGIN_CHAR_INFO] = 2;
 	lookupTable[Alef::AGPMLOGIN_SERVER_INFO] = 1;
@@ -30,6 +38,10 @@ void AlefFlagLengthLookup::setupTable()
 	lookupTable[Alef::AGPMCHAR_FACTOR_ITEM] = 1;
 	lookupTable[Alef::AGPMCHAR_FACTOR_DIRT] = 1;
 	lookupTable[Alef::AGPMCHAR_FACTOR_PRICE] = 1;
+
+	lookupTable[Alef::AGPMOPTIMIZEDPACKET_VIEW] = 4;
+	lookupTable[Alef::AGPMOPTIMIZEDPACKET_ITEMVIEW] = 4;
+
 }
 
 UInt8 AlefFlagLengthLookup::lookUp(UInt16 packetType)

@@ -14,6 +14,10 @@ AlefFieldLookup::~AlefFieldLookup()
 void AlefFieldLookup::initMainMaps()
 {
 #pragma region TypeMaps
+
+	typeMap[Alef::AGPMCONFIG_PACKET_TYPE]				=	buildTypeVec({	Alef::INT32, Alef::INT32, Alef::INT8 });
+
+
 	typeMap[Alef::AGPMCHARACTER_PACKET_TYPE]			=	buildTypeVec({	Alef::INT8, Alef::INT32, Alef::INT32, Alef::MEMORY_BLOCK, Alef::INT8, Alef::PACKET, Alef::PACKET, Alef::PACKET, 
 																			Alef::INT64, Alef::INT64, Alef::INT64, Alef::INT8, Alef::INT8, Alef::INT32, Alef::INT8, Alef::UINT8, Alef::UINT8, 
 																			Alef::UINT64, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT8, Alef::INT32, Alef::INT8, Alef::UINT16, Alef::INT32, 
@@ -26,26 +30,53 @@ void AlefFieldLookup::initMainMaps()
 																			Alef::PACKET, Alef::PACKET, Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::PACKET, Alef::PACKET,
 																			Alef::PACKET, Alef::INT32, Alef::UINT32, Alef::INT32, Alef::PACKET, Alef::PACKET, Alef::UINT32, Alef::PACKET, Alef::PACKET });
 
+	typeMap[Alef::AGPMTIMER_PACKET_TYPE]				=	buildTypeVec({	Alef::UINT8, Alef::UINT64 });
+
 	typeMap[Alef::AGPMLOGIN_PACKET_TYPE]				=	buildTypeVec({	Alef::INT8, Alef::CHAR, Alef::CHAR, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT32, Alef::CHAR,
 																			Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::CHAR, Alef::CHAR, Alef::INT32, Alef::INT32	});
+
+	typeMap[Alef::AGPMUISTATUS_PACKET_TYPE]				=	buildTypeVec({	Alef::INT8, Alef::INT32, Alef::PACKET, Alef::INT8, Alef::PACKET, Alef::MEMORY_BLOCK, Alef::INT32, Alef::INT32, Alef::INT8, 
+																			Alef::INT8, Alef::INT8, Alef::MEMORY_BLOCK });
 	
 	typeMap[Alef::AGPMWORLD_PACKET_TYPE]				=	buildTypeVec({	Alef::INT8, Alef::CHAR, Alef::INT16, Alef::MEMORY_BLOCK });
+
+	typeMap[Alef::AGPMOPTIMIZEDCHARMOVE_PACKET_TYPE]	=	buildTypeVec({	Alef::INT32, Alef::VEC3F, Alef::VEC3F, Alef::INT32, Alef::UINT16, Alef::INT8, Alef::INT8, Alef::INT8, Alef::INT32 });
+
+	typeMap[Alef::AGPMOPTIMIZEDCHARACTION_PACKET_TYPE]	=	buildTypeVec({	Alef::INT32, Alef::INT32, Alef::INT8, Alef::PACKET, Alef::INT32, Alef::INT8, Alef::INT8, Alef::UINT32, Alef::UINT8 });
+
+	typeMap[Alef::AGPMOPTIMIZEDVIEW_PACKET_TYPE]		=	buildTypeVec({	Alef::INT8, Alef::PACKET, Alef::PACKET, Alef::MEMORY_BLOCK, Alef::MEMORY_BLOCK, Alef::CHAR, Alef::MEMORY_BLOCK, Alef::MEMORY_BLOCK,
+																			Alef::MEMORY_BLOCK, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::MEMORY_BLOCK });
 	
 	typeMap[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE]	=	buildTypeVec({	Alef::INT8, Alef::MEMORY_BLOCK });
+
 #pragma endregion
 
 #pragma region SizeMaps
-	sizeMap[Alef::AGPMCHARACTER_PACKET_TYPE]			=	buildSizeVec({ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 32, 1, 1, 1, 1, 1, 1, 1, 16, 1, 1, });
 
-	sizeMap[Alef::AGSMCHARMANAGER_PACKET_TYPE]			=	buildSizeVec({ 1, 12, 1, 49, 1, 1, 1 });
+	sizeMap[Alef::AGPMCONFIG_PACKET_TYPE]				=	buildSizeVec({	1, 1, 1 });
+
+	sizeMap[Alef::AGPMCHARACTER_PACKET_TYPE]			=	buildSizeVec({	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 32, 1, 1, 1, 1, 1, 1, 1, 16, 1, 1, });
+
+	sizeMap[Alef::AGSMCHARMANAGER_PACKET_TYPE]			=	buildSizeVec({	1, 12, 1, 49, 1, 1, 1 });
 	
-	sizeMap[Alef::AGPMITEM_PACKET_TYPE]					=	buildSizeVec({ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
+	sizeMap[Alef::AGPMITEM_PACKET_TYPE]					=	buildSizeVec({	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
+
+	sizeMap[Alef::AGPMTIMER_PACKET_TYPE]				=	buildSizeVec({	1, 1 });
 	
-	sizeMap[Alef::AGPMLOGIN_PACKET_TYPE]				=	buildSizeVec({ 1, 32, 49, 1, 33, 1, 1, 32, 1, 1, 1, 1, 2049, 5, 1, 1});
+	sizeMap[Alef::AGPMLOGIN_PACKET_TYPE]				=	buildSizeVec({	1, 32, 49, 1, 33, 1, 1, 32, 1, 1, 1, 1, 2049, 5, 1, 1});
+
+	sizeMap[Alef::AGPMUISTATUS_PACKET_TYPE]				=	buildSizeVec({	1, 1, 40, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
 	
-	sizeMap[Alef::AGPMWORLD_PACKET_TYPE]				=	buildSizeVec({ 1, 32, 1, 1 });
+	sizeMap[Alef::AGPMWORLD_PACKET_TYPE]				=	buildSizeVec({	1, 32, 1, 1 });
+
+	sizeMap[Alef::AGPMOPTIMIZEDCHARMOVE_PACKET_TYPE]	=	buildSizeVec({	1, 1, 1, 1, 1, 1, 1, 1, 1 });
+
+	sizeMap[Alef::AGPMOPTIMIZEDCHARACTION_PACKET_TYPE]	=	buildSizeVec({	1, 1, 1, 1, 1, 1, 1, 1, 1 });
+
+	sizeMap[Alef::AGPMOPTIMIZEDVIEW_PACKET_TYPE]		=	buildSizeVec({	1, 1, 31, 1, 1, 33, 1, 1, 1, 1, 1, 1, 1, 1 });
 	
-	sizeMap[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE]	=	buildSizeVec({ 1, 1 });
+	sizeMap[Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE]	=	buildSizeVec({	1, 1 });
+
 #pragma endregion
 }
 
@@ -102,6 +133,17 @@ void AlefFieldLookup::initMiniMaps()
 
 #pragma endregion
 
+#pragma region AGPMOPTIMIZEDPACKET2
+
+	typeMap[Alef::AGPMOPTIMIZEDPACKET_VIEW]				=	buildTypeVec({	Alef::INT32, Alef::INT32, Alef::MEMORY_BLOCK, Alef::INT8, Alef::INT8, Alef::PACKET, Alef::INT8, Alef::INT8, Alef::VEC3F,
+																			Alef::VEC3F, Alef::INT32, Alef::UINT16, Alef::INT16, Alef::INT16, Alef::UINT64, Alef::INT8, Alef::INT8, Alef::INT8,
+																			Alef::INT8, Alef::UINT16, Alef::INT8, Alef::INT32, Alef::CHAR, Alef::INT32, Alef::INT32 });
+
+	typeMap[Alef::AGPMOPTIMIZEDPACKET_ITEMVIEW]			=	buildTypeVec({	Alef::INT32, Alef::INT32, Alef::INT16, Alef::INT8, Alef::INT8, Alef::INT8, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32,
+																			Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::UINT16, Alef::UINT16, Alef::UINT16, Alef::UINT16, Alef::UINT16 });
+
+#pragma endregion
+
 #pragma endregion
 
 #pragma region SizeMaps
@@ -151,6 +193,14 @@ void AlefFieldLookup::initMiniMaps()
 	sizeMap[Alef::AGPMCHAR_FACTOR_PRICE]		=	buildSizeVec({ 1, 1, 1, 1 });
 
 	sizeMap[Alef::AGPMCHAR_SKILL]				=	buildSizeVec({ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
+
+#pragma endregion
+
+#pragma region AGPMOPTIMIZEDPACKET2
+
+	sizeMap[Alef::AGPMOPTIMIZEDPACKET_VIEW]				=	buildSizeVec({	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 1, 1 });
+
+	sizeMap[Alef::AGPMOPTIMIZEDPACKET_ITEMVIEW]			=	buildSizeVec({	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, });
 
 #pragma endregion
 

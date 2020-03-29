@@ -6,11 +6,11 @@ using Poco::Net::StreamSocket;
 #include "AlefPacketProcessor.h"
 #include "AlefSocket.h"
 
-class AlefWorldAGSMChar : public AlefPacketProcessor
+class AlefWorldAGSMCharMgr : public AlefPacketProcessor
 {
 public:
-	AlefWorldAGSMChar() {};
-	virtual ~AlefWorldAGSMChar() {};
+	AlefWorldAGSMCharMgr() {};
+	virtual ~AlefWorldAGSMCharMgr() {};
 
 	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
 	bool processGameEnterCharacterName(AlefSocket& sock, AlefPacket* packet);

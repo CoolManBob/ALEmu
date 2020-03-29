@@ -68,11 +68,11 @@
     <ClInclude Include="AlefLoginClientFactory.h">
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="AlefLoginPacketHandler.h">
-      <Filter>Header Files\Networking</Filter>
-    </ClInclude>
     <ClInclude Include="AlefLoginServer.h">
       <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginPacketHandler.h">
+      <Filter>Header Files\Packet Handlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #include "AlefPacket.h"
 #include "AlefFlagLengthLookup.h"
 #include "AlefFieldLookup.h"
+#include "AlefPacketPool.h"
 
 #include <cstdarg>
 

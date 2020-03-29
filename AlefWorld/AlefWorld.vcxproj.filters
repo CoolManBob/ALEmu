@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Networking">
+      <UniqueIdentifier>{a8cc113d-167b-4adb-ac47-3fa35268e686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Packet Handlers">
+      <UniqueIdentifier>{5405bc34-0080-4561-a273-e73d30769c48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Networking">
+      <UniqueIdentifier>{f105677d-e28c-4c3a-b2ed-8f53ba996fd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Packet Handlers">
+      <UniqueIdentifier>{e50194a8-bf98-459b-94a7-94fc137957da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -22,39 +34,57 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AlefWorldServer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Networking</Filter>
     </ClCompile>
     <ClCompile Include="AlefWorldStartupEncryption.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Packet Handlers</Filter>
     </ClCompile>
-    <ClCompile Include="AlefWorldAGSMChar.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="AlefWorldAGSMCharMgr.cpp">
+      <Filter>Source Files\Packet Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefWorldCharacter.cpp">
+      <Filter>Source Files\Packet Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefWorldUIStatus.cpp">
+      <Filter>Source Files\Packet Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefWorldOptimizedCharMove.cpp">
+      <Filter>Source Files\Packet Handlers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlefWorldServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AlefWorldApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefWorldClientConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefWorldClientFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefWorldPacketHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlefWorldGlobal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AlefWorldStartupEncryption.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="AlefWorldClientConnection.h">
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="AlefWorldAGSMChar.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="AlefWorldClientFactory.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldServer.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldStartupEncryption.h">
+      <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldPacketHandler.h">
+      <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldAGSMCharMgr.h">
+      <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldCharacter.h">
+      <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldUIStatus.h">
+      <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldOptimizedCharMove.h">
+      <Filter>Header Files\Packet Handlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

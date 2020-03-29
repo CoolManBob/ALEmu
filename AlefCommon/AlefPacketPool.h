@@ -17,7 +17,7 @@ public:
 	~AlefPacketPool();
 
 	void addPacketToPool(AlefPacket* pkt);
-	int	getSize() { return packetPool->size(); }
+	size_t	getSize() { return packetPool->size(); }
 
 private:
 	UInt64 packetID;

@@ -52,51 +52,49 @@ public:
 				numBytesRead = sock.receiveBytes(tempBuf, maxReceiveBytes);
 				if (numBytesRead)
 				{
-					AlefPacket * packet = new AlefPacket(tempBuf, numBytesRead);
+					AlefPacket* packet = new AlefPacket(tempBuf, numBytesRead);
 					bool decryptRes = decryptPacket(packet);
 					if (!decryptRes)
 					{
-						LOG("ERROR Decrypting Packet");
+						LOG("ERROR Decrypting Packet", FATAL);
 						continue;
 					}
+
 					packetInfo info(sock);
-
-					packet->acquirePacketHeader();
-					UInt8 flagLen = lookup.lookUp(packet->GetPacketType());
-
-					if (flagLen == 0xFF)
+					bool success = pktInterface->setupPkt(packet);
+					if (!success)
 					{
-						LOG("ERROR: Could not find FlagLength!", FATAL);
+						stringstream errorMsg;
+
+						errorMsg << "ERROR: Could not find FlagLength! Type: " << (int)packet->GetPacketType();
+						LOG(errorMsg.str(), FATAL);
 						delete packet;
 						continue;
 					}
-
-					packet->setAndAcquireFlags(flagLen);
 					info.packet = packet;
 
 					stringstream outMsg;
-					outMsg << "numBytesRead: " << numBytesRead << endl;
-					outMsg << "PacketSize: " << packet->GetPacketSize() << endl;
-					outMsg << "Opcode " << (int)packet->GetPacketType();// << " " << (int)header.PacketFlag << " " << (int)header.PacketOperation << endl;
+					outMsg << "numBytesRead: " << numBytesRead << " ";
+					outMsg << "PacketSize: " << packet->GetPacketSize() << " ";
+					outMsg << "Opcode " << (int)packet->GetPacketType();
 					LOG(outMsg.str());
 					ActiveResult<bool> res = handler->packetHandler(info);
 					res.wait();
 					if (res.data())
 					{
 						stringstream successMsg;
-						successMsg << "Opcode " << (int)packet->GetPacketType() << " " << (int)packet->GetPacketFlag(FlagIndex::FLAG_IDX0) << " " << (int)packet->GetPacketFlag(FlagIndex::FLAG_IDX1) << " handled successfully.";
+						successMsg << "Opcode " << (int)packet->GetPacketType() << " handled successfully.";
 						LOG(successMsg.str());
 						delete packet;
 					}
 					else
 					{
 						stringstream errorMsg;
-						errorMsg << "Error handling Opcode " << (int)packet->GetPacketType() << " " << (int)packet->GetPacketFlag(FlagIndex::FLAG_IDX0) << " " << (int)packet->GetPacketFlag(FlagIndex::FLAG_IDX1);
+						errorMsg << "Error handling Opcode " << (int)packet->GetPacketType();
 						LOG(errorMsg.str(), FATAL);
 						delete packet;
 					}
 				}
-
 			}
 			catch (Exception&)
 			{
@@ -131,7 +129,6 @@ private:
 
 		return true;
 	}
-	AlefFlagLengthLookup lookup;
 	AlefWorldPacketHandler * handler;
 	AlefSocket sock;
 	blowfish_session * cryptSession;

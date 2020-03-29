@@ -79,14 +79,14 @@ public:
 					if (res.data())
 					{
 						stringstream successMsg;
-						successMsg << "Opcode " << (int)packet->GetPacketType() << " " << (int)packet->GetPacketFlag(FlagIndex::FLAG_IDX0) << " " << (int)packet->GetPacketFlag(FlagIndex::FLAG_IDX1) << " handled successfully.";
+						successMsg << "Opcode " << (int)packet->GetPacketType() << " handled successfully.";
 						LOG(successMsg.str());
 						delete packet;
 					}
 					else
 					{
 						stringstream errorMsg;
-						errorMsg << "Error handling Opcode " << (int)packet->GetPacketType() << " " << (int)packet->GetPacketFlag(FlagIndex::FLAG_IDX0) << " " << (int)packet->GetPacketFlag(FlagIndex::FLAG_IDX1);
+						errorMsg << "Error handling Opcode " << (int)packet->GetPacketType();
 						LOG(errorMsg.str(), FATAL);
 						delete packet;
 					}

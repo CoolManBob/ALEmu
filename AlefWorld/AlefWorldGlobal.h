@@ -1,5 +1,12 @@
 #pragma once
 //File used for global variables if any
+#include <iostream>
+#include <string>
+#include <sstream>
+using std::cout;
+using std::endl;
+using std::string;
+using std::stringstream;
 
 #include <Poco/SharedPtr.h>
 using Poco::SharedPtr;
