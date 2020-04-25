@@ -62,7 +62,7 @@ bool AlefLoginClientLogin::processInitialLoginPacket(AlefSocket& sock, AlefPacke
 {
 	LOG("processInitialLoginPacket");
 
-	Int8 i8Operation = 0, i8Unk = 0;
+	Int8 i8Operation = 0;
 	unsigned char hashKey[] = "12345678";
 
 	SharedPtr<AlefPacket> response = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, hashKey, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); //MD5 Crypto Packet
