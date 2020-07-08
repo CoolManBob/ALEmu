@@ -202,7 +202,7 @@ AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 		{
 			case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
 			{
-				unsigned char* arg = va_arg(args, unsigned char*);
+				char* arg = va_arg(args, char*);
 				if (arg)
 					response->WriteArbitraryData(arg, itr->FieldSize);
 			} break;

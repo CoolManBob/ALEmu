@@ -31,6 +31,15 @@
     <Filter Include="Source Files\Memory">
       <UniqueIdentifier>{399414ba-047c-431c-b1e0-0db83d664fd9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Database">
+      <UniqueIdentifier>{25c9205b-9c19-414a-a7a3-609354d3ab8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Database">
+      <UniqueIdentifier>{8e42a9f3-623f-4fe2-9e86-d599ecef312a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shared">
+      <UniqueIdentifier>{9bd8874b-3321-4a68-bff1-ca9c21e4d22f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AlefLog.h">
@@ -87,6 +96,21 @@
     <ClInclude Include="AlefPool.h">
       <Filter>Header Files\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="AlefDatabase.h">
+      <Filter>Header Files\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefDBInterface.h">
+      <Filter>Header Files\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefQuery.h">
+      <Filter>Header Files\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefCharacterShared.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlefLog.cpp">
@@ -106,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="AlefPacketPool.cpp">
       <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefDatabase.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefDBInterface.cpp">
+      <Filter>Source Files\Database</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

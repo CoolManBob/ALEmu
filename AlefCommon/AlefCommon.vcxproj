@@ -153,8 +153,12 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AlefCharacterShared.h" />
+    <ClInclude Include="AlefConfig.h" />
     <ClInclude Include="AlefConnectionFactory.h" />
     <ClInclude Include="AlefCrypto.h" />
+    <ClInclude Include="AlefDatabase.h" />
+    <ClInclude Include="AlefDBInterface.h" />
     <ClInclude Include="AlefFieldLookup.h" />
     <ClInclude Include="AlefFlagLengthLookup.h" />
     <ClInclude Include="AlefLog.h" />
@@ -166,6 +170,7 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     <ClInclude Include="AlefPacketInterface.h" />
     <ClInclude Include="AlefPool.h" />
     <ClInclude Include="AlefPoolStrategy.h" />
+    <ClInclude Include="AlefQuery.h" />
     <ClInclude Include="AlefServer.h" />
     <ClInclude Include="AlefServerConnection.h" />
     <ClInclude Include="AlefSocket.h" />
@@ -173,6 +178,8 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     <ClInclude Include="AlefTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlefDatabase.cpp" />
+    <ClCompile Include="AlefDBInterface.cpp" />
     <ClCompile Include="AlefFieldLookup.cpp" />
     <ClCompile Include="AlefFlagLengthLookup.cpp" />
     <ClCompile Include="AlefLog.cpp" />

@@ -16,6 +16,18 @@ AlefWorldServer::~AlefWorldServer()
 void AlefWorldServer::runServer()
 {
 	worldServer->start();
+
+	int tickCount = 0;
+	while (true)
+	{
+		if (tickCount == 500000000)
+		{
+			LOG("TICK COUNT 500000000");
+			tickCount = 0;
+		}
+
+		tickCount++;
+	}
 }
 
 void AlefWorldServer::stopServer()

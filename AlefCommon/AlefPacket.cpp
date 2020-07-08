@@ -40,20 +40,6 @@ AlefPacket::AlefPacket(unsigned char *buffer, int bufSize) //Incoming Packets
 	ulFlag = 0;
 }
 
-AlefPacket::AlefPacket(UInt16 PacketType, UInt8 PacketFlag, UInt8 PacketOp) //Deprecated
-{
-	buf = new unsigned char[15]; //Allocate initial space for header
-	size = 15;
-	pos = 0;
-	dynamic = true;
-	numFields = 0;
-	flagLength = 2;
-	packetType = PacketType;
-	dwMask = 1;
-	ulFlag = 0;
-	WriteHeader(PacketType, PacketFlag, PacketOp);
-}
-
 AlefPacket::AlefPacket(UInt16 PacketType, UInt8 FlagLen) //Outgoing Packets
 {
 	if (FlagLen != 1 && FlagLen != 2 && FlagLen != 4)
@@ -112,17 +98,6 @@ AlefPacket::~AlefPacket()
 	fields.clear();
 }
 
-void AlefPacket::WriteHeader(UInt16 PacketType, UInt8 PacketFlag, UInt8 PacketOp) //Deprecated
-{
-	WriteUInt8(0xD6); //GuardByte - 1Byte D6 is International guard byte
-	WriteUInt16(size); //Packetsize
-	WriteUInt16(PacketType); //PacketType (Opcode1) - 1Byte
-	WriteUInt32(0); //Unk - Flag? - 8Bytes
-	WriteUInt32(0); //Unk - Flag? - 1Byte
-	WriteUInt8(PacketFlag); //Packet Flag (Opcode2) - 1Byte
-	WriteUInt8(PacketOp); //Packet Operation(Opcode3) - 1Byte
-}
-
 void AlefPacket::WriteHeader()
 {
 	WriteUInt8(0xD6); //GuardByte
@@ -175,7 +150,7 @@ void AlefPacket::UpdatePacket(UInt16 newSize, bool doFlagUpd)
 	if(dynamic && !isMini)
 		*(UInt16*)&buf[0x01] = newSize;
 	else if(dynamic && isMini)
-		*(UInt16*)&buf[0] = newSize - 2;
+		*(UInt16*)&buf[0] = newSize - 2; //UInt16 packetSize is not counted for miniPackets
 
 	if (headerWritten && doFlagUpd)
 		ulFlag |= dwMask;

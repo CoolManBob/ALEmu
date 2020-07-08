@@ -125,99 +125,10 @@ bool AlefLoginClientLogin::processUnionInfo(AlefSocket& sock, AlefPacket * packe
 	sock.sendPacket(charNameFinish);
 
 	return true;
-
-	/*UInt8 operation = packet->GetPacketFlag(FlagIndex::FLAG_IDX1);
-	switch (operation)
-	{
-		case 0x03:
-		{
-			LOG("Initial User Connect");
-			AlefPacket response(0x0D, 0x01, 0x01);
-
-			response.WriteUInt8(0x03);
-			response.WriteUInt8(0x06);
-			response.WriteUInt8(0x00);
-			response.WriteUInt8(0x10);
-			response.WriteUInt8(0x00);
-			response.WriteUInt8(0x01);
-			response.WriteUInt8(0x00);
-			response.WriteUInt8(0x00);
-			response.WriteUInt8(0x00);
-			response.ClosePacket();
-
-			sock.sendPacket(&response);
-
-			//Send Character List
-			AlefPacket charListRes(0x0D, 0x01, 0x01);
-
-			charListRes.WriteUInt8(0x04); //Char List Operation
-			
-			charListRes.WriteUInt16(59); //Size
-			charListRes.WriteUInt16(14); //Flag
-			charListRes.WriteByteArray("test");
-			for (int i = 0; i < 44; i++)
-				charListRes.WriteUInt8(0); //Spacing
-			charListRes.WriteUInt8(4); //name Length
-			charListRes.WriteUInt8(1); //Unk
-			for (int i = 0; i < 7; i++)
-				charListRes.WriteUInt8(0); //spacing
-			
-			charListRes.ClosePacket();
-			
-			sock.sendPacket(&charListRes);
-
-			AlefPacket response2(0x0D, 0x05, 0x00);
-			response2.WriteUInt8(0x05);
-			response2.WriteByteArray("test");
-			for (int i = 0; i < 45; i++)
-				response2.WriteUInt8(0);
-			response2.ClosePacket();
-
-			sock.sendPacket(&response2);
-		}break;
-		default:
-		{
-			stringstream errorMsg;
-			errorMsg << "User Connect Unhandled Operation: " << (int)operation;
-			LOG(errorMsg.str(), WARNING);
-			return false;
-		} break;
-	}*/
 }
 
 bool AlefLoginClientLogin::processCharacterList(AlefSocket& sock, AlefPacket * packet)
 {
-			/*AlefPacket charResponse(0x04, 0x11, 0x00);
-			charResponse.WriteUInt8(0x40);
-			charResponse.WriteUInt8(0);
-			charResponse.WriteUInt8(0x13);
-			charResponse.WriteUInt8(0x65);
-			for (int i = 0; i < 7; i++)
-				charResponse.WriteUInt8(0);
-			charResponse.ClosePacket();
-			sock.sendPacket(&charResponse);
-
-			sendDummyCharacter(sock);
-
-			AlefPacket charListComplete(0x02, 0x13, 0x00);
-			charListComplete.WriteUInt16(0);
-			charListComplete.WriteUInt8(0x01);
-			charListComplete.WriteUInt8(0x65);
-			charListComplete.WriteUInt16(0);
-			charListComplete.WriteUInt8(0);
-			charListComplete.WriteUInt8(0x01);
-			charListComplete.ClosePacket();
-			sock.sendPacket(&charListComplete);
-
-			AlefPacket response(0x0D, 0x45, 0x00);
-			response.WriteUInt8(0x07);
-			response.WriteByteArray("test");
-			for (int i = 0; i < 49; i++)
-				response.WriteUInt8(0);
-			response.ClosePacket();
-
-			sock.sendPacket(&response);*/
-
 	sendDummyCharacter(sock);
 
 	Int8 i8Operation = 7;
@@ -274,8 +185,11 @@ bool AlefLoginClientLogin::processWorldEnterRequest(AlefSocket& sock, AlefPacket
 	SharedPtr<AlefPacket> miniCharInfo = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_CHAR_INFO, &i32TID, name, 0, 0, 0, 0, 0, 0, 0);
 
 	//{	Alef::CHAR }
-	unsigned char serverAddress[] = "127.0.0.1:11008";
-	SharedPtr<AlefPacket> miniServerInfo = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_SERVER_INFO, serverAddress);
+	//unsigned char serverAddress[] = "127.0.0.1:11008";
+	std::string serverAddress = loginConfig->getWorldAddress();
+	
+	//SharedPtr<AlefPacket> miniServerInfo = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_SERVER_INFO, serverAddress);
+	SharedPtr<AlefPacket> miniServerInfo = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_SERVER_INFO, serverAddress.c_str());
 
 	//{	Alef::INT8, Alef::CHAR, Alef::CHAR, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT32, Alef::CHAR, Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::CHAR, Alef::CHAR, Alef::INT32, Alef::INT32}
 	i8Operation = 8;

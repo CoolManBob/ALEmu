@@ -72,7 +72,7 @@ bool AlefWorldStartupEncryption::processCryptoPacket(AlefSocket& sock, AlefPacke
 	memcpy(clientKey, packet->getBufferAt(0x11), keySize);
 
 	for (UInt32 i = 0; i < (keySize >> 3); i++) {
-		blowfish_decrypt(sock.getCryptoSession()->serverCtx, (UInt32*)(clientKey + i * 8), (UInt32*)(clientKey + i * 8 + 4));
+		blowfish_decrypt(sock.getCryptoSession()->serverCtx, (UInt32*)(clientKey + i * (__int64)8), (UInt32*)(clientKey + i * (__int64)8 + (__int64)4));
 	}
 	blowfish_setkey(sock.getCryptoSession()->clientCtx, clientKey, (keySize << 3));
 	delete[] clientKey;

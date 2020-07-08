@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Packet Handlers">
       <UniqueIdentifier>{e50194a8-bf98-459b-94a7-94fc137957da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Map System">
+      <UniqueIdentifier>{1d8c8f86-180d-468a-b5e9-f53baf64bc7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

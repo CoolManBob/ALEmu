@@ -119,7 +119,7 @@ private:
 		memmove(packetData, packetData + 7, packet->getSize());
 
 		for (int i = 0; i < (packet->getSize() >> 3); ++i)
-			blowfish_decrypt((isServerPacket) ? cryptSession->serverCtx : cryptSession->clientCtx, (UInt32*)(packetData + i * 8), (UInt32*)(packetData + i * 8 + 4));
+			blowfish_decrypt((isServerPacket) ? cryptSession->serverCtx : cryptSession->clientCtx, (UInt32*)(packetData + i * (__int64)8), (UInt32*)(packetData + i * (__int64)8 + (__int64)4));
 
 		if (packetData[0] != 0xD6)
 			return false;

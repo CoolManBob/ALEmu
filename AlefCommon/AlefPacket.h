@@ -22,14 +22,6 @@ using std::vector;
 
 #include "AlefTypes.h"
 
-enum FlagIndex
-{
-	FLAG_IDX0 = 0,
-	FLAG_IDX1,
-	FLAG_IDX2,
-	FLAG_IDX3,
-};
-
 enum FlagLength
 {
 	FLAG_LEN1 = 1,
@@ -43,7 +35,6 @@ public:
 	AlefPacket();
 	AlefPacket(int initialSize);
 	AlefPacket(unsigned char* buffer, int bufSize);
-	AlefPacket(UInt16 PacketType, UInt8 PacketFlag, UInt8 PacketOp); //Deprecated
 	AlefPacket(UInt16 PacketType, UInt8 FlagLen);
 	AlefPacket(UInt8 FlagLen);
 	
@@ -51,7 +42,6 @@ public:
 
 	void Resize(int newSize);
 
-	void WriteHeader(UInt16 PacketType, UInt8 PacketFlag, UInt8 PacketOp); //Deprecated
 	void WriteHeader();
 	void WriteMiniHeader();
 

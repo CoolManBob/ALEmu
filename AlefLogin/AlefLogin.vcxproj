@@ -135,18 +135,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlefAccount.cpp" />
     <ClCompile Include="AlefLoginApp.cpp" />
     <ClCompile Include="AlefLoginClientLogin.cpp" />
+    <ClCompile Include="AlefLoginConfig.cpp" />
     <ClCompile Include="AlefLoginServer.cpp" />
     <ClCompile Include="AlefLoginServerList.cpp" />
     <ClCompile Include="AlefLoginStartupEncryption.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlefAccount.h" />
     <ClInclude Include="AlefLoginApp.h" />
     <ClInclude Include="AlefLoginClientConnection.h" />
     <ClInclude Include="AlefLoginClientFactory.h" />
     <ClInclude Include="AlefLoginClientLogin.h" />
+    <ClInclude Include="AlefLoginConfig.h" />
     <ClInclude Include="AlefLoginGlobal.h" />
     <ClInclude Include="AlefLoginPacketHandler.h" />
     <ClInclude Include="AlefLoginServer.h" />

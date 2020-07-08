@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Networking">
       <UniqueIdentifier>{d01e54bb-36d4-4d61-b026-3d7c6d242787}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Account">
+      <UniqueIdentifier>{b7877b7b-0d75-4183-b3c7-f11468937cb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Account">
+      <UniqueIdentifier>{18428147-8772-42cc-9368-f5f6485f2d2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="AlefLoginServer.cpp">
       <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefAccount.cpp">
+      <Filter>Source Files\Account</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefLoginConfig.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="AlefLoginPacketHandler.h">
       <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefAccount.h">
+      <Filter>Header Files\Account</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLoginConfig.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

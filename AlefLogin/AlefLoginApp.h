@@ -19,4 +19,6 @@ public:
 
 protected:
 	int main(const vector<string>&);
+
+	void initDatabase();
 };
