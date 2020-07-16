@@ -170,7 +170,6 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     <ClInclude Include="AlefPacketInterface.h" />
     <ClInclude Include="AlefPool.h" />
     <ClInclude Include="AlefPoolStrategy.h" />
-    <ClInclude Include="AlefQuery.h" />
     <ClInclude Include="AlefServer.h" />
     <ClInclude Include="AlefServerConnection.h" />
     <ClInclude Include="AlefSocket.h" />
