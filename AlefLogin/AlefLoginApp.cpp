@@ -6,8 +6,6 @@ using std::endl;
 #include "AlefLoginApp.h"
 #include "AlefLoginServer.h"
 
-#include "AlefQuery.h"
-
 AlefLog* AlefLogger;
 AlefPacketInterface* pktInterface;
 AlefLoginConfig* loginConfig;

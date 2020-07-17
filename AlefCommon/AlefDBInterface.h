@@ -3,7 +3,6 @@
 #include "AlefTypes.h"
 
 #include "AlefDatabase.h"
-#include "AlefQuery.h"
 
 constexpr auto MAX_DB = 3;
 
