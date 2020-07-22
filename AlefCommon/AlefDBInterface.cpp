@@ -36,7 +36,6 @@ void AlefDBInterface::test()
 {
 	Session sess = database[0]->getDBSession(sessionNames[0]);
 
-	//AlefQuery insert(sess);
 	Statement insert(sess);
 
 	struct acct

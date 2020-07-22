@@ -37,7 +37,7 @@
     <Filter Include="Source Files\Database">
       <UniqueIdentifier>{8e42a9f3-623f-4fe2-9e86-d599ecef312a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Shared">
+    <Filter Include="Header Files\Shared Client Data">
       <UniqueIdentifier>{9bd8874b-3321-4a68-bff1-ca9c21e4d22f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -105,8 +105,11 @@
     <ClInclude Include="AlefConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AlefCharacterShared.h">
-      <Filter>Header Files\Shared</Filter>
+    <ClInclude Include="AlefClientCharacter.h">
+      <Filter>Header Files\Shared Client Data</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefClientAccount.h">
+      <Filter>Header Files\Shared Client Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

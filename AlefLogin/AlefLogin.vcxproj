@@ -135,17 +135,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AlefAccount.cpp" />
+    <ClCompile Include="AlefDBLoginSys.cpp" />
     <ClCompile Include="AlefLoginApp.cpp" />
     <ClCompile Include="AlefLoginClientLogin.cpp" />
     <ClCompile Include="AlefLoginConfig.cpp" />
     <ClCompile Include="AlefLoginServer.cpp" />
     <ClCompile Include="AlefLoginServerList.cpp" />
     <ClCompile Include="AlefLoginStartupEncryption.cpp" />
+    <ClCompile Include="AlefServerEncryptionSys.cpp" />
+    <ClCompile Include="AlefServerLoginSys.cpp" />
+    <ClCompile Include="AlefServerWorldListSys.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlefAccount.h" />
+    <ClInclude Include="AlefDBWorldListSys.h" />
+    <ClInclude Include="AlefServerLoginSys.h" />
+    <ClInclude Include="AlefDBLoginSys.h" />
     <ClInclude Include="AlefLoginApp.h" />
     <ClInclude Include="AlefLoginClientConnection.h" />
     <ClInclude Include="AlefLoginClientFactory.h" />
@@ -156,6 +161,8 @@
     <ClInclude Include="AlefLoginServer.h" />
     <ClInclude Include="AlefLoginServerList.h" />
     <ClInclude Include="AlefLoginStartupEncryption.h" />
+    <ClInclude Include="AlefServerWorldListSys.h" />
+    <ClInclude Include="AlefServerEncryptionSys.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

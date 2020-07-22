@@ -8,7 +8,6 @@ AlefLoginConfig::AlefLoginConfig()
 AlefLoginConfig::AlefLoginConfig(std::string configPath)
 {
 	iniFile = new IniFileConfiguration(configPath);
-	loadConfig();
 }
 
 AlefLoginConfig::~AlefLoginConfig()
@@ -16,8 +15,15 @@ AlefLoginConfig::~AlefLoginConfig()
 
 }
 
-void AlefLoginConfig::loadConfig()
+std::string AlefLoginConfig::loadConfig()
 {
+	std::stringstream res("Config Load OK");
+	cryptoKey = getString("AlefLogin.PacketCryptKey");
+	if (cryptoKey.size() != 32)
+		res << "Wrong PacketCryptKey Size Got:" << cryptoKey.size() << " Expected: 32";
+
+	autogenCryptKey = getBool("AlefLogin.UseAutoGenCryptKey");
+
 	worldAddress = getString("AlefLogin.WorldAddress");
 
 	//LoginDB
@@ -37,4 +43,6 @@ void AlefLoginConfig::loadConfig()
 	dataDBUser = getString("AlefLogin.DataDBUser");
 	dataDBPass = getString("AlefLogin.DataDBPass");
 	dataDB = getString("AlefLogin.DataDB");
+
+	return res.str();
 }

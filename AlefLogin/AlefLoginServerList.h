@@ -15,4 +15,10 @@ public:
 
 	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
 	bool processServerList(AlefSocket& sock, AlefPacket* packet);
+
+	enum SERVERLISTOPERATION
+	{
+		SERVERLIST_REQ = 0,
+		SERVERLIST_ANS = 2,
+	};
 };

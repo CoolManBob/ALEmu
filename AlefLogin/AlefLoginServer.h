@@ -23,6 +23,9 @@ public:
 	void stopServer();
 
 private:
+	void initDatabase();
+	void initServerSystems();
+
 	AlefLoginClientFactory * clientFactory;
 	TCPServer * loginServer;
 	AlefLoginPacketHandler * handler;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AlefConfig.h"
+#include <sstream>
 
 class AlefLoginConfig : AlefConfig
 {
@@ -9,9 +10,12 @@ public:
 	AlefLoginConfig(std::string configPath);
 	~AlefLoginConfig();
 
-	void loadConfig();
+	std::string loadConfig();
 
-	std::string getWorldAddress() { return worldAddress; }
+	std::string getCryptKey() { return cryptoKey; }
+	bool		getAutoGenKey() { return autogenCryptKey;  }
+
+	std::string getWorldAddress() { return worldAddress; } //TODO: Move to DB
 	
 	//LoginDB
 	std::string getLoginDBAddress() { return loginDBAddress; }
@@ -33,7 +37,13 @@ public:
 	
 
 private:
-	//Configuration Values
+#pragma region Configuration Values
+	
+	//Encryption
+	std::string cryptoKey;
+	bool		autogenCryptKey;
+
+	//ServerList
 	std::string worldAddress;
 
 	//LoginDB
@@ -53,4 +63,6 @@ private:
 	std::string dataDBUser;
 	std::string dataDBPass;
 	std::string dataDB;
+
+#pragma endregion
 };

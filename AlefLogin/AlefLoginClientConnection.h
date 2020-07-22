@@ -129,4 +129,7 @@ private:
 	AlefLoginPacketHandler * handler;
 	AlefSocket sock;
 	blowfish_session * cryptSession;
+
+	//Internal defined states
+	//AlefClientAccount account;
 };

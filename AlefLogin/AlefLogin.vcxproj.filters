@@ -25,11 +25,32 @@
     <Filter Include="Source Files\Networking">
       <UniqueIdentifier>{d01e54bb-36d4-4d61-b026-3d7c6d242787}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Account">
-      <UniqueIdentifier>{b7877b7b-0d75-4183-b3c7-f11468937cb9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Account">
       <UniqueIdentifier>{18428147-8772-42cc-9368-f5f6485f2d2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server Systems">
+      <UniqueIdentifier>{43cee145-bda9-412f-a0c7-73374780f07c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server Systems\Login">
+      <UniqueIdentifier>{b7877b7b-0d75-4183-b3c7-f11468937cb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems">
+      <UniqueIdentifier>{4f0de936-8aaf-4f13-82e0-53947906db8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems\Login">
+      <UniqueIdentifier>{8668e362-7176-4c98-8689-21abd346f052}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems\StartupEncryption">
+      <UniqueIdentifier>{60fbf509-581f-40a2-8d9f-2a7307d5ecfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server Systems\StartupEncryption">
+      <UniqueIdentifier>{c3251f26-a6d4-4f16-a107-e4c6894b4b1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server Systems\Serverlist">
+      <UniqueIdentifier>{f236096b-ff40-4ca5-bcdb-150de372563a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems\Serverlist">
+      <UniqueIdentifier>{48f113a0-bc2b-429f-84a5-e8a124d0b5ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,11 +72,20 @@
     <ClCompile Include="AlefLoginServer.cpp">
       <Filter>Source Files\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="AlefAccount.cpp">
-      <Filter>Source Files\Account</Filter>
-    </ClCompile>
     <ClCompile Include="AlefLoginConfig.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefDBLoginSys.cpp">
+      <Filter>Source Files\Server Systems\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefServerLoginSys.cpp">
+      <Filter>Source Files\Server Systems\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefServerWorldListSys.cpp">
+      <Filter>Source Files\Server Systems\Serverlist</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefServerEncryptionSys.cpp">
+      <Filter>Source Files\Server Systems\StartupEncryption</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,11 +116,23 @@
     <ClInclude Include="AlefLoginPacketHandler.h">
       <Filter>Header Files\Packet Handlers</Filter>
     </ClInclude>
-    <ClInclude Include="AlefAccount.h">
-      <Filter>Header Files\Account</Filter>
-    </ClInclude>
     <ClInclude Include="AlefLoginConfig.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerLoginSys.h">
+      <Filter>Header Files\Server Systems\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefDBLoginSys.h">
+      <Filter>Header Files\Server Systems\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerWorldListSys.h">
+      <Filter>Header Files\Server Systems\Serverlist</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerEncryptionSys.h">
+      <Filter>Header Files\Server Systems\StartupEncryption</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefDBWorldListSys.h">
+      <Filter>Header Files\Server Systems\Serverlist</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

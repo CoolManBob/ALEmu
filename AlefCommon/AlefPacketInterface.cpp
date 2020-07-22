@@ -470,7 +470,7 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						UInt64* arg = va_arg(args, UInt64*);
+						//UInt64* arg = va_arg(args, UInt64*);
 						if(arg)
 							*(((UInt64*)arg)) = packet->GetUInt64();
 					}
@@ -491,9 +491,10 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 						Alef::AlefVec3F* arg = va_arg(args, Alef::AlefVec3F*);
 						if (arg)
 						{
-							(*(((Alef::AlefVec3F*)arg))).x = packet->GetVec3F().x;
-							(*(((Alef::AlefVec3F*)arg))).y = packet->GetVec3F().y;
-							(*(((Alef::AlefVec3F*)arg))).z = packet->GetVec3F().z;
+							Alef::AlefVec3F temp = packet->GetVec3F();
+							(*(((Alef::AlefVec3F*)arg))).x = temp.x;
+							(*(((Alef::AlefVec3F*)arg))).y = temp.y;
+							(*(((Alef::AlefVec3F*)arg))).z = temp.z;
 						}
 					}
 				} break;
@@ -526,6 +527,7 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 					//}
 
 					//TODO: Extend for more than one packet within the field
+					//TODO: Fix list index issue, reading arg_sz will advance the arg list again after we've already read one in.
 				} break;
 				case Alef::AlefType::MEMORY_BLOCK:
 				{

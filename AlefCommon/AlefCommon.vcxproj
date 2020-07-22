@@ -153,7 +153,8 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AlefCharacterShared.h" />
+    <ClInclude Include="AlefClientAccount.h" />
+    <ClInclude Include="AlefClientCharacter.h" />
     <ClInclude Include="AlefConfig.h" />
     <ClInclude Include="AlefConnectionFactory.h" />
     <ClInclude Include="AlefCrypto.h" />

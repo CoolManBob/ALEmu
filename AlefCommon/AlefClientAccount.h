@@ -1,10 +1,10 @@
 #pragma once
 
-class AlefAccount
+class AlefClientAccount
 {
 public:
-	AlefAccount();
-	~AlefAccount();
+	AlefClientAccount();
+	~AlefClientAccount();
 
 private:
 	//std::string acctName;

@@ -22,4 +22,7 @@ public:
 	
 private:
 	void sendDummyCharacter(AlefSocket& sock);
+
+	//AlefClientAccount clientAccount;
+
 };

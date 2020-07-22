@@ -8,6 +8,9 @@
 #include <Poco/Data/Statement.h>
 #include <Poco/Data/RecordSet.h>
 
+#include <Poco/AutoPtr.h>
+using Poco::AutoPtr;
+
 using Poco::Data::Keywords::use;
 using Poco::Data::Keywords::now;
 
@@ -26,14 +29,9 @@ public:
 	~AlefDatabase();
 
 	void createDBSession(std::string connectionString); //Currently only MySQL is supported.
-	//void setConnStr(std::string connStr) { connectionString = connStr; }
 	Session getDBSession(std::string sessionAlias);
 
 private:
-	//Session * dbSession;
-	SessionPool * dbSessionPool;
+	AutoPtr<SessionPool> dbSessionPool;
 	SessionPoolContainer * dbSessionPoolContainer;
-
-	//std::string connectionString;
-	//std::string dbType;
 };

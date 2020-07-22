@@ -84,6 +84,11 @@ bool AlefLoginClientLogin::processUserLoginPacket(AlefSocket& sock, AlefPacket *
 	acctMsg << "Account: " << acct << " " << "Password: " << pw;
 	LOG(acctMsg.str());
 
+	//serverAcctSys->changeLoginStatus(&acct, LOGIN_OK);
+
+	//if(acct.checkLoginState() != LOGIN_OK)
+	//return false; //BAD LOGIN
+
 	Int8 i8Operation = 1;
 	Int32 i32Unk = 0;
 
@@ -207,10 +212,12 @@ void AlefLoginClientLogin::sendDummyCharacter(AlefSocket& sock)
 	float fZero = 0;
 	Int8 i8Zero = 0;
 
+	//AlefCharacter char = AlefServerCharacterSys->getCharacterData();
 
 	//{	Alef::VEC3F, Alef::VEC3F, Alef::INT32, Alef::INT32, Alef::FLOAT, Alef::FLOAT, Alef::INT8, Alef::INT8 }
 	Alef::AlefVec3F pos, destPos;
 	SharedPtr<AlefPacket> charMovePkt = pktInterface->buildMiniPacket(Alef::AGPMCHAR_MOVE, &pos, &destPos, &i32Zero, &i32Zero, &fZero, &fZero, &i8Zero, &i8Zero);
+	//SharedPtr<AlefPacket> charMovePkt = pktInterface->buildMiniPacket(Alef::AGPMCHAR_MOVE, &char.Pos, &char.destPos, &i32Zero, &i32Zero, &fZero, &fZero, &i8Zero, &i8Zero);
 
 #pragma region FACTORPACKETS
 

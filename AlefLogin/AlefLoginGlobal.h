@@ -18,8 +18,8 @@ using Poco::Data::Keywords::into;
 using Poco::Data::Keywords::bind;
 
 #include "AlefLog.h"
-#include "AlefPacketInterface.h"
 #include "AlefLoginConfig.h"
+#include "AlefPacketInterface.h"
 #include "AlefDBInterface.h"
 
 #define LOG AlefLogger->Log
@@ -27,19 +27,18 @@ using Poco::Data::Keywords::bind;
 #define WARNING AlefLog::LogPrio::LOG_WARNING
 #define INFO AlefLog::LogPrio::LOG_INFO
 
-#define LOGINDB AlefDBInterface::dbType::loginDB
-#define WORLDDB AlefDBInterface::dbType::worldDB
-#define DATADB	AlefDBInterface::dbType::dataDB
+//Global Interfaces
+extern AlefLog* AlefLogger;
+extern AlefLoginConfig* loginConfig;
+extern AlefPacketInterface* pktInterface;
+extern AlefDBInterface* dbInterface;
 
-//namespace AlefGlobal
-//{
-	extern AlefLog* AlefLogger;
-	extern AlefPacketInterface* pktInterface;
-	extern AlefLoginConfig* loginConfig;
-	extern AlefDBInterface * dbInterface;
-//}
+#include "AlefServerLoginSys.h"
+#include "AlefServerEncryptionSys.h"
+#include "AlefServerWorldListSys.h"
 
-/*namespace AlefLoginConfig
-{
-	static std::string g_WorldAddress;
-}*/
+
+//Server Systems
+extern AlefServerLoginSys* serverLoginSys;
+extern AlefServerEncryptionSys* serverEncryptionSys;
+extern AlefServerWorldListSys* serverListSys;

@@ -12,12 +12,11 @@ bool AlefLoginServerList::processPacket(AlefSocket& sock, AlefPacket* packet)
 	
 	//{	Alef::INT8, Alef::CHAR, Alef::INT16, Alef::MEMORY_BLOCK, Alef::CHAR }
 	//{	1, 32, 1, 1, 32 }
-	pktInterface->processPacket(packet, &i8Operation, unkChar, &i16EncodedSize, encodedWorld, 0, 0);
+	pktInterface->processPacket(packet, &i8Operation, unkChar, &i16EncodedSize, encodedWorld, unkChar2, 0);
 
-	//switch (packet->GetPacketFlag(FlagIndex::FLAG_IDX0)) //Opcode2
-	switch (i8Operation) //Opcode2
+	switch (i8Operation)
 	{
-		case 0: //ServerList Request Packet Opcode 0x18 0x15 0x00
+		case SERVERLIST_REQ: //ServerList Request Packet Opcode 0x18 0x15 0x00
 			return processServerList(sock, packet); break;
 		default:
 			return true;
@@ -28,14 +27,13 @@ bool AlefLoginServerList::processPacket(AlefSocket& sock, AlefPacket* packet)
 bool AlefLoginServerList::processServerList(AlefSocket& sock, AlefPacket* packet)
 {
 
-	Int8 i8Operation = 2;
-	unsigned char serverListStr[] = "Dummy=ALEmu=0=1=0=0=0=0=0;";
+	Int8 i8Operation = SERVERLIST_ANS;
+	//WorldString Group-ServerName-Priority-Status-IsNew-NoEffect-NoEffect-NoEffect-NoEffect-
+	unsigned char serverListStr[] = "Dummy=ALEmu=0=4=1=0=0=0=0;";
 	unsigned int serverListStrLen = strlen((char*)serverListStr)+1;
 
 	SharedPtr<AlefPacket> serverList = pktInterface->buildPacket(Alef::AGPMWORLD_PACKET_TYPE, &i8Operation, 0, 0, &serverListStrLen, serverListStr, 0);
 
 	sock.sendPacket(serverList);
-
-
 	return true;
 }

@@ -7,8 +7,8 @@ using std::endl;
 #include "AlefLoginServer.h"
 
 AlefLog* AlefLogger;
-AlefPacketInterface* pktInterface;
 AlefLoginConfig* loginConfig;
+AlefPacketInterface* pktInterface;
 AlefDBInterface* dbInterface;
 
 int AlefLoginApp::main(const vector<string>& args)
@@ -24,8 +24,6 @@ int AlefLoginApp::main(const vector<string>& args)
 	pktInterface = new AlefPacketInterface();
 	dbInterface = new AlefDBInterface();
 
-	initDatabase();
-
 	cout << "ALEmu - AlefLogin v0.1" << endl;
 	AlefLoginServer * loginServer = new AlefLoginServer();
 	loginServer->runServer();
@@ -39,21 +37,4 @@ int AlefLoginApp::main(const vector<string>& args)
 	loginServer->stopServer();
 
 	return Application::EXIT_OK;
-}
-
-void AlefLoginApp::initDatabase()
-{
-	//"host=localhost;port=3306;db=mydb;user=alice;password=s3cr3t;compress=true;auto-reconnect=true"
-	std::string connectionStr;
-	connectionStr = "host=" + loginConfig->getLoginDBAddress() + ";port=3306;db=" + loginConfig->getLoginDB() + ";user=" + loginConfig->getLoginDBUser() + ";password=" + loginConfig->getLoginDBPass();
-
-	dbInterface->createDatabaseConnection(AlefDBInterface::dbType::loginDB,connectionStr);
-
-	connectionStr = "host=" + loginConfig->getWorldDBAddress() + ";port=3306;db=" + loginConfig->getWorldDB() + ";user=" + loginConfig->getWorldDBUser() + ";password=" + loginConfig->getWorldDBPass();
-
-	dbInterface->createDatabaseConnection(AlefDBInterface::dbType::worldDB, connectionStr);
-
-	connectionStr = "host=" + loginConfig->getDataDBAddress() + ";port=3306;db=" + loginConfig->getDataDB() + ";user=" + loginConfig->getDataDBUser() + ";password=" + loginConfig->getDataDBPass();
-
-	dbInterface->createDatabaseConnection(AlefDBInterface::dbType::dataDB, connectionStr);
 }

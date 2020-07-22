@@ -20,7 +20,10 @@ public:
     };
 
     bool createDatabaseConnection(dbType type, std::string connectionString);
-    Session acquireDatabaseSession(dbType type);   
+    Session getLoginDB()    {   return acquireDatabaseSession(dbType::loginDB); }
+    Session getWorldDB()    {   return acquireDatabaseSession(dbType::worldDB); }
+    Session getDataDB()     {   return acquireDatabaseSession(dbType::dataDB);  }
+
 
     void test();
 
@@ -28,6 +31,7 @@ private:
 	//0 - LoginDB
 	//1 - WorldDB
 	//2 - DataDB
+    Session acquireDatabaseSession(dbType type);
     AlefDatabase* database[MAX_DB]; //this should probably just be a vector
 	std::string sessionNames[MAX_DB]; //MySQL:///<connectionstring>
 	
