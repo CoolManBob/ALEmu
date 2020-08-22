@@ -8,7 +8,7 @@ public:
 	AlefServerLoginSys();
 	~AlefServerLoginSys();
 
-	//int checkLogin
+	bool checkLogin(string username, string password);
 
 private:
 	AlefDBLoginSys* dbLoginSys;

@@ -30,10 +30,10 @@ void AlefFieldLookup::initMainMaps()
 																			Alef::PACKET, Alef::PACKET, Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::PACKET, Alef::PACKET,
 																			Alef::PACKET, Alef::INT32, Alef::UINT32, Alef::INT32, Alef::PACKET, Alef::PACKET, Alef::UINT32, Alef::PACKET, Alef::PACKET });
 
-	typeMap[Alef::AGPMTIMER_PACKET_TYPE]				=	buildTypeVec({	Alef::UINT8, Alef::UINT64 });
-
 	typeMap[Alef::AGPMLOGIN_PACKET_TYPE]				=	buildTypeVec({	Alef::INT8, Alef::CHAR, Alef::CHAR, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT32, Alef::CHAR,
 																			Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::CHAR, Alef::CHAR, Alef::INT32, Alef::INT32	});
+
+	typeMap[Alef::AGPMTIMER_PACKET_TYPE]				=	buildTypeVec({	Alef::UINT8, Alef::UINT64 });
 
 	typeMap[Alef::AGPMUISTATUS_PACKET_TYPE]				=	buildTypeVec({	Alef::INT8, Alef::INT32, Alef::PACKET, Alef::INT8, Alef::PACKET, Alef::MEMORY_BLOCK, Alef::INT32, Alef::INT32, Alef::INT8, 
 																			Alef::INT8, Alef::INT8, Alef::MEMORY_BLOCK });
@@ -60,10 +60,10 @@ void AlefFieldLookup::initMainMaps()
 	sizeMap[Alef::AGSMCHARMANAGER_PACKET_TYPE]			=	buildSizeVec({	1, 12, 1, 49, 1, 1, 1 });
 	
 	sizeMap[Alef::AGPMITEM_PACKET_TYPE]					=	buildSizeVec({	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
+	
+	sizeMap[Alef::AGPMLOGIN_PACKET_TYPE]				=	buildSizeVec({	1, 32, 49, 1, 33, 1, 1, 32, 1, 1, 1, 1, 2049, 5, 1, 1 });
 
 	sizeMap[Alef::AGPMTIMER_PACKET_TYPE]				=	buildSizeVec({	1, 1 });
-	
-	sizeMap[Alef::AGPMLOGIN_PACKET_TYPE]				=	buildSizeVec({	1, 32, 49, 1, 33, 1, 1, 32, 1, 1, 1, 1, 2049, 5, 1, 1});
 
 	sizeMap[Alef::AGPMUISTATUS_PACKET_TYPE]				=	buildSizeVec({	1, 1, 40, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
 	

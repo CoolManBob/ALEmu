@@ -132,13 +132,30 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 			} break;
 			case Alef::AlefType::PACKET:
 			{
-				//for (int i = 0; i < itr->FieldSize; i++)
-				//{
+				if (itr->FieldSize > 1) //&numOfPkts, &Packet1, &Packet2
+				{
+					UInt8* arg = va_arg(args, UInt8*);
+					if (arg)
+					{
+						UInt8 numOfPkts = *arg;
+						//Write amount of packets to be contained first
+						response->WriteUInt8(numOfPkts);
+						for (int i = 0; i < numOfPkts; i++)
+						{
+							//write our packets.
+							SharedPtr<AlefPacket>* arg = va_arg(args, SharedPtr<AlefPacket>*);
+							if (arg)
+								response->WritePacket(arg->get());
+						}
+					}
+				}
+				else
+				{
 					SharedPtr<AlefPacket>* arg = va_arg(args, SharedPtr<AlefPacket>*);
 
 					if (arg)
 						response->WritePacket(arg->get());
-				//}
+				}
 			} break;
 			case Alef::AlefType::MEMORY_BLOCK:
 			{
@@ -169,7 +186,6 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 
 		dwMask *= 2;
 		response->UpdateMask(dwMask);
-
 	}
 	
 	response->ClosePacket();
@@ -177,7 +193,7 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 	return response;
 }
 
-AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
+AlefPacket * AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 {
 	va_list args;
 	va_start(args, miniType);
@@ -188,8 +204,7 @@ AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 	if (flagLen == 0xFF)
 		return nullptr;
 
-	AlefPacket* response = new AlefPacket(flagLen);
-	//packetPool->addPacketToPool(response);
+	AlefPacket * response = new AlefPacket(flagLen);
 
 	bool fieldsOkay = fieldLookup.getFieldInfo(response->GetFieldVec(), miniType);
 
@@ -346,7 +361,7 @@ AlefPacket* AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 	return response;
 }
 
-bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
+bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 {
 	//Packet should've already been setup at this point. Retrieve data using already defined field type data, and place into variadic argument list
 	UInt32	pktFlag = 0;
@@ -379,7 +394,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 			{
 				case Alef::AlefType::CHAR:
 				{
-					//char * arg = va_arg(args, char*);
 					if (arg)
 					{
 						UInt32 charSize = itr->FieldSize; //Is the size ALWAYS static?
@@ -387,16 +401,7 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 						unsigned char* temp = new unsigned char[charSize];
 						packet->GetDataBlock(charSize, temp);
 
-						/*UInt8* arg_sz = va_arg(args, UInt8*);
-						UInt8  size = 0;
-						if (arg_sz)
-						{
-							packet->GetUInt8(*arg_sz);
-							size = *arg_sz;
-						}*/
-
-						//if (arg)
-							memcpy(arg, temp, charSize);
+						memcpy(arg, temp, charSize);
 
 						delete[] temp;
 					}
@@ -407,7 +412,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//Int8* arg = va_arg(args, Int8*);
 						if (arg)
 							*(((Int8*)arg)) = packet->GetInt8();
 					}
@@ -416,7 +420,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//UInt8* arg = va_arg(args, UInt8*);
 						if(arg)
 							*(((UInt8*)arg)) = packet->GetUInt8();
 					}
@@ -425,7 +428,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//Int16* arg = va_arg(args, Int16*);
 						if(arg)
 							*(((Int16*)arg)) = packet->GetInt16();
 					}
@@ -434,7 +436,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//UInt16* arg = va_arg(args, UInt16*);
 						if(arg)
 							*(((UInt16*)arg)) = packet->GetUInt16();
 					}
@@ -443,7 +444,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//Int32* arg = va_arg(args, Int32*);
 						if(arg)
 							*(((Int32*)arg)) = packet->GetInt32();
 					}
@@ -452,7 +452,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//UInt32* arg = va_arg(args, UInt32*);
 						if(arg)
 							*(((UInt32*)arg)) = packet->GetUInt32();
 					}
@@ -461,7 +460,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//Int64* arg = va_arg(args, Int64*);
 						if(arg)
 							*(((Int64*)arg)) = packet->GetInt64();
 					}
@@ -470,7 +468,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//UInt64* arg = va_arg(args, UInt64*);
 						if(arg)
 							*(((UInt64*)arg)) = packet->GetUInt64();
 					}
@@ -479,7 +476,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//float* arg = va_arg(args, float*);
 						if(arg)
 							*(((float*)arg)) = packet->GetFloat();
 					}
@@ -488,7 +484,6 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						Alef::AlefVec3F* arg = va_arg(args, Alef::AlefVec3F*);
 						if (arg)
 						{
 							Alef::AlefVec3F temp = packet->GetVec3F();
@@ -502,45 +497,65 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 				{
 				
 				} break;
+				//A potential issue exists in that the packet tells us there are X amount of packets, but the data just isn't there causing an overflow.
+				//The number of packets is read in first, then afterwards they can be treated as discrete memory blocks
+				//&numOfPkts, &Packet1, &Packet2, ...
+				//A potential improvement can be to read in a vector<AlefPacket*> instead of a bunch of individual packets
 				case Alef::AlefType::PACKET:
 				{
-					//for (int i = 0; i < itr->FieldSize; i++)
-					//{
-						UInt16* arg_sz = va_arg(args, UInt16*);
-						UInt16	size = 0;
-						if (arg_sz)
+					if(arg)
+					{
+						if (itr->FieldSize > 1)
 						{
-							packet->GetUInt16(*arg_sz);
-							size = *arg_sz;
+							*(((UInt8*)arg)) = packet->GetUInt8(); //Number of "miniPackets" contained within the outer packet.
+							UInt8 numOfPkts = *(((UInt8*)arg));
+							if (numOfPkts)
+							{
+								for (int i = 0; i < numOfPkts; i++)
+								{
+									if (i > itr->FieldSize) //NOTE: Additional checks should be added here to ensure validity of packet data
+										break;
 
-							AlefPacket* arg = va_arg(args, AlefPacket*);
-							char* pktData = new char[size];
+									UInt16 blockSize = 0;
+									packet->GetUInt16(blockSize);
 
-							packet->GetDataBlock(size, pktData);
+									AlefPacket* pkt = va_arg(args, AlefPacket*);
+									char* pktData = new char[blockSize];
 
-							AlefPacket* temp = new AlefPacket((unsigned char*)pktData, (int)size);
+									packet->GetDataBlock(blockSize, pktData);
+
+									AlefPacket* temp = new AlefPacket((unsigned char*)pktData, (int)blockSize);
+
+									delete[] pktData;
+
+									pkt = temp;
+								}
+							}
+						}
+						else //itr->FieldSize <= 1
+						{
+							UInt16 blockSize = 0;
+							packet->GetUInt16(blockSize);
+
+							char* pktData = new char[blockSize];
+
+							packet->GetDataBlock(blockSize, pktData);
+
+							AlefPacket* temp = new AlefPacket((unsigned char*)pktData, (int)blockSize);
 
 							delete[] pktData;
 
 							arg = temp;
 						}
-					//}
-
-					//TODO: Extend for more than one packet within the field
-					//TODO: Fix list index issue, reading arg_sz will advance the arg list again after we've already read one in.
+					}
 				} break;
 				case Alef::AlefType::MEMORY_BLOCK:
 				{
 					for (int i = 0; i < itr->FieldSize; i++)
 					{
-						//UInt16* arg_sz = va_arg(args, UInt16*);
-						UInt16  blocksize;
-						packet->GetUInt16(blocksize);;
+						UInt16 blocksize = 0;
+						packet->GetUInt16(blocksize);
 
-						/*if (arg_sz)
-							*arg_sz = blocksize;*/
-
-						//char* arg = va_arg(args, char*);
 						char* temp = new char[blocksize];
 
 						packet->GetDataBlock(blocksize, temp);
@@ -566,7 +581,7 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 			{
 				case Alef::AlefType::PACKET:
 				{
-					AlefPacket* arg = va_arg(args, AlefPacket*);
+					AlefPacket * arg = va_arg(args, AlefPacket*);
 					if(arg)
 						arg = nullptr;
 				} break;
@@ -582,7 +597,7 @@ bool AlefPacketInterface::processPacket(AlefPacket* packet, ...)
 	return true;
 }
 
-bool AlefPacketInterface::setupPkt(AlefPacket* packet)
+bool AlefPacketInterface::setupPkt(AlefPacket * packet)
 {
 	//call acquireHeader() from packet pointer,then use packettype to set the flaglength, and field type data.
 	packet->acquirePacketHeader();

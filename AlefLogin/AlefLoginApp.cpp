@@ -25,16 +25,15 @@ int AlefLoginApp::main(const vector<string>& args)
 	dbInterface = new AlefDBInterface();
 
 	cout << "ALEmu - AlefLogin v0.1" << endl;
+	
 	AlefLoginServer * loginServer = new AlefLoginServer();
 	loginServer->runServer();
 	
-	LOG("Server Start");
+	LOG("HALT!", FATAL);
+
+	loginServer->stopServer();
 
 	waitForTerminationRequest();
-
-	LOG("Server Stopped");
-	
-	loginServer->stopServer();
 
 	return Application::EXIT_OK;
 }

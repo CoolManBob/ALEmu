@@ -37,8 +37,23 @@
     <Filter Include="Source Files\Database">
       <UniqueIdentifier>{8e42a9f3-623f-4fe2-9e86-d599ecef312a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Shared Client Data">
+    <Filter Include="Header Files\Shared Types">
       <UniqueIdentifier>{9bd8874b-3321-4a68-bff1-ca9c21e4d22f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shared Types\Client">
+      <UniqueIdentifier>{599ba670-39c4-4fc5-a110-122145934215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shared Types\Server">
+      <UniqueIdentifier>{f43fc234-6237-4f00-9d14-7780d0b01b28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shared Types">
+      <UniqueIdentifier>{b9872f16-da65-43e7-ad66-66fd2acbb9a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shared Types\Client">
+      <UniqueIdentifier>{27e1c54a-43dc-4d45-b7a5-88fd7bf7ee4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shared Types\Server">
+      <UniqueIdentifier>{acd0679d-9317-4fcf-b46d-bd5a4029782c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,11 +120,14 @@
     <ClInclude Include="AlefConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AlefClientCharacter.h">
-      <Filter>Header Files\Shared Client Data</Filter>
-    </ClInclude>
     <ClInclude Include="AlefClientAccount.h">
-      <Filter>Header Files\Shared Client Data</Filter>
+      <Filter>Header Files\Shared Types\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefClientCharacter.h">
+      <Filter>Header Files\Shared Types\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerWorldListTypes.h">
+      <Filter>Header Files\Shared Types\Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="AlefDBInterface.cpp">
       <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefClientAccount.cpp">
+      <Filter>Source Files\Shared Types\Client</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

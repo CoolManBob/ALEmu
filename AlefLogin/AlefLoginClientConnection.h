@@ -12,6 +12,7 @@ using std::stringstream;
 using Poco::Exception;
 
 #include "AlefLoginGlobal.h"
+#include "AlefLoginTypes.h"
 #include "AlefServerConnection.h"
 #include "AlefLoginPacketHandler.h"
 #include "AlefSocket.h"
@@ -131,5 +132,6 @@ private:
 	blowfish_session * cryptSession;
 
 	//Internal defined states
-	//AlefClientAccount account;
+	AlefClientAccount localAcct;
+	//AlefClientCharacter localChar;
 };

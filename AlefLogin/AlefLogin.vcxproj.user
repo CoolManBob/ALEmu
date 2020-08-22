@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommand>C:\Dev\Archlord\ALEmu\trunk\ALEmu\out\AlefLogin_x64.exe</LocalDebuggerCommand>
-    <LocalDebuggerWorkingDirectory>C:\Dev\Archlord\ALEmu\trunk\ALEmu\out</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommand>$(SolutionDir)out\AlefLogin_x64.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)out\</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

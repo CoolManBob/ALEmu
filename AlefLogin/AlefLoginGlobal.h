@@ -17,6 +17,15 @@ using Poco::Data::Keywords::use;
 using Poco::Data::Keywords::into;
 using Poco::Data::Keywords::bind;
 
+#include <Poco/Timestamp.h>
+using Poco::Timestamp;
+
+#include <Poco/HMACEngine.h>
+#include <Poco/SHA2Engine.h>
+using Poco::HMACEngine;
+using Poco::SHA2Engine;
+
+
 #include "AlefLog.h"
 #include "AlefLoginConfig.h"
 #include "AlefPacketInterface.h"
@@ -32,13 +41,3 @@ extern AlefLog* AlefLogger;
 extern AlefLoginConfig* loginConfig;
 extern AlefPacketInterface* pktInterface;
 extern AlefDBInterface* dbInterface;
-
-#include "AlefServerLoginSys.h"
-#include "AlefServerEncryptionSys.h"
-#include "AlefServerWorldListSys.h"
-
-
-//Server Systems
-extern AlefServerLoginSys* serverLoginSys;
-extern AlefServerEncryptionSys* serverEncryptionSys;
-extern AlefServerWorldListSys* serverListSys;

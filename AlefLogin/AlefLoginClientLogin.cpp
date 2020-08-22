@@ -7,6 +7,7 @@ using std::string;
 using std::stringstream;
 
 #include "AlefLoginGlobal.h"
+#include "AlefLoginServerSystems.h"
 #include "AlefLoginClientLogin.h"
 #include "AlefMD5Crypto.h"
 
@@ -25,9 +26,9 @@ bool AlefLoginClientLogin::processPacket(AlefSocket& sock, AlefPacket * packet)
 	/*Alef::INT8, Alef::CHAR, Alef::CHAR, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT32, Alef::CHAR, Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::CHAR, Alef::CHAR, Alef::INT32, Alef::INT32*/
 	/* 1, 32, 49, 1, 33, 1, 1, 32, 1, 1, 1, 1, 2049, 5, 1, 1*/
 	Int8 i8Operation = 0;
-	unsigned char acct[49] = { 0 };
+	char acct[49] = { 0 };
 	UInt8 acctLen = 0, pwLen = 0;
-	unsigned char pw[33] = { 0 };
+	char pw[33] = { 0 };
 	Int8 i8Var = 0;
 	char char1Var[33] = { 0 };
 	//char 
@@ -35,16 +36,16 @@ bool AlefLoginClientLogin::processPacket(AlefSocket& sock, AlefPacket * packet)
 	pktInterface->processPacket(packet, &i8Operation, 0, acct, &acctLen, pw, &pwLen, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	switch(i8Operation)
 	{
-		case 0: //Initial Packet Opcode
-			return processInitialLoginPacket(sock, packet); break;
+		case CLIENTLOGIN_HASHKEY: //Initial Packet Opcode
+			return processHashKeyPacket(sock, packet); break;
 		case 1: //User Login Packet Opcode
 			return processUserLoginPacket(sock, packet, acct, acctLen, pw, pwLen); break;
 		case 3: //User World Union Info
 			return processUnionInfo(sock, packet); break;
+		case 5: //Character Creation Request 0x0D 0x05
+			return processCharacterCreation(sock, packet); break;
 		case 6: //User Character List Request
 			return processCharacterList(sock, packet); break;
-		case 0x05: //Character Creation Request 0x0D 0x05
-			return processCharacterCreation(sock, packet); break;
 		case 8: //World Enter 0x0D 0xC5
 			return processWorldEnterRequest(sock, packet); break;
 		default:
@@ -58,9 +59,9 @@ bool AlefLoginClientLogin::processPacket(AlefSocket& sock, AlefPacket * packet)
 	return false;
 }
 
-bool AlefLoginClientLogin::processInitialLoginPacket(AlefSocket& sock, AlefPacket * packet)
+bool AlefLoginClientLogin::processHashKeyPacket(AlefSocket& sock, AlefPacket * packet)
 {
-	LOG("processInitialLoginPacket");
+	LOG("processHashKeyPacket");
 
 	Int8 i8Operation = 0;
 	unsigned char hashKey[] = "12345678";
@@ -72,7 +73,7 @@ bool AlefLoginClientLogin::processInitialLoginPacket(AlefSocket& sock, AlefPacke
 	return true;
 }
 
-bool AlefLoginClientLogin::processUserLoginPacket(AlefSocket& sock, AlefPacket * packet, unsigned char* acct, UInt8 acctLen, unsigned char* pw, UInt8 pwLen)
+bool AlefLoginClientLogin::processUserLoginPacket(AlefSocket& sock, AlefPacket * packet, char* acct, UInt8 acctLen, char* pw, UInt8 pwLen)
 {
 	LOG("processUserLoginPacket");
 	AlefMD5Crypto md5Crypt;
@@ -85,6 +86,14 @@ bool AlefLoginClientLogin::processUserLoginPacket(AlefSocket& sock, AlefPacket *
 	LOG(acctMsg.str());
 
 	//serverAcctSys->changeLoginStatus(&acct, LOGIN_OK);
+
+	/*string user(acct), pass(pw);
+
+	if (!serverLoginSys->checkLogin(user, pass))
+	{
+		LOG("Account not found!", FATAL);
+	}*/
+
 
 	//if(acct.checkLoginState() != LOGIN_OK)
 	//return false; //BAD LOGIN
@@ -183,17 +192,16 @@ bool AlefLoginClientLogin::processWorldEnterRequest(AlefSocket& sock, AlefPacket
 
 	sock.sendPacket(authKeyPkt);
 
-	//Alef::INT32, Alef::CHAR, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::CHAR
+	//{Alef::INT32, Alef::CHAR, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::CHAR}
 	Int32 i32TID = 96;
 	memset(name, 0, 10);//clear name
 	strcpy((char*)name, "test");
 	SharedPtr<AlefPacket> miniCharInfo = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_CHAR_INFO, &i32TID, name, 0, 0, 0, 0, 0, 0, 0);
 
+	//TODO: acquire serverAddress from serverListSys
 	//{	Alef::CHAR }
-	//unsigned char serverAddress[] = "127.0.0.1:11008";
 	std::string serverAddress = loginConfig->getWorldAddress();
 	
-	//SharedPtr<AlefPacket> miniServerInfo = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_SERVER_INFO, serverAddress);
 	SharedPtr<AlefPacket> miniServerInfo = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_SERVER_INFO, serverAddress.c_str());
 
 	//{	Alef::INT8, Alef::CHAR, Alef::CHAR, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT32, Alef::CHAR, Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::CHAR, Alef::CHAR, Alef::INT32, Alef::INT32}
@@ -277,4 +285,9 @@ void AlefLoginClientLogin::sendDummyCharacter(AlefSocket& sock)
 																							&i32Zero, signature, &i16Zero, 0, &i32Zero);
 
 	sock.sendPacket(charInfoPkt);
+}
+
+void AlefLoginClientLogin::sendLoginResult(AlefSocket& sock, int loginStatus)
+{
+
 }

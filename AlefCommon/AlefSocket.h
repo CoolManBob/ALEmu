@@ -41,7 +41,7 @@ public:
 			packet->Resize(packetSize);
 
 			for (UInt32 i = 0; i < (packetSize >> 3); i++)
-				blowfish_encrypt(cryptoSession->serverCtx, (UInt32*)(packet->getBuffer() + i * 8), (UInt32*)(packet->getBuffer() + i * 8 + 4));
+				blowfish_encrypt(cryptoSession->serverCtx, (UInt32*)(packet->getBuffer() + i * (__int64)8), (UInt32*)(packet->getBuffer() + i * (__int64)8 + (__int64)4));
 
 			packet->Resize(packetSize + 8);
 			memmove(packet->getBuffer() + 7, packet->getBuffer(), packetSize);
@@ -49,8 +49,6 @@ public:
 			packet->getBuffer()[packetSize + 7] = 0xAF; //Guard Footer Byte
 			*(UInt16*)(packet->getBuffer() + 1) = ((UInt16)packet->getSize()); //Encrypted Size
 			*(UInt32*)(packet->getBuffer() + 3) = ++cryptoSession->packetCounter;
-			
-			//return this->sendBytes(packet->getBuffer(), packet->getSize());
 		}
 		
 		return this->sendBytes(packet->getBuffer(), packet->getSize());

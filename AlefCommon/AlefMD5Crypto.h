@@ -33,7 +33,7 @@ public:
 
 		return true;*/
 	}
-	bool decryptString(unsigned char* out, DWORD size)
+	bool decryptString(char* out, DWORD size)
 	{
 		HCRYPTPROV cryptProv;
 		HCRYPTKEY cryptKey;
@@ -48,7 +48,7 @@ public:
 			return false;
 		if (!CryptDeriveKey(cryptProv, 0x6801u, cryptHash, 4u, &cryptKey))
 			return false;
-		if (!CryptDecrypt(cryptKey, 0, 0, 0, out, &size))
+		if (!CryptDecrypt(cryptKey, 0, 0, 0, (unsigned char*)out, &size))
 			return false;
 		CryptDestroyKey(cryptKey);
 		CryptDestroyHash(cryptHash);

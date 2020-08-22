@@ -1,17 +1,23 @@
 #pragma once
 
+
+#include "AlefLoginGlobal.h"
+#include "AlefLoginTypes.h"
+
 class AlefDBLoginSys
 {
-public:
+	friend class AlefServerLoginSys;
+protected:
 	AlefDBLoginSys();
 	~AlefDBLoginSys();
 
-	//int checkLoginDB(std::string username, std::string password)
-	//{
-	//	//Query to check if provided username/password exists
-	//	if(exists)
-	//		return 1; //login OK
-	//	else
-	//		return -1; //login error
-	//}
+	SharedPtr<RecordSet> dbGetAccount(std::string username, std::string password);
+
+	enum ACCOUNTCOL
+	{
+		ACCTID,
+		ACCTRNAME,
+		ACCTPW
+	};
+
 };

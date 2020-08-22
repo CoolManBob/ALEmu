@@ -1,5 +1,7 @@
 #include "AlefDBInterface.h"
 
+#include <iostream>
+
 AlefDBInterface::AlefDBInterface()
 {
 	Poco::Data::MySQL::Connector::registerConnector();
@@ -11,20 +13,19 @@ AlefDBInterface::AlefDBInterface()
 
 AlefDBInterface::~AlefDBInterface()
 {
-	delete[] database;
+	delete[] &database;
 }
 
 bool AlefDBInterface::createDatabaseConnection(dbType type, std::string connectionString)
 {
-	//dbSession = database->createDBSession(connectionString);
 	if (type > 2 || type < 0)
 		return false;
 
-	database[type]->createDBSession(connectionString);
 	sessionNames[type] = "MySQL:///" + connectionString;
 
-	return true;
+	database[type]->createDBSession(connectionString);
 
+	return true;
 }
 
 Session AlefDBInterface::acquireDatabaseSession(dbType type)
@@ -34,30 +35,35 @@ Session AlefDBInterface::acquireDatabaseSession(dbType type)
 
 void AlefDBInterface::test()
 {
-	Session sess = database[0]->getDBSession(sessionNames[0]);
+	try {
+		Session sess = database[0]->getDBSession(sessionNames[0]);
 
-	Statement insert(sess);
+		Statement insert(sess);
 
-	struct acct
+		struct acct
+		{
+			int id;
+			std::string name;
+			std::string pw;
+		};
+
+		// insert some rows
+		acct testacct =
+		{
+			2,
+			"testinsert",
+			"testinsert"
+		};
+
+		insert << "INSERT INTO account VALUES(?, ?, ?)",
+			use(testacct.id),
+			use(testacct.name),
+			use(testacct.pw);
+
+		insert.execute();
+	}
+	catch (const Poco::Exception& ex)
 	{
-		int id;
-		std::string name;
-		std::string pw;
-	};
-
-	// insert some rows
-	acct testacct =
-	{
-		2,
-		"testinsert",
-		"testinsert"
-	};
-
-	insert << "INSERT INTO account VALUES(?, ?, ?)",
-		use(testacct.id),
-		use(testacct.name),
-		use(testacct.pw);
-
-	insert.execute();
-
+		std::cout << ex.displayText() << std::endl;
+	}
 }

@@ -8,6 +8,9 @@
 using namespace Poco;
 using namespace Poco::Net;
 
+#define UPDATETIMEFACTOR 1000000 //1 second
+#define UPDATETIMESECONDS 60 //60 seconds
+#define UPDATETIMER UPDATETIMESECONDS*UPDATETIMEFACTOR
 
 #include "AlefServer.h"
 #include "AlefLoginClientFactory.h"
@@ -21,11 +24,13 @@ public:
 
 	virtual void runServer();
 	void stopServer();
+	void updateServer();
 
 private:
 	void initDatabase();
-	void initServerSystems();
+	bool initServerSystems();
 
+	Timestamp timeStamp;
 	AlefLoginClientFactory * clientFactory;
 	TCPServer * loginServer;
 	AlefLoginPacketHandler * handler;

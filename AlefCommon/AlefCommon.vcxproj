@@ -96,6 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../AlefDependencies/Include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>../out/$(TargetName)$(TargetExt)</OutputFile>
@@ -133,6 +134,7 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64d.dll" "$(SolutionDir)out"</Co
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../AlefDependencies/Include</AdditionalIncludeDirectories>
       <ProgramDataBaseFileName>../out/$(ProjectName)_$(Platform).pdb</ProgramDataBaseFileName>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -173,11 +175,13 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     <ClInclude Include="AlefPoolStrategy.h" />
     <ClInclude Include="AlefServer.h" />
     <ClInclude Include="AlefServerConnection.h" />
+    <ClInclude Include="AlefServerWorldListTypes.h" />
     <ClInclude Include="AlefSocket.h" />
     <ClInclude Include="AlefSocketImpl.h" />
     <ClInclude Include="AlefTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlefClientAccount.cpp" />
     <ClCompile Include="AlefDatabase.cpp" />
     <ClCompile Include="AlefDBInterface.cpp" />
     <ClCompile Include="AlefFieldLookup.cpp" />

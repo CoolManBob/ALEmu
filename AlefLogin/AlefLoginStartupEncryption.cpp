@@ -58,8 +58,7 @@ bool AlefLoginStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 
 	blowfish_setkey(sock.getCryptoSession()->serverCtx, (unsigned char*)serverKey.c_str(), (0x20 << 3));
 
-	if(keyResponse)
-		sock.sendPacket(keyResponse, false);
+	sock.sendPacket(keyResponse, false);
 
 	return true;
 }

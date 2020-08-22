@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AlefLoginGlobal.h"
+#include "AlefLoginTypes.h"
 #include "AlefDBWorldListSys.h"
 
 class AlefServerWorldListSys
@@ -8,7 +10,13 @@ public:
 	AlefServerWorldListSys();
 	~AlefServerWorldListSys();
 
-	//std::string buildWorldInfo();
+	bool initWorldList();
+
+	string buildWorldInfoStr();
+
+	string getWorldAddress(string worldName);
+
+	bool updateWorldList();
 
 	enum SERVERSTATUS
 	{
@@ -22,4 +30,8 @@ public:
 
 private:
 	AlefDBWorldListSys* dbWorldList;
+	worldListGroupVec worldList;
+
+	bool getGroupInfo();
+	bool getWorldInfo();
 };

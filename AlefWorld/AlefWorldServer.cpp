@@ -17,7 +17,7 @@ void AlefWorldServer::runServer()
 {
 	worldServer->start();
 
-	int tickCount = 0;
+	/*int tickCount = 0;
 	while (true)
 	{
 		if (tickCount == 500000000)
@@ -27,7 +27,7 @@ void AlefWorldServer::runServer()
 		}
 
 		tickCount++;
-	}
+	}*/
 }
 
 void AlefWorldServer::stopServer()

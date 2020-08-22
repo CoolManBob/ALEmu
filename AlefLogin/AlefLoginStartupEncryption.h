@@ -6,8 +6,8 @@ using Poco::Net::StreamSocket;
 #include "AlefLoginGlobal.h"
 #include "AlefPacketProcessor.h"
 #include "AlefSocket.h"
-#include "AlefPacketInterface.h"
 #include "AlefCrypto.h"
+#include "AlefLoginServerSystems.h"
 
 class AlefLoginStartupEncryption : public AlefPacketProcessor
 {
