@@ -1,21 +1,40 @@
 #pragma once
 
+#include <string>
+using std::string;
+
 #include "AlefTypes.h"
 
-struct AlefClientData
+struct AlefAcctData
 {
 	UInt32 acctID;
+	std::string acctUser;
 	std::string acctPw;
 	UInt32 acctStatus;
 };
 
-
 class AlefClientAccount
 {
+	friend class AlefLocalSys;
 public:
 	AlefClientAccount();
 	~AlefClientAccount();
 
+	bool decryptUserInfo(string& userName, Int32 acctLen, string& password, Int32 pwLen);
+	string generateHashKey();
+
+	Int32 getLoginStep() { return loginStep; }
+	void setLoginStep(Int32 step) { loginStep = step; }
+
+protected:
+	AlefAcctData& getLocalData() { return data; }
+	void setHashKey(string key) { hashKey = key; }
+	string getHashKey() { return hashKey; }
+
 private:
-	AlefClientData data;
+	bool decrypt(UInt8* str, DWORD len);
+
+	AlefAcctData data;
+	Int32 loginStep;
+	string hashKey;
 };

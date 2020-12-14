@@ -23,13 +23,23 @@ DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
-  `acctID` int NOT NULL,
+  `acctID` int NOT NULL AUTO_INCREMENT,
   `acctName` varchar(45) DEFAULT NULL,
-  `acctPW` varchar(45) DEFAULT NULL,
+  `acctPW` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`acctID`),
   UNIQUE KEY `name_UNIQUE` (`acctName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account`
+--
+
+LOCK TABLES `account` WRITE;
+/*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` VALUES (1,'test','test'),(2,'test2','9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+/*!40000 ALTER TABLE `account` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `worldgroup`
@@ -47,6 +57,16 @@ CREATE TABLE `worldgroup` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `worldgroup`
+--
+
+LOCK TABLES `worldgroup` WRITE;
+/*!40000 ALTER TABLE `worldgroup` DISABLE KEYS */;
+INSERT INTO `worldgroup` VALUES (1,'Group1'),(2,'Group2');
+/*!40000 ALTER TABLE `worldgroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `worldlist`
 --
 
@@ -59,12 +79,22 @@ CREATE TABLE `worldlist` (
   `worldName` varchar(45) NOT NULL,
   `worldAddress` varchar(45) NOT NULL,
   `worldStatus` int unsigned NOT NULL DEFAULT '0',
-  `isNew` int unsigned NOT NULL DEFAULT '0',
+  `worldFlag` int unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`worldID`),
   UNIQUE KEY `worldName_UNIQUE` (`worldName`),
   UNIQUE KEY `worldAddress_UNIQUE` (`worldAddress`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `worldlist`
+--
+
+LOCK TABLES `worldlist` WRITE;
+/*!40000 ALTER TABLE `worldlist` DISABLE KEYS */;
+INSERT INTO `worldlist` VALUES (1,1,'ALEmu','127.0.0.1:11008',4,4),(2,2,'ALEmu2','127.0.0.1:11009',1,1),(3,1,'ALEmuTest','127.0.0.1:11010',1,1);
+/*!40000 ALTER TABLE `worldlist` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -75,4 +105,4 @@ CREATE TABLE `worldlist` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-16 22:45:13
+-- Dump completed on 2020-12-14 11:13:35

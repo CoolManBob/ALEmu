@@ -12,7 +12,7 @@ public:
 	AlefWorldStartupEncryption() {};
 	virtual ~AlefWorldStartupEncryption() {};
 
-	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
-	bool processInitialPacket(AlefSocket& sock, AlefPacket* packet);
-	bool processCryptoPacket(AlefSocket& sock, AlefPacket* packet);
+	virtual bool processPacket(const localInfo& local);
+	bool processInitialPacket(localInfo& local);
+	bool processCryptoPacket(localInfo& local);
 };

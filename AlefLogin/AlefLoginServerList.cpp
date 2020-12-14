@@ -1,8 +1,11 @@
 #include "AlefLoginServerSystems.h"
 #include "AlefLoginServerList.h"
 
-bool AlefLoginServerList::processPacket(AlefSocket& sock, AlefPacket* packet)
+bool AlefLoginServerList::processPacket(const localInfo& local)
 {
+	//AuPacket::GetField(&this->m_csPacket, 1, v8, v7, &pvPacket, &nSize, &Src, &nStatus, &pszEncodedWorld);
+	localInfo& localObj = const_cast<localInfo&>(local);
+	AlefPacket* packet = localObj.packet;
 	Int8 i8Operation = 0;
 	char unkChar[32] = { 0 }, unkChar2[32] = { 0 };
 	Int16 i16EncodedSize = 0;
@@ -19,7 +22,7 @@ bool AlefLoginServerList::processPacket(AlefSocket& sock, AlefPacket* packet)
 	switch (i8Operation)
 	{
 		case SERVERLIST_REQ: //ServerList Request Packet Opcode
-			return processServerList(sock, packet); break;
+			return processServerList(localObj); break;
 		default:
 		{
 			stringstream errorMsg;
@@ -31,7 +34,7 @@ bool AlefLoginServerList::processPacket(AlefSocket& sock, AlefPacket* packet)
 	return false;
 }
 
-bool AlefLoginServerList::processServerList(AlefSocket& sock, AlefPacket* packet)
+bool AlefLoginServerList::processServerList(localInfo& local)
 {
 	Int8 i8Operation = SERVERLIST_ANS;
 
@@ -45,7 +48,7 @@ bool AlefLoginServerList::processServerList(AlefSocket& sock, AlefPacket* packet
 	
 	SharedPtr<AlefPacket> serverList = pktInterface->buildPacket(Alef::AGPMWORLD_PACKET_TYPE, &i8Operation, 0, 0, &worldListLen, worldListStr.c_str(), 0);
 
-	sock.sendPacket(serverList);
+	_localSock.sendPacket(serverList);
 
 	return true;
 }

@@ -7,18 +7,12 @@
 #include "Poco/HashMap.h"
 #include "Poco/Void.h"
 
+#include "AlefLocalInfo.h"
+
 #include "AlefPacketProcessor.h"
 #include "AlefCrypto.h"
-#include "AlefSocket.h"
 
 using namespace Poco;
-
-struct packetInfo //TODO: This needs to be moved
-{
-	packetInfo(AlefSocket& socket) : sock(socket), packet(nullptr) {};
-	AlefPacket* packet;
-	AlefSocket & sock;
-};
 
 class AlefPacketHandler : public ActiveDispatcher
 {
@@ -28,17 +22,18 @@ public:
 
 private:
 
-	bool packetProcessor(const packetInfo &pktInfo)
+	bool packetProcessor(const localInfo &local)
 	{
-		HashMap<Int16, AlefPacketProcessor*>::Iterator Itr = processorMap.find(pktInfo.packet->GetPacketType());
+		HashMap<Int16, AlefPacketProcessor*>::Iterator Itr = processorMap.find(local.packet->GetPacketType());
 		if (Itr != processorMap.end())
 		{
-			return Itr->second->processPacket(pktInfo.sock, pktInfo.packet);
+			return Itr->second->processPacket(local);
+			//return Itr->second->processPacket(pktInfo.sock, pktInfo.packet);
 		}
 		else
 			return false;
 	}
 
-	ActiveMethod<bool, packetInfo, AlefPacketHandler, ActiveStarter<ActiveDispatcher>> packetHandler;
+	ActiveMethod<bool, localInfo, AlefPacketHandler, ActiveStarter<ActiveDispatcher>> packetHandler;
 	HashMap<Int16, AlefPacketProcessor*> processorMap;
 };

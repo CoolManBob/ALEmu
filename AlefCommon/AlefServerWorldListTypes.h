@@ -1,10 +1,8 @@
 #pragma once
 
 #include <vector>
-#include <map>
 #include <string>
 using std::vector;
-using std::map;
 using std::string;
 
 struct WorldListWorld

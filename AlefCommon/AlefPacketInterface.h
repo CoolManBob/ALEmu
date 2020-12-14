@@ -1,6 +1,5 @@
 #pragma once
 #include "AlefTypes.h"
-#include "AlefPacket.h"
 #include "AlefFlagLengthLookup.h"
 #include "AlefFieldLookup.h"
 #include "AlefPacketPool.h"

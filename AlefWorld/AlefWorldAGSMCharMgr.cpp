@@ -1,17 +1,31 @@
 #include "AlefWorldGlobal.h"
 #include "AlefWorldAGSMCharMgr.h"
 
-bool AlefWorldAGSMCharMgr::processPacket(AlefSocket& sock, AlefPacket* packet)
+bool AlefWorldAGSMCharMgr::processPacket(const localInfo& local)
 {
+	/*AuPacket::GetField(
+    &this->m_csPacket,
+    1,
+    pvPacket,
+    nSize,
+    &pvFirst,
+    &v51,
+    &stPosition,
+    &lCID,
+    &pcsAgsdCharacter,
+    &v54,
+    &v45);*/
 	//{	Alef::INT8, Alef::CHAR, Alef::INT32, Alef::CHAR, Alef::INT32, Alef::VEC3F, Alef::INT32 }
+	localInfo& localObj = const_cast<localInfo&>(local);
+	AlefPacket* packet = localObj.packet;
 	Int8 i8Operation = 0;
 	pktInterface->processPacket(packet, &i8Operation, 0, 0, 0, 0, 0, 0);
 	switch (i8Operation)
 	{
 		case 2:
-			return processGameEnterCharacterName(sock, packet); break;
+			return processGameEnterCharacterName(localObj); break;
 		case 9:
-			return processEnterWorld(sock, packet); break;
+			return processEnterWorld(localObj); break;
 		default:
 		{
 			stringstream errorMsg;
@@ -23,7 +37,7 @@ bool AlefWorldAGSMCharMgr::processPacket(AlefSocket& sock, AlefPacket* packet)
 	return false;
 }
 
-bool AlefWorldAGSMCharMgr::processGameEnterCharacterName(AlefSocket& sock, AlefPacket* packet)
+bool AlefWorldAGSMCharMgr::processGameEnterCharacterName(localInfo& local)
 {
 	LOG("processGameEnterCharacterName");
 
@@ -32,7 +46,7 @@ bool AlefWorldAGSMCharMgr::processGameEnterCharacterName(AlefSocket& sock, AlefP
 	Int32 i32PCDropItemOnDeath = 0, i32ExpPenaltyOnDeath = 0;
 	SharedPtr<AlefPacket> configPacket = pktInterface->buildPacket(Alef::AGPMCONFIG_PACKET_TYPE, &i32PCDropItemOnDeath, &i32ExpPenaltyOnDeath, &i8IsTestServer);
 
-	sock.sendPacket(configPacket);
+	_localSock.sendPacket(configPacket);
 
 	//Refer to sendDummyCharacter for field information
 	Int8 i8Operation = 25;
@@ -40,7 +54,7 @@ bool AlefWorldAGSMCharMgr::processGameEnterCharacterName(AlefSocket& sock, AlefP
 	UInt32 u32eventEffectID = 0;
 	SharedPtr<AlefPacket> eventEffectPkt = pktInterface->buildPacket(Alef::AGPMCHARACTER_PACKET_TYPE, &i8Operation, &i32CID, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &u32eventEffectID, 0, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(eventEffectPkt);
+	_localSock.sendPacket(eventEffectPkt);
 
 	//{	Alef::INT8, Alef::CHAR, Alef::INT32, Alef::CHAR, Alef::INT32, Alef::VEC3F, Alef::INT32 }
 	Alef::AlefVec3F loadingPos(-466672, 3190.88, -46247.6);
@@ -48,23 +62,23 @@ bool AlefWorldAGSMCharMgr::processGameEnterCharacterName(AlefSocket& sock, AlefP
 	Int32 i32ID = 1012;
 	SharedPtr<AlefPacket> loadingPosPkt = pktInterface->buildPacket(Alef::AGSMCHARMANAGER_PACKET_TYPE, &i8Operation, 0, 0, 0, &i32ID, &loadingPos, 0);
 
-	sock.sendPacket(loadingPosPkt);
+	_localSock.sendPacket(loadingPosPkt);
 
 	//{	Alef::UINT8, Alef::UINT64 }
 	i8Operation = 6;
 	UInt64 u64Timestamp = 0;
 	SharedPtr<AlefPacket> timerPkt = pktInterface->buildPacket(Alef::AGPMTIMER_PACKET_TYPE, &i8Operation, &u64Timestamp);
 
-	sock.sendPacket(timerPkt);
+	_localSock.sendPacket(timerPkt);
 
 	return true;
 }
 
-bool AlefWorldAGSMCharMgr::processEnterWorld(AlefSocket& sock, AlefPacket* packet)
+bool AlefWorldAGSMCharMgr::processEnterWorld(localInfo& local)
 {
 	LOG("processEnterWorld");
 
-	sendDummyCharacter(sock);
+	sendDummyCharacter(_localSock);
 
 	//Send Title List
 	/*struct PACKET_AGPPTITLE
@@ -91,11 +105,11 @@ bool AlefWorldAGSMCharMgr::processEnterWorld(AlefSocket& sock, AlefPacket* packe
 	Int16 i16emptyBlock = 0;
 	SharedPtr<AlefPacket> updateViewPkt = pktInterface->buildPacket(Alef::AGPMOPTIMIZEDVIEW_PACKET_TYPE, &i8Operation, 0, 0, 0, 0, 0, &i16emptyBlock, &i16emptyBlock, &i16emptyBlock, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(updateViewPkt);
+	_localSock.sendPacket(updateViewPkt);
 
 	updateViewPkt = pktInterface->buildPacket(Alef::AGPMOPTIMIZEDVIEW_PACKET_TYPE, &i8Operation, 0, 0, 0, 0, 0, &i16emptyBlock, &i16emptyBlock, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(updateViewPkt);
+	_localSock.sendPacket(updateViewPkt);
 
 	//{	Alef::INT32, Alef::VEC3F, Alef::VEC3F, Alef::INT32, Alef::UINT16, Alef::INT8, Alef::INT8, Alef::INT8, Alef::INT32 }
 	Int32 i32ID = 1012;
@@ -104,14 +118,14 @@ bool AlefWorldAGSMCharMgr::processEnterWorld(AlefSocket& sock, AlefPacket* packe
 	Int8 i8Unk1 = 12, i8Zero = 0;
 	SharedPtr<AlefPacket> updateMovePkt = pktInterface->buildPacket(Alef::AGPMOPTIMIZEDCHARMOVE_PACKET_TYPE, &i32ID, &loadingPos, &loadingPos, 0, 0, &i8Unk1, &i8Zero, 0, 0);
 
-	sock.sendPacket(updateMovePkt);
+	_localSock.sendPacket(updateMovePkt);
 
 	//{	Alef::INT8, Alef::CHAR, Alef::INT32, Alef::CHAR, Alef::INT32, Alef::VEC3F, Alef::INT32 }
 	i8Operation = 7;
 	//i32ID = 1012;
 	SharedPtr<AlefPacket> finishEnterPkt = pktInterface->buildPacket(Alef::AGSMCHARMANAGER_PACKET_TYPE, &i8Operation, 0, 0, 0, &i32ID, 0, 0);
 
-	sock.sendPacket(finishEnterPkt);
+	_localSock.sendPacket(finishEnterPkt);
 
 	/*{	Alef::INT8, Alef::INT32, Alef::INT32, Alef::MEMORY_BLOCK, Alef::INT8, Alef::PACKET, Alef::PACKET, Alef::PACKET,
 		Alef::INT64, Alef::INT64, Alef::INT64, Alef::INT8, Alef::INT8, Alef::INT32, Alef::INT8, Alef::UINT8, Alef::UINT8,
@@ -127,7 +141,7 @@ bool AlefWorldAGSMCharMgr::processEnterWorld(AlefSocket& sock, AlefPacket* packe
 	Int8 i8Status = 2;
 	SharedPtr<AlefPacket> charUpdatePkt = pktInterface->buildPacket(Alef::AGPMCHARACTER_PACKET_TYPE, &i8Operation, &i32ID, 0, 0, &i8Status, 0, charMovePkt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(charUpdatePkt);
+	_localSock.sendPacket(charUpdatePkt);
 
 	//Send Factors
 	Int32 i32Dummy = 100, i32One = 1;
@@ -176,7 +190,7 @@ bool AlefWorldAGSMCharMgr::processEnterWorld(AlefSocket& sock, AlefPacket* packe
 	i8Operation = 1;
 	SharedPtr<AlefPacket> charFactorUpdPkt = pktInterface->buildPacket(Alef::AGPMCHARACTER_PACKET_TYPE, &i8Operation, &i32ID, 0, 0, &i8Status, 0, 0, 0, factorPkt, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(charFactorUpdPkt);
+	_localSock.sendPacket(charFactorUpdPkt);
 
 	//Send PassiveSkill
 
@@ -191,7 +205,7 @@ bool AlefWorldAGSMCharMgr::processEnterWorld(AlefSocket& sock, AlefPacket* packe
 	res.WriteByteArray("Dummy#test");
 	res.ClosePacket();
 
-	sock.sendPacket(&res);*/
+	_localSock.sendPacket(&res);*/
 
 	return true;
 }

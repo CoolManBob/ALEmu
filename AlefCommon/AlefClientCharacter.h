@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AlefTypes.h"
+
 class AlefClientCharacter
 {
 public:
@@ -7,8 +9,5 @@ public:
 	~AlefClientCharacter();
 
 private:
-	//int hp;
-	//int level;
-	//int mp;
-	//int skillpoints;
+	//AlefCharacterData charData;
 };

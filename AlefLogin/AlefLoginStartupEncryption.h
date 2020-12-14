@@ -5,7 +5,6 @@ using Poco::Net::StreamSocket;
 
 #include "AlefLoginGlobal.h"
 #include "AlefPacketProcessor.h"
-#include "AlefSocket.h"
 #include "AlefCrypto.h"
 #include "AlefLoginServerSystems.h"
 
@@ -15,9 +14,9 @@ public:
 	AlefLoginStartupEncryption() {};
 	virtual ~AlefLoginStartupEncryption() {};
 
-	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
-	bool processInitialPacket(AlefSocket& sock, AlefPacket * packet);
-	bool processCryptoPacket(AlefSocket& sock, AlefPacket * packet);
+	virtual bool processPacket(const localInfo& local);
+	bool processInitialPacket(localInfo& local);
+	bool processCryptoPacket(localInfo& local);
 
 	enum CRYPTOPERATION : Int8
 	{

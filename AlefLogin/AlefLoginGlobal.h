@@ -36,6 +36,8 @@ using Poco::SHA2Engine;
 #define WARNING AlefLog::LogPrio::LOG_WARNING
 #define INFO AlefLog::LogPrio::LOG_INFO
 
+#define COLIDX(x) static_cast<int>(x)
+
 //Global Interfaces
 extern AlefLog* AlefLogger;
 extern AlefLoginConfig* loginConfig;

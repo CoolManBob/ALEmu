@@ -16,9 +16,6 @@
     <Filter Include="Header Files\Packet System">
       <UniqueIdentifier>{78405bf1-7e84-4329-a181-4fc43f9d4808}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Server">
-      <UniqueIdentifier>{988a3563-d167-46fb-b210-ae2ad953c0c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Crypto">
       <UniqueIdentifier>{55f6a0e4-2cf6-4e00-abbf-4cd0f2332b64}</UniqueIdentifier>
     </Filter>
@@ -40,20 +37,32 @@
     <Filter Include="Header Files\Shared Types">
       <UniqueIdentifier>{9bd8874b-3321-4a68-bff1-ca9c21e4d22f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Shared Types\Client">
-      <UniqueIdentifier>{599ba670-39c4-4fc5-a110-122145934215}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Shared Types\Server">
       <UniqueIdentifier>{f43fc234-6237-4f00-9d14-7780d0b01b28}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Shared Types">
       <UniqueIdentifier>{b9872f16-da65-43e7-ad66-66fd2acbb9a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Shared Types\Client">
-      <UniqueIdentifier>{27e1c54a-43dc-4d45-b7a5-88fd7bf7ee4d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Shared Types\Server">
       <UniqueIdentifier>{acd0679d-9317-4fcf-b46d-bd5a4029782c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Local">
+      <UniqueIdentifier>{884087cd-90ba-4ab0-90bf-18e1579c6d75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Local">
+      <UniqueIdentifier>{10849535-4810-4d1f-bd69-1ca64bddf975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Local\Client">
+      <UniqueIdentifier>{27e1c54a-43dc-4d45-b7a5-88fd7bf7ee4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Networking">
+      <UniqueIdentifier>{988a3563-d167-46fb-b210-ae2ad953c0c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shared Types\Client">
+      <UniqueIdentifier>{11f82e21-3de8-417f-9205-246fa09f4624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Local\Client">
+      <UniqueIdentifier>{599ba670-39c4-4fc5-a110-122145934215}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,24 +85,21 @@
       <Filter>Header Files\Packet System</Filter>
     </ClInclude>
     <ClInclude Include="AlefConnectionFactory.h">
-      <Filter>Header Files\Server</Filter>
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="AlefServer.h">
-      <Filter>Header Files\Server</Filter>
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="AlefServerConnection.h">
-      <Filter>Header Files\Server</Filter>
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="AlefSocket.h">
-      <Filter>Header Files\Server</Filter>
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="AlefSocketImpl.h">
-      <Filter>Header Files\Server</Filter>
+      <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="AlefCrypto.h">
-      <Filter>Header Files\Crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="AlefMD5Crypto.h">
       <Filter>Header Files\Crypto</Filter>
     </ClInclude>
     <ClInclude Include="AlefFieldLookup.h">
@@ -121,13 +127,31 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlefClientAccount.h">
-      <Filter>Header Files\Shared Types\Client</Filter>
+      <Filter>Header Files\Local\Client</Filter>
     </ClInclude>
     <ClInclude Include="AlefClientCharacter.h">
-      <Filter>Header Files\Shared Types\Client</Filter>
+      <Filter>Header Files\Local\Client</Filter>
     </ClInclude>
     <ClInclude Include="AlefServerWorldListTypes.h">
       <Filter>Header Files\Shared Types\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLocalSys.h">
+      <Filter>Header Files\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLocalTypes.h">
+      <Filter>Header Files\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefLocalInfo.h">
+      <Filter>Header Files\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerDataTypes.h">
+      <Filter>Header Files\Shared Types\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefHash.h">
+      <Filter>Header Files\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefClientCharacterTypes.h">
+      <Filter>Header Files\Shared Types\Client</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +180,13 @@
       <Filter>Source Files\Database</Filter>
     </ClCompile>
     <ClCompile Include="AlefClientAccount.cpp">
-      <Filter>Source Files\Shared Types\Client</Filter>
+      <Filter>Source Files\Local\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefLocalSys.cpp">
+      <Filter>Source Files\Local</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefClientCharacter.cpp">
+      <Filter>Source Files\Local\Client</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

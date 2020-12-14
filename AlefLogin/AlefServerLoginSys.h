@@ -12,4 +12,12 @@ public:
 
 private:
 	AlefDBLoginSys* dbLoginSys;
+
+	enum class ACCOUNTCOL
+	{
+		ACCTID,
+		ACCTRNAME,
+		ACCTPW
+	};
+
 };

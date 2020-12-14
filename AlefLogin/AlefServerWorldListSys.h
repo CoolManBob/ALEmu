@@ -34,4 +34,21 @@ private:
 
 	bool getGroupInfo();
 	bool getWorldInfo();
+
+	//DB
+	enum class GROUPCOL
+	{
+		ID = 0,
+		NAME
+	};
+
+	enum class WORLDCOL
+	{
+		ID = 0,
+		GROUPID,
+		NAME,
+		ADDRESS,
+		STATUS,
+		FLAG
+	};
 };

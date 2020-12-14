@@ -12,24 +12,65 @@ public:
 	AlefLoginClientLogin();
 	virtual ~AlefLoginClientLogin();
 
-	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
-	bool processHashKeyPacket(AlefSocket& sock, AlefPacket* packet);
-	bool processUserLoginPacket(AlefSocket& sock, AlefPacket* packet, char* acct, UInt8 acctLen, char* pw, UInt8 pwLen);
-	bool processUnionInfo(AlefSocket& sock, AlefPacket* packet);
-	bool processCharacterList(AlefSocket& sock, AlefPacket* packet);
-	bool processCharacterCreation(AlefSocket& sock, AlefPacket* packet);
-	bool processWorldEnterRequest(AlefSocket& sock, AlefPacket* packet);
+	//virtual bool processPacket(localInfo& local);
+	virtual bool processPacket(const localInfo& local);
+	bool processHashKeyPacket(localInfo& local);
+	bool processUserLoginPacket(localInfo& local, const char* acct, UInt8 acctLen, const char* pw, UInt8 pwLen);
+	bool processUnionInfo(localInfo& local);
+	bool processCharacterList(localInfo& local);
+	bool processCharacterCreation(localInfo& local);
+	bool processWorldEnterRequest(localInfo& local);
 
 	enum CLIENTLOGINOPERATION
 	{
 		CLIENTLOGIN_HASHKEY,
 		CLIENTLOGIN_USERLOGIN,
+		CLIENTLOGIN_UNIONINFO = 3,
+		CLIENTLOGIN_CHARLIST = 6,
+		CLIENTLOGIN_WORLDENTER = 8,
+		CLIENTLOGIN_CHARCREATION = 10,
+		CLIENTLOGIN_LOGINRESULT = 15,
+	};
+
+	enum LOGINRESULT
+	{
+		INCORRECTUSER = 0,
+		GIBBERISH = 1,
+		TOOMANYATTEMPTS,
+		TOSAGREEMENT,
+	};
+
+	enum LOGINSTEP
+	{
+		HASHKEY = 0,
+		AUTHENTICATED,
+		CHARLIST,
+		CHARCREATE,
+		ENTERWORLD,
 	};
 	
 private:
 	void sendDummyCharacter(AlefSocket& sock);
 	void sendLoginResult(AlefSocket& sock, int loginResult);
 
-	//AlefClientAccount clientAccount;
+	enum class BASECHAR : UInt32
+	{
+		KNIGHT = 1,
+		ARCHER,
+		MAGE,
+		ZERKER,
+		HUNTER,
+		SORC,
+		SWASH,
+		RANGER,
+		ELEMENTALIST,
+		SCION,
+		SLAYER,
+		ORBITER,
+	};
+
+	SharedPtr<AlefPacket> getBaseCharPacket(BASECHAR baseChar);
+	SharedPtr<AlefPacket> buildCharPacket(CharacterData &data);
+	clientCharDataVec baseChars;
 
 };

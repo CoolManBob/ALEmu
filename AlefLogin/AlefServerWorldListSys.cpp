@@ -13,10 +13,14 @@ AlefServerWorldListSys::~AlefServerWorldListSys()
 
 bool AlefServerWorldListSys::initWorldList()
 {
+	LOG("Loading WorldList...", WARNING);
+
 	if (!getGroupInfo())
 		return false;
 	if (!getWorldInfo())
 		return false;
+
+	LOG("WorldList Loaded!", WARNING);
 
 	return true;
 }
@@ -82,15 +86,15 @@ bool AlefServerWorldListSys::getGroupInfo()
 
 	if (rs->getTotalRowCount() == 0)
 	{
-		LOG("getGroupInfo() row count : 0", FATAL);
+		LOG("dbGetGroupInfo() row count : 0", FATAL);
 		return false;
 	}
 
 	for (RecordSet::Iterator itr = rs->begin(); itr != rs->end(); itr++)
 	{
 		SharedPtr<WorldListGroup> group = new WorldListGroup;
-		group->groupID = itr->get(dbWorldList->GROUPIDCOL);
-		group->groupName = itr->get(dbWorldList->GROUPNAMECOL).toString();
+		group->groupID = itr->get(COLIDX(GROUPCOL::ID));
+		group->groupName = itr->get(COLIDX(GROUPCOL::NAME)).toString();
 		worldList.push_back(group);
 	}
 
@@ -108,18 +112,18 @@ bool AlefServerWorldListSys::getWorldInfo()
 
 		if (rs->getTotalRowCount() == 0)
 		{
-			LOG("getWorldInfo() row count : 0", FATAL);
+			LOG("dbGetWorldInfo() row count : 0", FATAL);
 			return false;
 		}
 
 		for (RecordSet::Iterator rowItr = rs->begin(); rowItr != rs->end(); rowItr++)
 		{
 			SharedPtr<WorldListWorld> world = new WorldListWorld;
-			world->worldID = rowItr->get(dbWorldList->WORLDIDCOL);
-			world->worldName = rowItr->get(dbWorldList->WORLDNAMECOL).toString();
-			world->worldAddress = rowItr->get(dbWorldList->WORLDADDRCOL).toString();
-			world->worldStatus = rowItr->get(dbWorldList->WORLDSTATUSCOL);
-			world->worldFlag = rowItr->get(dbWorldList->WORLDFLAGCOL);
+			world->worldID = rowItr->get(COLIDX(WORLDCOL::ID));
+			world->worldName = rowItr->get(COLIDX(WORLDCOL::NAME)).toString();
+			world->worldAddress = rowItr->get(COLIDX(WORLDCOL::ADDRESS)).toString();
+			world->worldStatus = rowItr->get(COLIDX(WORLDCOL::STATUS));
+			world->worldFlag = rowItr->get(COLIDX(WORLDCOL::FLAG));
 			(*groupItr)->worldVec.push_back(world);
 		}
 	}

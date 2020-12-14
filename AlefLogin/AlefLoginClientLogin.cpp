@@ -9,7 +9,7 @@ using std::stringstream;
 #include "AlefLoginGlobal.h"
 #include "AlefLoginServerSystems.h"
 #include "AlefLoginClientLogin.h"
-#include "AlefMD5Crypto.h"
+#include "AlefHash.h"
 
 AlefLoginClientLogin::AlefLoginClientLogin()
 {
@@ -21,33 +21,65 @@ AlefLoginClientLogin::~AlefLoginClientLogin()
 
 }
 
-bool AlefLoginClientLogin::processPacket(AlefSocket& sock, AlefPacket * packet)
+bool AlefLoginClientLogin::processPacket(const localInfo& local)
 {
+	/*AuPacket::GetField(
+		v10,
+		1,
+		pvPacket,
+		nSize,
+		&pvFirst,
+		&lResult,
+		&pvCharDetailInfo,
+		&lCID,
+		&cAccountLen,
+		&pszPassword,
+		&lIsProtected,
+		&pszAccountID,
+		&pszExtraForForeign,
+		&pszEncryptCode,
+		&v35,
+		&cPasswordLen,
+		&pvPacketVersionInfo,
+		&pvDetailServerInfo,
+		&pszChallenge,
+		&lIsLimited);*/
+	/*  GetField(_param_3,(int)&this->m_pAgpmLogin->m_csPacket,&DAT_00000001,(short)param_2,_param_3,
+           (int)&pszAccountID + 3,&uStack8,&pszExtraForForeign,&lIsProtected,&lCID,&cAccountLen,
+           &lIsLimited,&pvCharDetailInfo,&pvPacketVersionInfo,&lResult,auStack4,&pszPassword,
+           &cPasswordLen,&pszEncryptCode,&pvDetailServerInfo,&pszChallenge);*/
 	/*Alef::INT8, Alef::CHAR, Alef::CHAR, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT32, Alef::CHAR, Alef::PACKET, Alef::PACKET, Alef::INT32, Alef::PACKET, Alef::CHAR, Alef::CHAR, Alef::INT32, Alef::INT32*/
 	/* 1, 32, 49, 1, 33, 1, 1, 32, 1, 1, 1, 1, 2049, 5, 1, 1*/
+	localInfo& localObj = const_cast<localInfo&>(local);
+	AlefPacket* packet = localObj.packet;
 	Int8 i8Operation = 0;
-	char acct[49] = { 0 };
-	UInt8 acctLen = 0, pwLen = 0;
-	char pw[33] = { 0 };
-	Int8 i8Var = 0;
-	char char1Var[33] = { 0 };
-	//char 
+	//char cKey[32] = { 0 }, cAcct[49] = { 0 }, cPW[33] = { 0 }, cUnk1[32] = { 0 }, cUnk2[2049] = { 0 }, cUnk3[5] = { 0 };
+	string cKey = "", cAcct = "", cPW = "", cUnk1 = "", cUnk2 = "", cUnk3 = "";
+	cKey.reserve(32);
+	cAcct.reserve(49);
+	cPW.reserve(33);
+	cUnk1.reserve(32);
+	cUnk2.reserve(2049);
+	cUnk3.reserve(5);
+	UInt8 ui8AcctLen = 0, ui8PWLen = 0;
+	Int32 i32Unk1 = 0, i32Unk2 = 0, i32IsLimited = 0, i32IsProtected = 0;
+	SharedPtr<AlefPacket> packets[3] = { new AlefPacket(), new AlefPacket(), new AlefPacket() };
 
-	pktInterface->processPacket(packet, &i8Operation, 0, acct, &acctLen, pw, &pwLen, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	pktInterface->processPacket(packet, &i8Operation, cKey.c_str(), cAcct.c_str(), &ui8AcctLen, cPW.c_str(), &ui8PWLen, &i32Unk1, cUnk1.c_str(), &packets[0], &packets[1], &i32Unk2, &packets[2], cUnk2.c_str(), cUnk3.c_str(), &i32IsLimited, &i32IsProtected);
 	switch(i8Operation)
 	{
 		case CLIENTLOGIN_HASHKEY: //Initial Packet Opcode
-			return processHashKeyPacket(sock, packet); break;
-		case 1: //User Login Packet Opcode
-			return processUserLoginPacket(sock, packet, acct, acctLen, pw, pwLen); break;
-		case 3: //User World Union Info
-			return processUnionInfo(sock, packet); break;
-		case 5: //Character Creation Request 0x0D 0x05
-			return processCharacterCreation(sock, packet); break;
-		case 6: //User Character List Request
-			return processCharacterList(sock, packet); break;
-		case 8: //World Enter 0x0D 0xC5
-			return processWorldEnterRequest(sock, packet); break;
+			return processHashKeyPacket(localObj); break;
+		case CLIENTLOGIN_USERLOGIN: //User Login Packet Opcode
+			return processUserLoginPacket(localObj, cAcct.c_str(), ui8AcctLen, cPW.c_str(), ui8PWLen); break;
+		case CLIENTLOGIN_UNIONINFO: //User World Union Info
+			return processUnionInfo(localObj); break;
+		case CLIENTLOGIN_CHARLIST: //User Character List Request
+			return processCharacterList(localObj); break;
+		case CLIENTLOGIN_WORLDENTER: //World Enter
+			return processWorldEnterRequest(localObj); break;
+		case CLIENTLOGIN_CHARCREATION: //Character Creation Request
+			return processCharacterCreation(localObj); break;
 		default:
 		{
 			stringstream errorMsg;
@@ -59,56 +91,59 @@ bool AlefLoginClientLogin::processPacket(AlefSocket& sock, AlefPacket * packet)
 	return false;
 }
 
-bool AlefLoginClientLogin::processHashKeyPacket(AlefSocket& sock, AlefPacket * packet)
+bool AlefLoginClientLogin::processHashKeyPacket(localInfo& local)
 {
 	LOG("processHashKeyPacket");
 
-	Int8 i8Operation = 0;
-	unsigned char hashKey[] = "12345678";
+	//Can check for version information here
 
-	SharedPtr<AlefPacket> response = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, hashKey, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); //MD5 Crypto Packet
+	Int8 i8Operation = CLIENTLOGIN_HASHKEY;
 
-	sock.sendPacket(response);
+	string hashKey = _localSys->_localAcct()->generateHashKey();
+
+	_localSys->_localAcct()->setLoginStep(HASHKEY);
+
+	SharedPtr<AlefPacket> response = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, hashKey.c_str(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+	_localSock.sendPacket(response);
 
 	return true;
 }
 
-bool AlefLoginClientLogin::processUserLoginPacket(AlefSocket& sock, AlefPacket * packet, char* acct, UInt8 acctLen, char* pw, UInt8 pwLen)
+bool AlefLoginClientLogin::processUserLoginPacket(localInfo& local, const char* acct, UInt8 acctLen, const char* pw, UInt8 pwLen)
 {
 	LOG("processUserLoginPacket");
-	AlefMD5Crypto md5Crypt;
+	string user = acct, pass = pw;
 
-	md5Crypt.decryptString(acct, acctLen);
-	md5Crypt.decryptString(pw, pwLen);
-
-	stringstream acctMsg;
-	acctMsg << "Account: " << acct << " " << "Password: " << pw;
-	LOG(acctMsg.str());
-
-	//serverAcctSys->changeLoginStatus(&acct, LOGIN_OK);
-
-	/*string user(acct), pass(pw);
-
-	if (!serverLoginSys->checkLogin(user, pass))
+	if (!_localSys->_localAcct()->decryptUserInfo(user, acctLen, pass, pwLen))
 	{
-		LOG("Account not found!", FATAL);
-	}*/
+		LOG("processUserLoginPacket: decryptUserInfo FAIL!", FATAL);
+		return false;
+	}
 
+	string hashPW = AlefHash::getHash(pass);
 
-	//if(acct.checkLoginState() != LOGIN_OK)
-	//return false; //BAD LOGIN
+	if (!serverLoginSys->checkLogin(user, hashPW))
+	{
+		sendLoginResult(_localSock, INCORRECTUSER); //Incorrect User ID
+		return true;
+	}
 
-	Int8 i8Operation = 1;
-	Int32 i32Unk = 0;
+	_localSys->_localAcct()->setLoginStep(AUTHENTICATED);
 
-	SharedPtr<AlefPacket> signOnResponse = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, acct, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &i32Unk, &i32Unk);
+	//get character data
+	//serverLoginSys->getCharData(_localSys->_localChar());
 
-	sock.sendPacket(signOnResponse);
+	Int8 i8Operation = CLIENTLOGIN_USERLOGIN;
+	Int32 i32IsLimited = 0, i32IsProtected = 0;
+	SharedPtr<AlefPacket> signOnResponse = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, acct, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, &i32IsLimited, &i32IsProtected);
+
+	_localSock.sendPacket(signOnResponse);
 
 	return true;
 }
 
-bool AlefLoginClientLogin::processUnionInfo(AlefSocket& sock, AlefPacket * packet)
+bool AlefLoginClientLogin::processUnionInfo(localInfo& local)
 {
 	int unionType = 0;
 	//Alef::INT32, Alef::CHAR, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::CHAR
@@ -118,7 +153,7 @@ bool AlefLoginClientLogin::processUnionInfo(AlefSocket& sock, AlefPacket * packe
 	Int8 i8Operation = 3;
 	SharedPtr<AlefPacket> unionResponse = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, 0, 0, 0, 0, 0, 0, &miniCharInfo, 0, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(unionResponse);
+	_localSock.sendPacket(unionResponse);
 
 	unsigned char name[] = "test";
 	int maxChars = 1, index = 0;
@@ -127,23 +162,23 @@ bool AlefLoginClientLogin::processUnionInfo(AlefSocket& sock, AlefPacket * packe
 
 	i8Operation = 4;
 
-	SharedPtr<AlefPacket> charNameResponse = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, 0, 0, 0, 0, 0, 0, charName, 0, 0, 0, 0, 0, 0, 0);
+	SharedPtr<AlefPacket> charNameResponse = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, 0, 0, 0, 0, 0, 0, &charName, 0, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(charNameResponse);
+	_localSock.sendPacket(charNameResponse);
 
 	i8Operation = 5;
 	unsigned char acct[] = "acct";
 
 	SharedPtr<AlefPacket> charNameFinish = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, acct, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(charNameFinish);
+	_localSock.sendPacket(charNameFinish);
 
 	return true;
 }
 
-bool AlefLoginClientLogin::processCharacterList(AlefSocket& sock, AlefPacket * packet)
+bool AlefLoginClientLogin::processCharacterList(localInfo& local)
 {
-	sendDummyCharacter(sock);
+	sendDummyCharacter(_localSock);
 
 	Int8 i8Operation = 7;
 	Int32 cID = 0;
@@ -151,12 +186,12 @@ bool AlefLoginClientLogin::processCharacterList(AlefSocket& sock, AlefPacket * p
 
 	SharedPtr<AlefPacket> sendCharInfoFinish = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, acct, 0, 0, 0, &cID, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(sendCharInfoFinish);
+	_localSock.sendPacket(sendCharInfoFinish);
 
 	return true;
 }
 
-bool AlefLoginClientLogin::processCharacterCreation(AlefSocket& sock, AlefPacket * packet)
+bool AlefLoginClientLogin::processCharacterCreation(localInfo& local)
 {
 	/*UInt8 operation = packet->GetPacketFlag(FlagIndex::FLAG_IDX1);
 	switch (operation)
@@ -177,10 +212,10 @@ bool AlefLoginClientLogin::processCharacterCreation(AlefSocket& sock, AlefPacket
 		} break;
 	}*/
 	
-	return true;
+	return false;
 }
 
-bool AlefLoginClientLogin::processWorldEnterRequest(AlefSocket& sock, AlefPacket * packet)
+bool AlefLoginClientLogin::processWorldEnterRequest(localInfo& local)
 {
 	LOG("World Enter Request");
 
@@ -190,7 +225,7 @@ bool AlefLoginClientLogin::processWorldEnterRequest(AlefSocket& sock, AlefPacket
 	unsigned char name[] = "Dummy#test";
 	SharedPtr<AlefPacket> authKeyPkt = pktInterface->buildPacket(Alef::AGSMCHARMANAGER_PACKET_TYPE, &i8Operation, 0, 0, name, 0, 0, &authKey);
 
-	sock.sendPacket(authKeyPkt);
+	_localSock.sendPacket(authKeyPkt);
 
 	//{Alef::INT32, Alef::CHAR, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::CHAR}
 	Int32 i32TID = 96;
@@ -209,7 +244,7 @@ bool AlefLoginClientLogin::processWorldEnterRequest(AlefSocket& sock, AlefPacket
 	Int32 i32CID = 0;
 	SharedPtr<AlefPacket> serverInfoPkt = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, 0, 0, 0, 0, &i32CID, 0, miniCharInfo, miniServerInfo, 0, 0, 0, 0, 0, 0);
 
-	sock.sendPacket(serverInfoPkt);
+	_localSock.sendPacket(serverInfoPkt);
 
 	return true;
 }
@@ -273,7 +308,7 @@ void AlefLoginClientLogin::sendDummyCharacter(AlefSocket& sock)
 
 	Int8 i8Operation = 0;
 	Int16 i16Zero = 0;
-	Int32 charID = 1012, charTID = 96, nameLen = 4;
+	Int32 charID = 1012, charTID = 6, nameLen = 4;
 	Int64 i64Zero = 0;
 	unsigned char charName[] = "test", skillInit[33] = { 0 }, signature[] = "Signature";
 	/*{	Alef::INT8, Alef::INT32, Alef::INT32, Alef::MEMORY_BLOCK, Alef::INT8, Alef::PACKET, Alef::PACKET, Alef::PACKET,
@@ -289,5 +324,59 @@ void AlefLoginClientLogin::sendDummyCharacter(AlefSocket& sock)
 
 void AlefLoginClientLogin::sendLoginResult(AlefSocket& sock, int loginStatus)
 {
+	/*v4 = this;
+  v5 = &this->m_pAgpmLogin->m_csPacketCharInfo;
+  v10 = 15;
+  v6 = AuPacket::MakePacket(v5, 0, (__int16 *)&pszCharName, 13, 0, pszCharName, 0, 0, 0, 0, 0, 0, 0);
+  v7 = AuPacket::MakePacket(
+         &v4->m_pAgpmLogin->m_csPacket,
+         1,
+         (__int16 *)&pszCharName,
+         13,
+         &v10,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         0,
+         v6,
+         0,
+         &lResult,
+         0,
+         0,
+         0,
+         0,
+         0);*/
 
+	SharedPtr<AlefPacket> charName = pktInterface->buildMiniPacket(Alef::AGPMLOGIN_CHAR_INFO, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+	Int8 i8Operation = CLIENTLOGIN_LOGINRESULT;
+
+	SharedPtr<AlefPacket> loginResult = pktInterface->buildPacket(Alef::AGPMLOGIN_PACKET_TYPE, &i8Operation, 0, 0, 0, 0, 0, 0, 0, charName, 0, &loginStatus, 0, 0, 0, 0, 0);
+
+	sock.sendPacket(loginResult);
+}
+
+SharedPtr<AlefPacket> AlefLoginClientLogin::getBaseCharPacket(BASECHAR base)
+{
+	SharedPtr<CharDataInfo> baseChar;
+
+	baseChar = serverDataSys->getCharDataFromDBID(static_cast<UInt32>(base));
+
+	if (!baseChar)
+		return nullptr;
+
+	CharacterData charData;
+	SharedPtr<AlefPacket> charPkt;
+
+	charData.charTID = baseChar->tID;
+	charData.face = 0;
+	charData.hair = 0;
+}
+
+SharedPtr<AlefPacket> AlefLoginClientLogin::buildCharPacket(CharacterData& data)
+{
+	return nullptr;
 }

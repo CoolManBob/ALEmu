@@ -404,9 +404,7 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 						memcpy(arg, temp, charSize);
 
 						delete[] temp;
-					}
-
-					
+					}	
 				} break;
 				case Alef::AlefType::INT8:
 				{
@@ -438,6 +436,7 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 					{
 						if(arg)
 							*(((UInt16*)arg)) = packet->GetUInt16();
+
 					}
 				} break;
 				case Alef::AlefType::INT32:
@@ -495,7 +494,6 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 				} break;
 				case Alef::AlefType::MATRIX:
 				{
-				
 				} break;
 				//A potential issue exists in that the packet tells us there are X amount of packets, but the data just isn't there causing an overflow.
 				//The number of packets is read in first, then afterwards they can be treated as discrete memory blocks
@@ -511,6 +509,7 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 							UInt8 numOfPkts = *(((UInt8*)arg));
 							if (numOfPkts)
 							{
+								//NOTE: Check if reading in these packets will cause a read overrun
 								for (int i = 0; i < numOfPkts; i++)
 								{
 									if (i > itr->FieldSize) //NOTE: Additional checks should be added here to ensure validity of packet data
@@ -519,16 +518,18 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 									UInt16 blockSize = 0;
 									packet->GetUInt16(blockSize);
 
-									AlefPacket* pkt = va_arg(args, AlefPacket*);
+									SharedPtr<AlefPacket>* pkt = va_arg(args, SharedPtr<AlefPacket>*);
 									char* pktData = new char[blockSize];
 
 									packet->GetDataBlock(blockSize, pktData);
 
 									AlefPacket* temp = new AlefPacket((unsigned char*)pktData, (int)blockSize);
 
-									delete[] pktData;
+									pkt->get()->ResetFromPkt(temp);
 
-									pkt = temp;
+									delete[] pktData;
+									delete temp;
+									
 								}
 							}
 						}
@@ -543,9 +544,10 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 
 							AlefPacket* temp = new AlefPacket((unsigned char*)pktData, (int)blockSize);
 
-							delete[] pktData;
+							static_cast<SharedPtr<AlefPacket>*>(arg)->get()->ResetFromPkt(temp);
 
-							arg = temp;
+							delete[] pktData;
+							delete temp;
 						}
 					}
 				} break;
@@ -567,27 +569,9 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 				} break;
 				case Alef::AlefType::POS_BASEMETER:
 				{
-
 				} break;
 				case Alef::AlefType::WCHAR:
 				{
-
-				} break;
-			}
-		}
-		else
-		{
-			switch (itr->FieldType)
-			{
-				case Alef::AlefType::PACKET:
-				{
-					AlefPacket * arg = va_arg(args, AlefPacket*);
-					if(arg)
-						arg = nullptr;
-				} break;
-				case Alef::AlefType::MEMORY_BLOCK:
-				{
-					UInt16* arg = va_arg(args, UInt16*);
 				} break;
 			}
 		}

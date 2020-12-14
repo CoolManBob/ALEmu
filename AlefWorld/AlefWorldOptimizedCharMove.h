@@ -12,6 +12,6 @@ public:
 	AlefWorldOptimizedCharMove() {};
 	virtual ~AlefWorldOptimizedCharMove() {};
 
-	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
+	virtual bool processPacket(const localInfo& local);
 
 };

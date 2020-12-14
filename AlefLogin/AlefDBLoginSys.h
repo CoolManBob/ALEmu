@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "AlefLoginGlobal.h"
 #include "AlefLoginTypes.h"
 
@@ -12,12 +11,5 @@ protected:
 	~AlefDBLoginSys();
 
 	SharedPtr<RecordSet> dbGetAccount(std::string username, std::string password);
-
-	enum ACCOUNTCOL
-	{
-		ACCTID,
-		ACCTRNAME,
-		ACCTPW
-	};
 
 };

@@ -1,8 +1,6 @@
 #pragma once
 
 #include "AlefPacketHandler.h"
-#include "AlefTypes.h"
-#include "AlefCrypto.h"
 
 //Packet Handlers
 #include "AlefLoginStartupEncryption.h"
@@ -21,15 +19,15 @@ public:
 	}
 	virtual ~AlefLoginPacketHandler() { processorMap.clear(); };
 
-	ActiveMethod<bool, packetInfo, AlefLoginPacketHandler, ActiveStarter<ActiveDispatcher>> packetHandler;
+	ActiveMethod<bool, localInfo, AlefLoginPacketHandler, ActiveStarter<ActiveDispatcher>> packetHandler;
 
 private:
-	bool packetProcessor(const packetInfo &pktInfo)
+	bool packetProcessor(const localInfo &local)
 	{
-		HashMap<Int16, AlefPacketProcessor*>::Iterator Itr = processorMap.find(pktInfo.packet->GetPacketType());
+		HashMap<Int16, AlefPacketProcessor*>::Iterator Itr = processorMap.find(local.packet->GetPacketType());
 		if (Itr != processorMap.end())
 		{
-			return Itr->second->processPacket(pktInfo.sock, pktInfo.packet);
+			return Itr->second->processPacket(local);
 		}
 		else
 		{

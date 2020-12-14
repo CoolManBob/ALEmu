@@ -19,7 +19,9 @@ bool AlefServerLoginSys::checkLogin(string username, string password)
 
 	if (rs->getTotalRowCount() == 0)
 	{
-		LOG("getGroupInfo() row count : 0", FATAL);
+		LOG("dbGetAccount() row count : 0", FATAL);
 		return false;
 	}
+
+	return true;
 }

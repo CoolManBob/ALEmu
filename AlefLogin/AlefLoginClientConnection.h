@@ -12,11 +12,12 @@ using std::stringstream;
 using Poco::Exception;
 
 #include "AlefLoginGlobal.h"
-#include "AlefLoginTypes.h"
 #include "AlefServerConnection.h"
 #include "AlefLoginPacketHandler.h"
 #include "AlefSocket.h"
 #include "AlefCrypto.h"
+
+#include "AlefLocalSys.h"
 
 const int maxReceiveBytes = 4096;
 
@@ -32,9 +33,12 @@ public:
 		blowfish_init(cryptSession->serverCtx);
 		blowfish_init(cryptSession->clientCtx);
 		sock.setCryptoSession(cryptSession);
+
+		localSys = new AlefLocalSys();
 	};
 	virtual ~AlefLoginClientConnection() 
 	{
+		delete localSys;
 		delete cryptSession->serverCtx;
 		delete cryptSession->clientCtx;
 		delete cryptSession;
@@ -60,7 +64,7 @@ public:
 						continue;
 					}
 
-					packetInfo info(sock);
+					localInfo info(localSys, sock);
 					bool success = pktInterface->setupPkt(packet);
 					if (!success)
 					{
@@ -73,7 +77,7 @@ public:
 					stringstream outMsg;
 					outMsg << "numBytesRead: " << numBytesRead << " ";
 					outMsg << "PacketSize: " << packet->GetPacketSize() << " ";
-					outMsg << "Opcode " << (int)packet->GetPacketType();// << " " << (int)header.PacketFlag << " " << (int)header.PacketOperation;
+					outMsg << "Opcode " << (int)packet->GetPacketType();
 					LOG(outMsg.str());
 					ActiveResult<bool> res = handler->packetHandler(info);
 					res.wait();
@@ -131,7 +135,6 @@ private:
 	AlefSocket sock;
 	blowfish_session * cryptSession;
 
-	//Internal defined states
-	AlefClientAccount localAcct;
-	//AlefClientCharacter localChar;
+	//Internal data system
+	AlefLocalSys * localSys;
 };

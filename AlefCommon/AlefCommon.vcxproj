@@ -109,7 +109,10 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoFoundation64d.dll" "$(SolutionDir)o
 copy "$(SolutionDir)AlefDependencies\Bin\PocoJSON64d.dll" "$(SolutionDir)out"
 copy "$(SolutionDir)AlefDependencies\Bin\PocoNet64d.dll" "$(SolutionDir)out"
 copy "$(SolutionDir)AlefDependencies\Bin\PocoUtil64d.dll" "$(SolutionDir)out"
-copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64d.dll" "$(SolutionDir)out"</Command>
+copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoData64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoDataMySQL64d.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\libmysql.dll" "$(SolutionDir)out"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +154,10 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoFoundation64.dll" "$(SolutionDir)ou
 copy "$(SolutionDir)AlefDependencies\Bin\PocoJSON64.dll" "$(SolutionDir)out"
 copy "$(SolutionDir)AlefDependencies\Bin\PocoNet64.dll" "$(SolutionDir)out"
 copy "$(SolutionDir)AlefDependencies\Bin\PocoUtil64.dll" "$(SolutionDir)out"
-copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Command>
+copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoData64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\PocoDataMySQL64.dll" "$(SolutionDir)out"
+copy "$(SolutionDir)AlefDependencies\Bin\libmysql.dll" "$(SolutionDir)out"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -164,8 +170,11 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     <ClInclude Include="AlefDBInterface.h" />
     <ClInclude Include="AlefFieldLookup.h" />
     <ClInclude Include="AlefFlagLengthLookup.h" />
+    <ClInclude Include="AlefHash.h" />
+    <ClInclude Include="AlefLocalInfo.h" />
+    <ClInclude Include="AlefLocalSys.h" />
+    <ClInclude Include="AlefLocalTypes.h" />
     <ClInclude Include="AlefLog.h" />
-    <ClInclude Include="AlefMD5Crypto.h" />
     <ClInclude Include="AlefPacket.h" />
     <ClInclude Include="AlefPacketHandler.h" />
     <ClInclude Include="AlefPacketPool.h" />
@@ -174,7 +183,9 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
     <ClInclude Include="AlefPool.h" />
     <ClInclude Include="AlefPoolStrategy.h" />
     <ClInclude Include="AlefServer.h" />
+    <ClInclude Include="AlefClientCharacterTypes.h" />
     <ClInclude Include="AlefServerConnection.h" />
+    <ClInclude Include="AlefServerDataTypes.h" />
     <ClInclude Include="AlefServerWorldListTypes.h" />
     <ClInclude Include="AlefSocket.h" />
     <ClInclude Include="AlefSocketImpl.h" />
@@ -182,10 +193,12 @@ copy "$(SolutionDir)AlefDependencies\Bin\PocoXML64.dll" "$(SolutionDir)out"</Com
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlefClientAccount.cpp" />
+    <ClCompile Include="AlefClientCharacter.cpp" />
     <ClCompile Include="AlefDatabase.cpp" />
     <ClCompile Include="AlefDBInterface.cpp" />
     <ClCompile Include="AlefFieldLookup.cpp" />
     <ClCompile Include="AlefFlagLengthLookup.cpp" />
+    <ClCompile Include="AlefLocalSys.cpp" />
     <ClCompile Include="AlefLog.cpp" />
     <ClCompile Include="AlefPacket.cpp" />
     <ClCompile Include="AlefPacketInterface.cpp" />

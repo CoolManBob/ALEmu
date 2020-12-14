@@ -5,13 +5,13 @@
 AlefServerLoginSys* serverLoginSys;
 AlefServerWorldListSys* serverListSys;
 AlefServerEncryptionSys* serverEncryptionSys;
+AlefServerDataSys* serverDataSys;
 
 AlefLoginServer::AlefLoginServer()
 {
 	handler = new AlefLoginPacketHandler();
 	clientFactory = new AlefLoginClientFactory(handler);
 	params = new TCPServerParams();
-	loginServer = new TCPServer(clientFactory, 11002);
 }
 
 AlefLoginServer::~AlefLoginServer()
@@ -35,6 +35,8 @@ void AlefLoginServer::runServer()
 	
 	timeStamp.update(); //set timeStamp to current time.
 
+	//create loginServer and start it
+	loginServer = new TCPServer(clientFactory, loginConfig->getLoginPort());
 	loginServer->start();
 	LOG("Success: Server Start");
 
@@ -89,6 +91,14 @@ bool AlefLoginServer::initServerSystems()
 	if (!serverListSys->initWorldList())
 	{
 		LOG("ERROR: initWorldList FAIL!", FATAL);
+		return false;
+	}
+
+	serverDataSys = new AlefServerDataSys();
+
+	if (!serverDataSys->initData())
+	{
+		LOG("ERROR: initData FAIL!", FATAL);
 		return false;
 	}
 

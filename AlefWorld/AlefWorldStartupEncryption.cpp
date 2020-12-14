@@ -6,9 +6,12 @@ using std::endl;
 #include "AlefWorldStartupEncryption.h"
 #include "AlefCrypto.h"
 
-bool AlefWorldStartupEncryption::processPacket(AlefSocket& sock, AlefPacket* packet)
+bool AlefWorldStartupEncryption::processPacket(const localInfo& local)
 {
 	//Parse Packet here and then handle opcode
+	//AuPacket::GetField(&v6->m_csPacket, 1, v7, v8, &pvPacket, &pCode, &nSize);
+	localInfo& localObj = const_cast<localInfo&>(local);
+	AlefPacket* packet = localObj.packet;
 	int operation = 0;
 	int nSize = 0;
 	char* data = nullptr;
@@ -19,9 +22,9 @@ bool AlefWorldStartupEncryption::processPacket(AlefSocket& sock, AlefPacket* pac
 	switch (operation)
 	{
 	case 0: //Initial Packet Opcode 0x48 0x01
-		return processInitialPacket(sock, packet); break;
+		return processInitialPacket(localObj); break;
 	case 2: //Crypto Packet Opcode 0x48 0x03
-		return processCryptoPacket(sock, packet); break;
+		return processCryptoPacket(localObj); break;
 	default:
 	{
 		if (data)
@@ -34,7 +37,7 @@ bool AlefWorldStartupEncryption::processPacket(AlefSocket& sock, AlefPacket* pac
 	return false;
 }
 
-bool AlefWorldStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPacket* packet)
+bool AlefWorldStartupEncryption::processInitialPacket(localInfo& local)
 {
 	LOG("processInitialPacket");
 
@@ -44,7 +47,7 @@ bool AlefWorldStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 	SharedPtr<AlefPacket> response = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, &algoType, 0);
 
 	if (response)
-		sock.sendPacket(response, false);
+		_localSock.sendPacket(response, false);
 
 	unsigned char serverKey[] = "12345678123456781234567812345678";
 
@@ -53,32 +56,32 @@ bool AlefWorldStartupEncryption::processInitialPacket(AlefSocket& sock, AlefPack
 
 	SharedPtr<AlefPacket> keyResponse = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, &u16Sz, serverKey);
 
-	blowfish_setkey(sock.getCryptoSession()->serverCtx, serverKey, (0x20 << 3));
+	blowfish_setkey(_localSock.getCryptoSession()->serverCtx, serverKey, (0x20 << 3));
 
 	if (keyResponse)
-		sock.sendPacket(keyResponse, false);
+		_localSock.sendPacket(keyResponse, false);
 
 	return true;
 }
 
-bool AlefWorldStartupEncryption::processCryptoPacket(AlefSocket& sock, AlefPacket* packet)
+bool AlefWorldStartupEncryption::processCryptoPacket(localInfo& local)
 {
 	LOG("processCryptoPacket");
 
 	Int8 i8Operation = 3;
 
-	uint32_t keySize = (packet->getBuffer()[0x0F]) + (packet->getBuffer()[0x10] << 4);
+	uint32_t keySize = (_localPkt->getBuffer()[0x0F]) + (_localPkt->getBuffer()[0x10] << 4);
 	unsigned char* clientKey = new unsigned char[keySize];
-	memcpy(clientKey, packet->getBufferAt(0x11), keySize);
+	memcpy(clientKey, _localPkt->getBufferAt(0x11), keySize);
 
 	for (UInt32 i = 0; i < (keySize >> 3); i++) {
-		blowfish_decrypt(sock.getCryptoSession()->serverCtx, (UInt32*)(clientKey + i * (__int64)8), (UInt32*)(clientKey + i * (__int64)8 + (__int64)4));
+		blowfish_decrypt(_localSock.getCryptoSession()->serverCtx, (UInt32*)(clientKey + i * (__int64)8), (UInt32*)(clientKey + i * (__int64)8 + (__int64)4));
 	}
-	blowfish_setkey(sock.getCryptoSession()->clientCtx, clientKey, (keySize << 3));
+	blowfish_setkey(_localSock.getCryptoSession()->clientCtx, clientKey, (keySize << 3));
 	delete[] clientKey;
 
 	SharedPtr<AlefPacket> startupCryptoComplete = pktInterface->buildPacket(Alef::AGPMSTARTUPENCRYPTION_PACKET_TYPE, &i8Operation, 0, 0);
-	sock.sendPacket(startupCryptoComplete);
+	_localSock.sendPacket(startupCryptoComplete);
 
 	return true;
 }

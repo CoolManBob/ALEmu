@@ -13,6 +13,7 @@ using Poco::UInt64;
 
 namespace Alef
 {
+	
 
 	const int AlefTypeSize[16] = { 1, 1, 1, 2, 2, 4, 4, 8, 8, 4, 12, 64, 8, 0, 6, 2 };
 

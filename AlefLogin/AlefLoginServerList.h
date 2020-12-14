@@ -13,8 +13,8 @@ public:
 	AlefLoginServerList() {};
 	virtual ~AlefLoginServerList() {};
 
-	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
-	bool processServerList(AlefSocket& sock, AlefPacket* packet);
+	virtual bool processPacket(const localInfo& local);
+	bool processServerList(localInfo& local);
 
 	enum SERVERLISTOPERATION
 	{

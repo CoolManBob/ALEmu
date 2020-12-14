@@ -204,20 +204,32 @@ bool AlefPacket::setAndAcquireFlags(UInt8 flagLen)
 	return true;
 }
 
+bool AlefPacket::ResetFromPkt(AlefPacket* pkt)
+{
+	if (buf)
+		delete[] buf;
+
+	if (pkt->buf)
+	{
+		//buf = pkt->buf;
+		buf = new unsigned char[pkt->size];
+		memcpy(buf, pkt->buf, pkt->size);
+		size = pkt->size;
+		pos = pkt->pos;
+		dynamic = pkt->dynamic;
+		numFields = pkt->numFields;
+		flagLength = pkt->flagLength;
+		packetType = pkt->packetType;
+		dwMask = pkt->dwMask;
+		ulFlag = pkt->ulFlag;
+		return true;
+	}
+	else
+		return false;
+}
+
 void AlefPacket::Resize(int newSize)
 {
-	/*if (size == newSize)
-		return;
-	else if (size < newSize)
-		EnsureBufSize(newSize);
-	else
-	{
-		unsigned char *tmp = new unsigned char[newSize];
-		memcpy(tmp, buf, newSize);
-		delete[] buf;
-		buf = tmp;
-		size = newSize;
-	}*/
 	if (size == newSize)
 		return;
 	else if (size == 0 && buf == nullptr)
@@ -385,13 +397,11 @@ void AlefPacket::WritePacket(SharedPtr<AlefPacket> packet)
 void AlefPacket::WriteByteArray(const char* array)
 {
 	WriteArbitraryData(array, (int)(strlen(array)));
-	//WriteUInt8((UInt16)(strlen(array)));
 }
 
 void AlefPacket::WriteByteArray(const UInt8* array)
 {
 	WriteArbitraryData(array, (int)(strlen((char*)array)));
-	//WriteUInt16((UInt16)(strlen((char*)array)));
 }
 
 void AlefPacket::GetInt8(Int8& data)

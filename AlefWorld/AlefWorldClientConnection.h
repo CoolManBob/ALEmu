@@ -60,7 +60,7 @@ public:
 						continue;
 					}
 
-					packetInfo info(sock);
+					localInfo info(sock);
 					bool success = pktInterface->setupPkt(packet);
 					if (!success)
 					{

@@ -1,10 +1,6 @@
 #pragma once
 
-#include <Poco/Foundation.h>
 #include <Poco/HashMap.h>
-
-using Poco::UInt8;
-using Poco::UInt16;
 
 using Poco::HashMap;
 

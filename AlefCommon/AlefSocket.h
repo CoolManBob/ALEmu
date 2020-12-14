@@ -6,6 +6,7 @@ using namespace Poco::Net;
 
 #include "AlefSocketImpl.h"
 #include "AlefPacket.h"
+#include "AlefCrypto.h"
 
 class AlefSocket : public StreamSocket
 {

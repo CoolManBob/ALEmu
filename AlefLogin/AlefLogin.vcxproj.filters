@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Server Systems\Serverlist">
       <UniqueIdentifier>{48f113a0-bc2b-429f-84a5-e8a124d0b5ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Server Systems\Data">
+      <UniqueIdentifier>{d752278c-a2d3-41fc-b0d9-3b8907e02399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems\Data">
+      <UniqueIdentifier>{45a0aa29-0e04-4030-8e90-8dbdd3a71128}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="AlefDBWorldListSys.cpp">
       <Filter>Source Files\Server Systems\Serverlist</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefDBDataSys.cpp">
+      <Filter>Source Files\Server Systems\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefServerDataSys.cpp">
+      <Filter>Source Files\Server Systems\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="AlefLoginTypes.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefDBDataSys.h">
+      <Filter>Header Files\Server Systems\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerDataSys.h">
+      <Filter>Header Files\Server Systems\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

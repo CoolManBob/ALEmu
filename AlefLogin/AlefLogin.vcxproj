@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlefDBDataSys.cpp" />
     <ClCompile Include="AlefDBLoginSys.cpp" />
     <ClCompile Include="AlefDBWorldListSys.cpp" />
     <ClCompile Include="AlefLoginApp.cpp" />
@@ -145,15 +146,18 @@
     <ClCompile Include="AlefLoginServer.cpp" />
     <ClCompile Include="AlefLoginServerList.cpp" />
     <ClCompile Include="AlefLoginStartupEncryption.cpp" />
+    <ClCompile Include="AlefServerDataSys.cpp" />
     <ClCompile Include="AlefServerEncryptionSys.cpp" />
     <ClCompile Include="AlefServerLoginSys.cpp" />
     <ClCompile Include="AlefServerWorldListSys.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlefDBDataSys.h" />
     <ClInclude Include="AlefDBWorldListSys.h" />
     <ClInclude Include="AlefLoginServerSystems.h" />
     <ClInclude Include="AlefLoginTypes.h" />
+    <ClInclude Include="AlefServerDataSys.h" />
     <ClInclude Include="AlefServerLoginSys.h" />
     <ClInclude Include="AlefDBLoginSys.h" />
     <ClInclude Include="AlefLoginApp.h" />

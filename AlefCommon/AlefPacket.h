@@ -1,24 +1,13 @@
 #pragma once
 //#pragma pack(push,1)
 
-#include <Poco/Foundation.h>
 #include <Poco/SharedPtr.h>
-
-using Poco::Int8;
-using Poco::UInt8;
-using Poco::Int16;
-using Poco::UInt16;
-using Poco::Int32;
-using Poco::UInt32;
-using Poco::Int64;
-using Poco::UInt64;
 
 using Poco::SharedPtr;
 
 #include <vector>
 
 using std::vector;
-
 
 #include "AlefTypes.h"
 
@@ -41,6 +30,7 @@ public:
 	~AlefPacket();
 
 	void Resize(int newSize);
+	bool ResetFromPkt(AlefPacket* packet);
 
 	void WriteHeader();
 	void WriteMiniHeader();

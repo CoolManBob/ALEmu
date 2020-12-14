@@ -12,21 +12,4 @@ protected:
 
 	SharedPtr<RecordSet> dbGetGroupInfo();
 	SharedPtr<RecordSet> dbGetWorldInfo(int groupID);
-
-	//DB
-	enum GROUPCOL : Int32
-	{
-		GROUPIDCOL = 0,
-		GROUPNAMECOL
-	};
-
-	enum WORLDCOL : Int32
-	{
-		WORLDIDCOL = 0,
-		WORLDGRPIDCOL,
-		WORLDNAMECOL,
-		WORLDADDRCOL,
-		WORLDSTATUSCOL,
-		WORLDFLAGCOL
-	};	
 };

@@ -12,9 +12,9 @@ public:
 	AlefWorldCharacter() {};
 	virtual ~AlefWorldCharacter() {};
 
-	virtual bool processPacket(AlefSocket& sock, AlefPacket* packet);
+	virtual bool processPacket(const localInfo& local);
 
-	bool sendCharacterUpdate(AlefSocket& sock, AlefPacket* packet);
-	bool sendOptionFlag(AlefSocket& sock, AlefPacket* packet);
+	bool sendCharacterUpdate(localInfo& local);
+	bool sendOptionFlag(localInfo& local);
 
 };
