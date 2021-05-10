@@ -19,6 +19,7 @@ public:
 	bool processUnionInfo(localInfo& local);
 	bool processCharacterList(localInfo& local);
 	bool processCharacterCreation(localInfo& local);
+	bool processCreateCharacter(localInfo& local, SharedPtr<AlefPacket> charDetail);
 	bool processWorldEnterRequest(localInfo& local);
 
 	enum CLIENTLOGINOPERATION
@@ -28,7 +29,8 @@ public:
 		CLIENTLOGIN_UNIONINFO = 3,
 		CLIENTLOGIN_CHARLIST = 6,
 		CLIENTLOGIN_WORLDENTER = 8,
-		CLIENTLOGIN_CHARCREATION = 10,
+		CLIENTLOGIN_CHARCREATIONENTER = 10,
+		CLIENTLOGIN_CREATECHAR = 11,
 		CLIENTLOGIN_LOGINRESULT = 15,
 	};
 
@@ -69,8 +71,13 @@ private:
 		ORBITER,
 	};
 
+	bool sendBaseCharPackets(AlefSocket& sock);
 	SharedPtr<AlefPacket> getBaseCharPacket(BASECHAR baseChar);
 	SharedPtr<AlefPacket> buildCharPacket(CharacterData &data);
+	SharedPtr<AlefPacket> buildCharMovePacket(CharacterMove& move);
+	SharedPtr<AlefPacket> buildFactorPacket(CharacterFactors& factors);
+	SharedPtr<AlefPacket> buildFactorResultPacket(CharacterFactorResult& result);
 	clientCharDataVec baseChars;
 
+	int baseSessionID;
 };

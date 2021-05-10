@@ -21,6 +21,9 @@ bool AlefServerDataSys::initData()
 	if (!initCharDataTable())
 		return false;
 
+	/*if (!initCharLoginPosTable())
+		return false;*/
+
 	return true;
 }
 
@@ -56,6 +59,7 @@ bool AlefServerDataSys::initTemplates()
 		return false;
 	}
 
+	//Parsing code assumes template data to be stored in sequential order
 	int currentTemplate = 0;
 	SharedPtr<TemplateData> tempData;
 	SharedPtr<TemplateField> tempField;
@@ -253,14 +257,24 @@ SharedPtr<CharDataInfo> AlefServerDataSys::getCharDataFromTemplID(UInt32 templID
 {
 	for (charDataVec::iterator itr = charDataTableVec.begin(); itr != charDataTableVec.end(); itr++)
 	{
-		for (charDataVec::iterator itr = charDataTableVec.begin(); itr != charDataTableVec.end(); itr++)
-		{
-			if (itr->get()->tID == templID)
-				return (*itr);
-			else
-				continue;
-		}
+		if (itr->get()->tID == templID)
+			return (*itr);
+		else
+			continue;
+	}
 
 		return nullptr;
+}
+
+SharedPtr<TemplateData> AlefServerDataSys::getTemplateFromTID(UInt32 TID)
+{
+	for (charTemplateVec::iterator itr = templateDataVec.begin(); itr != templateDataVec.end(); itr++)
+	{
+		if (itr->get()->templateID == TID)
+			return (*itr);
+		else
+			continue;
 	}
+
+	return nullptr;
 }

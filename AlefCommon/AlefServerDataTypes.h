@@ -151,3 +151,15 @@ struct CharDataInfo
 	UInt32 heroicDefPt;
 };
 typedef vector<SharedPtr<CharDataInfo>> charDataVec;
+
+struct CharLoginPos
+{
+	UInt32 ID;
+	float X;
+	float Y;
+	float Z;
+	float AxisX;
+	float AxisY;
+};
+
+typedef vector<SharedPtr<CharLoginPos>> charLoginPosVec;

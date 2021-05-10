@@ -10,6 +10,8 @@ public:
 
 	bool initData();
 
+	SharedPtr<TemplateData> getTemplateFromTID(UInt32 TID);
+
 	SharedPtr<CharDataInfo> getCharDataFromDBID(UInt32 dbID);
 	SharedPtr<CharDataInfo> getCharDataFromTemplID(UInt32 templ);
 
@@ -17,11 +19,13 @@ private:
 
 	bool initTemplates();
 	bool initCharDataTable();
+	bool initCharLoginPosTable();
 
 	AlefDBDataSys* dbDataSys;
 	charTemplateFieldVec templateFieldVec;
 	charTemplateVec templateDataVec;
 	charDataVec charDataTableVec;
+	charLoginPosVec charLoginPosTableVec;
 
 	enum class TEMPLATEFIELDCOL
 	{
@@ -152,5 +156,15 @@ private:
 		HEROICMINDMG,
 		HEROICMAXDMG,
 		HEROICDEFPT
+	};
+
+	enum class LOGINPOSCOL
+	{
+		ID = 0,
+		X,
+		Y,
+		Z,
+		AXISX,
+		AXISY,
 	};
 };

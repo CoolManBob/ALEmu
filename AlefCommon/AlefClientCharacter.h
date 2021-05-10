@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AlefTypes.h"
+#include "AlefClientCharacterTypes.h"
 
 class AlefClientCharacter
 {
@@ -9,5 +9,5 @@ public:
 	~AlefClientCharacter();
 
 private:
-	//AlefCharacterData charData;
+	CharacterData charData;
 };

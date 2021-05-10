@@ -19,7 +19,7 @@ using Poco::Exception;
 
 #include "AlefLocalSys.h"
 
-const int maxReceiveBytes = 4096;
+const int maxReceiveBytes = 8192;
 
 class AlefLoginClientConnection : public AlefServerConnection
 {

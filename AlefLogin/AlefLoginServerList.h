@@ -15,6 +15,7 @@ public:
 
 	virtual bool processPacket(const localInfo& local);
 	bool processServerList(localInfo& local);
+	bool processServerExtra(localInfo& local);
 
 	enum SERVERLISTOPERATION
 	{

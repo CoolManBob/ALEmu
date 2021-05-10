@@ -10,7 +10,7 @@ AlefClientAccount::AlefClientAccount()
 {
 	data.acctID = -1;
 	data.acctUser = "LOCALRESERVED";
-	data.acctPw = "LOCALRESERVED";
+	//data.acctPw = "LOCALRESERVED";
 	data.acctStatus = -1;
 }
 
@@ -41,7 +41,7 @@ bool AlefClientAccount::decryptUserInfo(string& user, Int32 userLen, string& pw,
 		return false;
 
 	data.acctUser = user;
-	data.acctPw = pw;
+	//data.acctPw = pw;
 
 	return true;
 }

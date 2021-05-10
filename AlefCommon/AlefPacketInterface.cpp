@@ -525,6 +525,20 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 
 									AlefPacket* temp = new AlefPacket((unsigned char*)pktData, (int)blockSize);
 
+									//Need to setup the incoming processed packet in order to further use it.
+									UInt16 packetType = pkt->get()->GetPacketType();
+
+									bool flagsOkay = temp->setAndAcquireFlags(flagLookup.lookUp(packetType));
+
+									if (!flagsOkay)
+										return false;
+
+									//Get FieldInfo
+									bool fieldsOkay = fieldLookup.getFieldInfo(temp->GetFieldVec(), packetType);
+
+									if (!fieldsOkay)
+										return false;
+
 									pkt->get()->ResetFromPkt(temp);
 
 									delete[] pktData;
@@ -543,6 +557,19 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 							packet->GetDataBlock(blockSize, pktData);
 
 							AlefPacket* temp = new AlefPacket((unsigned char*)pktData, (int)blockSize);
+
+							UInt16 packetType = static_cast<SharedPtr<AlefPacket>*>(arg)->get()->GetPacketType();
+
+							bool flagsOkay = temp->setAndAcquireFlags(flagLookup.lookUp(packetType)); //This needs to be simplified somehow
+
+							if (!flagsOkay)
+								return false;
+
+							//Get FieldInfo
+							bool fieldsOkay = fieldLookup.getFieldInfo(temp->GetFieldVec(), packetType);
+
+							if (!fieldsOkay)
+								return false;
 
 							static_cast<SharedPtr<AlefPacket>*>(arg)->get()->ResetFromPkt(temp);
 
@@ -585,13 +612,14 @@ bool AlefPacketInterface::setupPkt(AlefPacket * packet)
 {
 	//call acquireHeader() from packet pointer,then use packettype to set the flaglength, and field type data.
 	packet->acquirePacketHeader();
-	bool flagsOkay = packet->setAndAcquireFlags(flagLookup.lookUp(packet->GetPacketType())); //This needs to be simplified somehow
+	UInt16 packetType = packet->GetPacketType();
+	bool flagsOkay = packet->setAndAcquireFlags(flagLookup.lookUp(packetType)); //This needs to be simplified somehow
 
 	if (!flagsOkay)
 		return false;
 
 	//Get FieldInfo
-	bool fieldsOkay = fieldLookup.getFieldInfo(packet->GetFieldVec(), packet->GetPacketType());
+	bool fieldsOkay = fieldLookup.getFieldInfo(packet->GetFieldVec(), packetType);
 
 	if (!fieldsOkay)
 		return false;

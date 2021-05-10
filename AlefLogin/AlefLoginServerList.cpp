@@ -23,6 +23,8 @@ bool AlefLoginServerList::processPacket(const localInfo& local)
 	{
 		case SERVERLIST_REQ: //ServerList Request Packet Opcode
 			return processServerList(localObj); break;
+		case 3:
+			return processServerExtra(localObj); break;
 		default:
 		{
 			stringstream errorMsg;
@@ -50,5 +52,10 @@ bool AlefLoginServerList::processServerList(localInfo& local)
 
 	_localSock.sendPacket(serverList);
 
+	return true;
+}
+
+bool AlefLoginServerList::processServerExtra(localInfo& local)
+{
 	return true;
 }

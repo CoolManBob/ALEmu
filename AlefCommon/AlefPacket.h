@@ -22,9 +22,10 @@ class AlefPacket
 {
 public:
 	AlefPacket();
-	AlefPacket(int initialSize);
+	//AlefPacket(int initialSize);
 	AlefPacket(unsigned char* buffer, int bufSize);
 	AlefPacket(UInt16 PacketType, UInt8 FlagLen);
+	AlefPacket(int packetType); //packetType should be UInt16 but to use that in the argument requires messy changes, could fix with enum class but lazy atm
 	AlefPacket(UInt8 FlagLen);
 	
 	~AlefPacket();
@@ -174,7 +175,6 @@ private:
 	
 	/*End Header Info*/
 
-	Int32 numFields;
 	UInt8 flagLength;
 	vector<Alef::AlefPktField> fields;
 

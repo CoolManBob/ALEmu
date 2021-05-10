@@ -6,25 +6,23 @@ AlefPacket::AlefPacket()
 	size = 0;
 	pos = 0;
 	dynamic = true;
-	numFields = 0;
 	flagLength = 0;
 	packetType = 0;
 	dwMask = 1;
 	ulFlag = 0;
 }
 
-AlefPacket::AlefPacket(int initialSize)
+/*AlefPacket::AlefPacket(int initialSize)
 {
 	buf = new unsigned char[initialSize];
 	size = initialSize;
 	pos = 0;
 	dynamic = false;
-	numFields = 0;
 	flagLength = 0;
 	packetType = 0;
 	dwMask = 1;
 	ulFlag = 0;
-}
+}*/
 
 AlefPacket::AlefPacket(unsigned char *buffer, int bufSize) //Incoming Packets
 {
@@ -33,9 +31,20 @@ AlefPacket::AlefPacket(unsigned char *buffer, int bufSize) //Incoming Packets
 	size = bufSize;
 	pos = 0;
 	dynamic = false;
-	numFields = 0;
 	flagLength = 0;
 	packetType = 0;
+	dwMask = 1;
+	ulFlag = 0;
+}
+
+AlefPacket::AlefPacket(int PacketType) //Incoming Mini Packets
+{
+	buf = nullptr; //Default settings
+	size = 0;
+	pos = 0;
+	dynamic = true;
+	flagLength = 0;
+	packetType = PacketType;
 	dwMask = 1;
 	ulFlag = 0;
 }
@@ -48,7 +57,6 @@ AlefPacket::AlefPacket(UInt16 PacketType, UInt8 FlagLen) //Outgoing Packets
 	size = 13+FlagLen;
 	pos = 0;
 	dynamic = true;
-	numFields = 0;
 	flagLength = FlagLen;
 	packetType = PacketType;
 	dwMask = 1;
@@ -72,7 +80,6 @@ AlefPacket::AlefPacket(UInt8 FlagLen) //Mini(Internal) Packets
 	size = 2 + FlagLen;
 	pos = 0;
 	dynamic = true;
-	numFields = 0;
 	flagLength = FlagLen;
 	packetType = 0;
 	dwMask = 1;
@@ -216,12 +223,14 @@ bool AlefPacket::ResetFromPkt(AlefPacket* pkt)
 		memcpy(buf, pkt->buf, pkt->size);
 		size = pkt->size;
 		pos = pkt->pos;
-		dynamic = pkt->dynamic;
-		numFields = pkt->numFields;
+		//dynamic = pkt->dynamic;
 		flagLength = pkt->flagLength;
-		packetType = pkt->packetType;
-		dwMask = pkt->dwMask;
-		ulFlag = pkt->ulFlag;
+		packetFlags = new UInt8[flagLength];
+		memcpy(packetFlags, pkt->packetFlags, flagLength);
+		//packetType = pkt->packetType;
+		//dwMask = pkt->dwMask;
+		//ulFlag = pkt->ulFlag;
+		fields = pkt->fields;
 		return true;
 	}
 	else
