@@ -141,15 +141,11 @@ public:
 	template<typename data>
 	void GetGeneric(int position, data &val, int size);
 
-	/*template<typename data>
-	void SetDataAt(int position, const data val);*/
-
-	//inline char* getBuffer() { return &buf[pos]; };
-	inline unsigned char*	getBuffer() { return buf; };
-	inline unsigned char*	getBufferAt(int pos) { return &buf[pos]; }
-	inline unsigned char*	getBufferAtCurPos() { return &buf[pos]; }
-	inline unsigned char	getSingleElement(int pos) { return buf[pos]; };
-	inline int				getPosition() { return pos; };
+	inline UInt8*	getBuffer() { return &buf[0]; };
+	inline UInt8*	getBufferAt(int pos) { return &buf[pos]; }
+	inline UInt8*	getBufferAtCurPos() { return &buf[pos]; }
+	inline UInt8	getSingleElement(int pos) { return buf[pos]; };
+	inline int		getPosition() { return pos; };
 
 	inline void	setPosition(int newPos) { pos = newPos; };
 	inline void setSize(int newSize) { size = newSize; }
@@ -157,8 +153,8 @@ public:
 	inline int getSize() { return size; }
 
 private:
-	unsigned char * buf;
-	int size;
+	vector<UInt8> buf;
+	int size; //deprecated, will be replaced with size() later
 	int pos;
 	bool dynamic;
 

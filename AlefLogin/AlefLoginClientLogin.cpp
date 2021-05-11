@@ -217,14 +217,11 @@ bool AlefLoginClientLogin::processCharacterCreation(localInfo& local)
 
 bool AlefLoginClientLogin::processCreateCharacter(localInfo& local, SharedPtr<AlefPacket> charDetail)
 {
-	//AuPacket::GetField(v44, 0, pvCharDetailInfo, 0, &pAgsdServer, &lHairIndex, 0, 0, 0, 0, &lTID, &pszChar, 0);
 	//{	Alef::INT32, Alef::CHAR, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::CHAR }
-	Int32 tID = 0, faceIdx = 0, hairIdx = 0, unk1 = 0, unk2 = 0, unk3 = 0, unk4 = 0;
+	Int32 tID = 0, faceIdx = 0, hairIdx = 0;
 	string charName = "";
-	string cUnk = "";
-	cUnk.reserve(49);
 	charName.reserve(49);
-	pktInterface->processPacket(charDetail.get(), &tID, charName.c_str(), &unk1, &unk2, &unk3, &unk4, &faceIdx, &hairIdx, cUnk.c_str());
+	pktInterface->processPacket(charDetail.get(), &tID, charName.c_str(), 0, 0, 0, 0, &faceIdx, &hairIdx, 0);
 
 	return true;
 }
@@ -545,10 +542,6 @@ SharedPtr<AlefPacket> AlefLoginClientLogin::buildCharPacket(CharacterData& data)
 
 	Int32 nameLen = data.charName.length();
 	Int8 i8Operation = 0;
-	Int16 i16Zero = 0;
-	/*Int32 charID = 1012, charTID = 6, nameLen = 4;
-	Int64 i64Zero = 0;
-	unsigned char charName[] = "test", skillInit[33] = { 0 }, signature[] = "Signature";*/
 	/*{	Alef::INT8, Alef::INT32, Alef::INT32, Alef::MEMORY_BLOCK, Alef::INT8, Alef::PACKET, Alef::PACKET, Alef::PACKET,
 	Alef::INT64, Alef::INT64, Alef::INT64, Alef::INT8, Alef::INT8, Alef::INT32, Alef::INT8, Alef::UINT8, Alef::UINT8,
 	Alef::UINT64, Alef::INT8, Alef::CHAR, Alef::INT8, Alef::INT8, Alef::INT32, Alef::INT8, Alef::UINT16, Alef::INT32,

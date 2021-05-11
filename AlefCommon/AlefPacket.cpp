@@ -2,7 +2,6 @@
 
 AlefPacket::AlefPacket()
 {
-	buf = nullptr; //Default settings
 	size = 0;
 	pos = 0;
 	dynamic = true;
@@ -12,22 +11,8 @@ AlefPacket::AlefPacket()
 	ulFlag = 0;
 }
 
-/*AlefPacket::AlefPacket(int initialSize)
+AlefPacket::AlefPacket(unsigned char *buffer, int bufSize) : buf(buffer, buffer + bufSize) //Incoming Packets
 {
-	buf = new unsigned char[initialSize];
-	size = initialSize;
-	pos = 0;
-	dynamic = false;
-	flagLength = 0;
-	packetType = 0;
-	dwMask = 1;
-	ulFlag = 0;
-}*/
-
-AlefPacket::AlefPacket(unsigned char *buffer, int bufSize) //Incoming Packets
-{
-	buf = new unsigned char[bufSize];
-	memcpy(buf, buffer, bufSize);
 	size = bufSize;
 	pos = 0;
 	dynamic = false;
@@ -39,7 +24,6 @@ AlefPacket::AlefPacket(unsigned char *buffer, int bufSize) //Incoming Packets
 
 AlefPacket::AlefPacket(int PacketType) //Incoming Mini Packets
 {
-	buf = nullptr; //Default settings
 	size = 0;
 	pos = 0;
 	dynamic = true;
@@ -53,7 +37,7 @@ AlefPacket::AlefPacket(UInt16 PacketType, UInt8 FlagLen) //Outgoing Packets
 {
 	if (FlagLen != 1 && FlagLen != 2 && FlagLen != 4)
 		throw "ERROR";
-	buf = new unsigned char[13+FlagLen]; //Allocate initial space for header
+	buf.resize(13 + FlagLen); //Allocate initial space for header
 	size = 13+FlagLen;
 	pos = 0;
 	dynamic = true;
@@ -72,11 +56,11 @@ AlefPacket::AlefPacket(UInt16 PacketType, UInt8 FlagLen) //Outgoing Packets
 	WriteHeader();
 }
 
-AlefPacket::AlefPacket(UInt8 FlagLen) //Mini(Internal) Packets
+AlefPacket::AlefPacket(UInt8 FlagLen) //Outgoing Mini(Internal) Packets
 {
 	if (FlagLen != 1 && FlagLen != 2 && FlagLen != 4)
 		throw "ERROR";
-	buf = new unsigned char[2 + FlagLen]; //Allocate initial space for header (UInt16(Size) + FlagLen)
+	buf.resize(2 + FlagLen); //Allocate initial space for header (UInt16(Size) + FlagLen)
 	size = 2 + FlagLen;
 	pos = 0;
 	dynamic = true;
@@ -99,9 +83,8 @@ AlefPacket::~AlefPacket()
 {		
 	if (packetFlags)
 		delete[] packetFlags;
-	if(buf)
-		delete[] buf;
 
+	buf.clear();
 	fields.clear();
 }
 
@@ -155,9 +138,12 @@ bool AlefPacket::setFieldInfo(vector<Alef::AlefPktField> fieldVec)
 void AlefPacket::UpdatePacket(UInt16 newSize, bool doFlagUpd)
 {
 	if(dynamic && !isMini)
-		*(UInt16*)&buf[0x01] = newSize;
-	else if(dynamic && isMini)
-		*(UInt16*)&buf[0] = newSize - 2; //UInt16 packetSize is not counted for miniPackets
+		memcpy(&buf[0x01], &newSize, sizeof(UInt16));
+	else if (dynamic && isMini)
+	{
+		UInt16 miniSize = newSize - 2;
+		memcpy(&buf[0], &miniSize, sizeof(UInt16)); //UInt16 packetSize is not counted for miniPackets
+	}
 
 	if (headerWritten && doFlagUpd)
 		ulFlag |= dwMask;
@@ -167,11 +153,11 @@ void AlefPacket::ClosePacket()
 {
 	//Write packetflags
 	if(flagLength == 1)
-		*(UInt8*)&buf[0x0D] = ulFlag;
+		memcpy(&buf[0x0D], &ulFlag, sizeof(UInt8));
 	else if(flagLength == 2)
-		*(UInt16*)&buf[0x0D] = ulFlag;
+		memcpy(&buf[0x0D], &ulFlag, sizeof(UInt16));
 	else if(flagLength == 4)
-		*(UInt32*)&buf[0x0D] = ulFlag;
+		memcpy(&buf[0x0D], &ulFlag, sizeof(UInt32));
 	//Write footer
 	WriteUInt8(0x6B);
 }
@@ -180,11 +166,11 @@ void AlefPacket::CloseMiniPacket()
 {
 	//Write packetflags
 	if (flagLength == 1)
-		*(UInt8*)&buf[2] = ulFlag;
+		memcpy(&buf[2], &ulFlag, sizeof(UInt8));
 	else if (flagLength == 2)
-		*(UInt16*)&buf[2] = ulFlag;
+		memcpy(&buf[2], &ulFlag, sizeof(UInt16));
 	else if (flagLength == 4)
-		*(UInt32*)&buf[2] = ulFlag;
+		memcpy(&buf[2], &ulFlag, sizeof(UInt32));
 }
 
 void AlefPacket::acquirePacketHeader()
@@ -213,23 +199,20 @@ bool AlefPacket::setAndAcquireFlags(UInt8 flagLen)
 
 bool AlefPacket::ResetFromPkt(AlefPacket* pkt)
 {
-	if (buf)
-		delete[] buf;
+	buf.clear();
 
-	if (pkt->buf)
+	if (packetFlags)
+		delete[] packetFlags;
+
+	if (pkt->buf.size() != 0)
 	{
-		//buf = pkt->buf;
-		buf = new unsigned char[pkt->size];
-		memcpy(buf, pkt->buf, pkt->size);
+		buf.resize(pkt->size);
+		buf = pkt->buf;
 		size = pkt->size;
 		pos = pkt->pos;
-		//dynamic = pkt->dynamic;
 		flagLength = pkt->flagLength;
 		packetFlags = new UInt8[flagLength];
 		memcpy(packetFlags, pkt->packetFlags, flagLength);
-		//packetType = pkt->packetType;
-		//dwMask = pkt->dwMask;
-		//ulFlag = pkt->ulFlag;
 		fields = pkt->fields;
 		return true;
 	}
@@ -241,28 +224,15 @@ void AlefPacket::Resize(int newSize)
 {
 	if (size == newSize)
 		return;
-	else if (size == 0 && buf == nullptr)
-	{
-		unsigned char* tmp = new unsigned char[newSize];
-		memset(tmp, 0, newSize);
-		buf = tmp;
-		size = newSize;
-	}
-	else
-	{
-		unsigned char * tmp = new unsigned char[newSize];
-		//memset(tmp, 0, newSize);
-		memmove(tmp, buf, newSize);
-		delete[] buf;
-		buf = tmp;
-		size = newSize;
-	}
+	
+	buf.resize(newSize);
+	size = newSize;
 }
 
 void AlefPacket::WriteInt8(Int8 data)
 {
 	EnsureBufSize(pos + sizeof(Int8));
-	*(Int8*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(Int8));
 	pos += sizeof(Int8);
 	UpdatePacket(size);
 }
@@ -270,7 +240,7 @@ void AlefPacket::WriteInt8(Int8 data)
 void AlefPacket::WriteInt16(Int16 data)
 {
 	EnsureBufSize(pos + sizeof(Int16));
-	*(Int16*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(Int16));
 	pos += sizeof(Int16);
 	UpdatePacket(size);
 }
@@ -278,7 +248,7 @@ void AlefPacket::WriteInt16(Int16 data)
 void AlefPacket::WriteInt32(Int32 data)
 {
 	EnsureBufSize(pos + sizeof(Int32));
-	*(Int32*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(Int32));
 	pos += sizeof(Int32);
 	UpdatePacket(size);
 }
@@ -286,7 +256,7 @@ void AlefPacket::WriteInt32(Int32 data)
 void AlefPacket::WriteInt64(Int64 data)
 {
 	EnsureBufSize(pos + sizeof(Int64));
-	*(Int64*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(Int64));
 	pos += sizeof(Int64);
 	UpdatePacket(size);
 }
@@ -294,7 +264,7 @@ void AlefPacket::WriteInt64(Int64 data)
 void AlefPacket::WriteUInt8(UInt8 data)
 {
 	EnsureBufSize(pos + sizeof(UInt8));
-	*(UInt8*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(UInt8));
 	pos += sizeof(UInt8);
 	UpdatePacket(size);
 }
@@ -302,7 +272,7 @@ void AlefPacket::WriteUInt8(UInt8 data)
 void AlefPacket::WriteUInt16(UInt16 data, bool flagUpd)
 {
 	EnsureBufSize(pos + sizeof(UInt16));
-	*(UInt16*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(UInt16));
 	pos += sizeof(UInt16);
 	UpdatePacket(size, flagUpd);
 }
@@ -310,7 +280,7 @@ void AlefPacket::WriteUInt16(UInt16 data, bool flagUpd)
 void AlefPacket::WriteUInt32(UInt32 data)
 {
 	EnsureBufSize(pos + sizeof(UInt32));
-	*(UInt32*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(UInt32));
 	pos += sizeof(UInt32);
 	UpdatePacket(size);
 }
@@ -318,7 +288,7 @@ void AlefPacket::WriteUInt32(UInt32 data)
 void AlefPacket::WriteUInt64(UInt64 data)
 {
 	EnsureBufSize(pos + sizeof(UInt64));
-	*(UInt64*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(UInt64));
 	pos += sizeof(UInt64);
 	UpdatePacket(size);
 }
@@ -326,7 +296,7 @@ void AlefPacket::WriteUInt64(UInt64 data)
 void AlefPacket::WriteFloat(float data)
 {
 	EnsureBufSize(pos + sizeof(float));
-	*(float*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(float));
 	pos += sizeof(float);
 	UpdatePacket(size);
 }
@@ -334,7 +304,7 @@ void AlefPacket::WriteFloat(float data)
 void AlefPacket::WriteDouble(double data)
 {
 	EnsureBufSize(pos + sizeof(double));
-	*(double*)&buf[pos] = data;
+	memcpy(&buf[pos], &data, sizeof(double));
 	pos += sizeof(double);
 	UpdatePacket(size);
 }
@@ -342,7 +312,7 @@ void AlefPacket::WriteDouble(double data)
 void AlefPacket::WriteMemoryBlock(UInt16 blocksize, const UInt8* data, bool zero)
 {
 	EnsureBufSize(pos + sizeof(UInt16));
-	*(UInt16*)&buf[pos] = blocksize;
+	memcpy(&buf[pos], &blocksize, sizeof(UInt16));
 	pos += sizeof(UInt16);
 
 	if (zero)
@@ -350,7 +320,8 @@ void AlefPacket::WriteMemoryBlock(UInt16 blocksize, const UInt8* data, bool zero
 		for (int i = 0; i < blocksize; i++)
 		{
 			EnsureBufSize(pos + sizeof(UInt8));
-			*(UInt8*)&buf[pos] = 0;
+			UInt8 aZero = 0;
+			memcpy(&buf[pos], &aZero, sizeof(UInt8));
 			pos += sizeof(UInt8);
 		}
 	}
@@ -416,70 +387,70 @@ void AlefPacket::WriteByteArray(const UInt8* array)
 void AlefPacket::GetInt8(Int8& data)
 {
 	ValidateReadTo(pos + sizeof(Int8));
-	data = *(Int8*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(Int8));
 	pos += sizeof(Int8);
 }
 
 void AlefPacket::GetInt16(Int16& data)
 {
 	ValidateReadTo(pos + sizeof(Int16));
-	data = *(Int16*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(Int16));
 	pos += sizeof(Int16);
 }
 
 void AlefPacket::GetInt32(Int32& data)
 {
 	ValidateReadTo(pos + sizeof(Int32));
-	data = *(Int32*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(Int32));
 	pos += sizeof(Int32);
 }
 
 void AlefPacket::GetInt64(Int64& data)
 {
 	ValidateReadTo(pos + sizeof(Int64));
-	data = *(Int64*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(Int64));
 	pos += sizeof(Int64);
 }
 
 void AlefPacket::GetUInt8(UInt8& data)
 {
 	ValidateReadTo(pos + sizeof(UInt8));
-	data = *(UInt8*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(UInt8));
 	pos += sizeof(UInt8);
 }
 
 void AlefPacket::GetUInt16(UInt16& data)
 {
 	ValidateReadTo(pos + sizeof(UInt16));
-	data = *(UInt16*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(UInt16));
 	pos += sizeof(UInt16);
 }
 
 void AlefPacket::GetUInt32(UInt32& data)
 {
 	ValidateReadTo(pos + sizeof(UInt32));
-	data = *(UInt32*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(UInt32));
 	pos += sizeof(UInt32);
 }
 
 void AlefPacket::GetUInt64(UInt64& data)
 {
 	ValidateReadTo(pos + sizeof(UInt64));
-	data = *(UInt64*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(UInt64));
 	pos += sizeof(UInt64);
 }
 
 void AlefPacket::GetFloat(float& data)
 {
 	ValidateReadTo(pos + sizeof(float));
-	data = *(float*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(float));
 	pos += sizeof(float);
 }
 
 void AlefPacket::GetDouble(double& data)
 {
 	ValidateReadTo(pos + sizeof(double));
-	data = *(double*)&buf[pos];
+	memcpy(&data, &buf[pos], sizeof(double));
 	pos += sizeof(double);
 }
 
@@ -487,7 +458,7 @@ Int8 AlefPacket::GetInt8()
 {
 	Int8 temp = 0;
 	ValidateReadTo(pos + sizeof(Int8));
-	temp = *(Int8*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(Int8));
 	pos += sizeof(Int8);
 	return temp;
 }
@@ -496,7 +467,7 @@ Int16 AlefPacket::GetInt16()
 {
 	Int16 temp = 0;
 	ValidateReadTo(pos + sizeof(Int16));
-	temp = *(Int16*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(Int16));
 	pos += sizeof(Int16);
 	return temp;
 }
@@ -505,7 +476,7 @@ Int32 AlefPacket::GetInt32()
 {
 	Int32 temp = 0;
 	ValidateReadTo(pos + sizeof(Int32));
-	temp = *(Int32*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(Int32));
 	pos += sizeof(Int32);
 	return temp;
 }
@@ -514,7 +485,7 @@ Int64 AlefPacket::GetInt64()
 {
 	Int64 temp = 0;
 	ValidateReadTo(pos + sizeof(Int64));
-	temp = *(Int64*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(Int64));
 	pos += sizeof(Int64);
 	return temp;
 }
@@ -523,7 +494,7 @@ UInt8 AlefPacket::GetUInt8()
 {
 	UInt8 temp = 0;
 	ValidateReadTo(pos + sizeof(UInt8));
-	temp = *(UInt8*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(UInt8));
 	pos += sizeof(UInt8);
 	return temp;
 }
@@ -532,7 +503,7 @@ UInt16 AlefPacket::GetUInt16()
 {
 	UInt16 temp = 0;
 	ValidateReadTo(pos + sizeof(UInt16));
-	temp = *(UInt16*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(UInt16));
 	pos += sizeof(UInt16);
 	return temp;
 }
@@ -541,7 +512,7 @@ UInt32 AlefPacket::GetUInt32()
 {
 	UInt32 temp = 0;
 	ValidateReadTo(pos + sizeof(UInt32));
-	temp = *(UInt32*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(UInt32));
 	pos += sizeof(UInt32);
 	return temp;
 }
@@ -550,7 +521,7 @@ UInt64 AlefPacket::GetUInt64()
 {
 	UInt64 temp = 0;
 	ValidateReadTo(pos + sizeof(UInt64));
-	temp = *(UInt64*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(UInt64));
 	pos += sizeof(UInt64);
 	return temp;
 }
@@ -559,7 +530,7 @@ float AlefPacket::GetFloat()
 {
 	float temp = 0;
 	ValidateReadTo(pos + sizeof(float));
-	temp = *(float*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(float));
 	pos += sizeof(float);
 	return temp;
 }
@@ -568,7 +539,7 @@ double AlefPacket::GetDouble()
 {
 	double temp = 0;
 	ValidateReadTo(pos + sizeof(double));
-	temp = *(double*)&buf[pos];
+	memcpy(&temp, &buf[pos], sizeof(double));
 	pos += sizeof(double);
 	return temp;
 }
@@ -576,61 +547,61 @@ double AlefPacket::GetDouble()
 void AlefPacket::GetInt8(int position, Int8 &data)
 {
 	ValidateReadTo(position + sizeof(Int8));
-	data = *(Int8*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(Int8));
 }
 
 void AlefPacket::GetInt16(int position, Int16 &data)
 {
 	ValidateReadTo(position + sizeof(Int16));
-	data = *(Int16*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(Int16));
 }
 
 void AlefPacket::GetInt32(int position, Int32 &data)
 {
 	ValidateReadTo(position + sizeof(Int32));
-	data = *(Int32*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(Int32));
 }
 
 void AlefPacket::GetInt64(int position, Int64 &data)
 {
 	ValidateReadTo(position + sizeof(Int64));
-	data = *(Int64*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(Int64));
 }
 
 void AlefPacket::GetUInt8(int position, UInt8 &data)
 {
 	ValidateReadTo(position + sizeof(UInt8));
-	data = *(UInt8*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(UInt8));
 }
 
 void AlefPacket::GetUInt16(int position, UInt16 &data)
 {
 	ValidateReadTo(position + sizeof(UInt16));
-	data = *(UInt16*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(UInt16));
 }
 
 void AlefPacket::GetUInt32(int position, UInt32 &data)
 {
 	ValidateReadTo(position + sizeof(UInt32));
-	data = *(UInt32*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(UInt32));
 }
 
 void AlefPacket::GetUInt64(int position, UInt64 &data)
 {
 	ValidateReadTo(position + sizeof(UInt64));
-	data = *(UInt64*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(UInt64));
 }
 
 void AlefPacket::GetFloat(int position, float& data)
 {
 	ValidateReadTo(position + sizeof(float));
-	data = *(float*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(float));
 }
 
 void AlefPacket::GetDouble(int position, double& data)
 {
 	ValidateReadTo(position + sizeof(double));
-	data = *(double*)&buf[position];
+	memcpy(&data, &buf[position], sizeof(double));
 }
 
 void AlefPacket::GetDataBlock(UInt16 blockSize, char* data)
@@ -667,7 +638,7 @@ template <typename data>
 void AlefPacket::WriteGeneric(const data val)
 {
 	EnsureBufSize(pos + sizeof(data));
-	*(data*)&buf[pos] = val;
+	memcpy(&buf[pos], &val, sizeof(data));
 	pos += sizeof(data);
 	UpdatePacket(size);
 }
@@ -676,7 +647,7 @@ template <typename data>
 void AlefPacket::GetGeneric(data& val)
 {
 	ValidateReadTo(pos + sizeof(data));
-	data = *(data*)&buf[pos];
+	memcpy(&val, &buf[pos], sizeof(data));
 	pos += sizeof(data);
 }
 
@@ -684,7 +655,7 @@ template <typename data>
 void AlefPacket::GetGeneric(data& val, int size)
 {
 	ValidateReadTo(pos + size);
-	data = *(data*)&buf[pos];
+	memcpy(&val, &buf[pos], size);
 	pos += size;
 }
 
@@ -692,5 +663,5 @@ template <typename data>
 void AlefPacket::GetGeneric(int position, data &val, int size)
 {
 	ValidateReadTo(position + sizeof(data));
-	val = *(data*)&buf[position];
+	memcpy(&val, &buf[position], sizeof(data));
 }

@@ -26,6 +26,10 @@ public:
 	Int32 getLoginStep() { return loginStep; }
 	void setLoginStep(Int32 step) { loginStep = step; }
 
+	string getUserAcct() { return data.acctUser; }
+	UInt32 getUserID() { return data.acctID; }
+
+
 protected:
 	AlefAcctData& getLocalData() { return data; }
 	void setHashKey(string key) { hashKey = key; }
