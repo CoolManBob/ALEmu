@@ -20,18 +20,19 @@ struct TemplateFieldInfo
 	string fieldName;
 	int fieldType;
 };
-typedef vector<SharedPtr<TemplateFieldInfo>> charTemplateFieldVec;
+typedef vector<SharedPtr<TemplateFieldInfo>> charTemplateFieldInfoVec;
 
 struct TemplateField
 {
 	int fieldID;
 	Var fieldValue;
 };
+typedef vector<SharedPtr<TemplateField>> charTemplateFieldVec;
 
 struct TemplateData
 {
 	int templateID;
-	vector<SharedPtr<TemplateField>> templateFields;
+	charTemplateFieldVec templateFields;
 };
 typedef vector<SharedPtr<TemplateData>> charTemplateVec;
 

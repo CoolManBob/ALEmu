@@ -8,6 +8,20 @@ public:
 	AlefClientCharacter();
 	~AlefClientCharacter();
 
+	void setCharData(clientCharDataVec charData) { characters = charData; }
+	clientCharDataVec getCharacters() { return characters; }
+
+	void setCurChar(CharacterData charData) { curChar = charData; }
+	CharacterData getCurrentChar() { return curChar; }
+	CharacterData getCharAtSlot(Int32 slotIdx);
+	UInt32 getCharCount() { return characters.size(); }
+	UInt32 getAvailableSlotNum();
+
+	void setAcctID(UInt32 ID) { acctID = ID; }
+
+
 private:
-	CharacterData charData;
+	clientCharDataVec characters;
+	CharacterData curChar;
+	UInt32 acctID;
 };

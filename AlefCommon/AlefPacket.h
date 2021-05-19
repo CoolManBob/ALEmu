@@ -1,5 +1,4 @@
 #pragma once
-//#pragma pack(push,1)
 
 #include <Poco/SharedPtr.h>
 
@@ -22,7 +21,6 @@ class AlefPacket
 {
 public:
 	AlefPacket();
-	//AlefPacket(int initialSize);
 	AlefPacket(unsigned char* buffer, int bufSize);
 	AlefPacket(UInt16 PacketType, UInt8 FlagLen);
 	AlefPacket(int packetType); //packetType should be UInt16 but to use that in the argument requires messy changes, could fix with enum class but lazy atm
@@ -57,7 +55,6 @@ public:
 
 	void WriteMemoryBlock(UInt16 size, const UInt8* data, bool zero = false);
 	void WriteVec3F(Alef::AlefVec3F vec3F);
-	//void WriteMiniPacket(AlefPacket* packet);
 
 	void WriteByteArray(const char* array);
 	void WriteByteArray(const UInt8* array);
@@ -180,24 +177,6 @@ private:
 	bool isMini;
 
 	/*End Packet Info*/
-
-	/*void EnsureBufSize(int checkSize)
-	{
-		if (checkSize > size)
-		{
-			int newSize = size;
-			do
-			{
-				newSize <<= 1;
-			} while (newSize < size);
-
-			unsigned char *tmp = new unsigned char[newSize];
-			memcpy(tmp, buf, size);
-			delete[] buf;
-			buf = tmp;
-			size = newSize;
-		}
-	}*/
 
 	void EnsureBufSize(int checkSize)
 	{

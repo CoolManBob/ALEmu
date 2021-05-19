@@ -20,17 +20,23 @@ public:
 	bool processCharacterList(localInfo& local);
 	bool processCharacterCreation(localInfo& local);
 	bool processCreateCharacter(localInfo& local, SharedPtr<AlefPacket> charDetail);
-	bool processWorldEnterRequest(localInfo& local);
+	bool processWorldEnterRequest(localInfo& local, SharedPtr<AlefPacket> charDetail);
+	bool processDeleteCharacter(localInfo& local, SharedPtr<AlefPacket> charDetail);
 
 	enum CLIENTLOGINOPERATION
 	{
 		CLIENTLOGIN_HASHKEY,
 		CLIENTLOGIN_USERLOGIN,
 		CLIENTLOGIN_UNIONINFO = 3,
+		CLIENTLOGIN_CHARNAME = 4,
+		CLIENTLOGIN_CHARNAMEFINISH = 5,
 		CLIENTLOGIN_CHARLIST = 6,
+		CLIENTLOGIN_CHARLISTFINISH = 7,
 		CLIENTLOGIN_WORLDENTER = 8,
 		CLIENTLOGIN_CHARCREATIONENTER = 10,
 		CLIENTLOGIN_CREATECHAR = 11,
+		CLIENTLOGIN_CREATECHARFINISH = 12,
+		CLIENTLOGIN_DELETECHAR = 13,
 		CLIENTLOGIN_LOGINRESULT = 15,
 	};
 
@@ -52,7 +58,6 @@ public:
 	};
 	
 private:
-	void sendDummyCharacter(AlefSocket& sock);
 	void sendLoginResult(AlefSocket& sock, int loginResult);
 
 	enum class BASECHAR : UInt32
@@ -80,4 +85,5 @@ private:
 	clientCharDataVec baseChars;
 
 	int baseSessionID;
+	string worldName;
 };

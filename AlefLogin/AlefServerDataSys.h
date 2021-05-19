@@ -11,6 +11,7 @@ public:
 	bool initData();
 
 	SharedPtr<TemplateData> getTemplateFromTID(UInt32 TID);
+	Var getTemplateField(UInt32 TID, UInt32 fieldID);
 
 	SharedPtr<CharDataInfo> getCharDataFromDBID(UInt32 dbID);
 	SharedPtr<CharDataInfo> getCharDataFromTemplID(UInt32 templ);
@@ -22,7 +23,7 @@ private:
 	bool initCharLoginPosTable();
 
 	AlefDBDataSys* dbDataSys;
-	charTemplateFieldVec templateFieldVec;
+	charTemplateFieldInfoVec templateFieldVec;
 	charTemplateVec templateDataVec;
 	charDataVec charDataTableVec;
 	charLoginPosVec charLoginPosTableVec;

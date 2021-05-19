@@ -29,6 +29,8 @@ public:
 	string getUserAcct() { return data.acctUser; }
 	UInt32 getUserID() { return data.acctID; }
 
+	void setUserID(UInt32 ID) { data.acctID = ID; }
+
 
 protected:
 	AlefAcctData& getLocalData() { return data; }

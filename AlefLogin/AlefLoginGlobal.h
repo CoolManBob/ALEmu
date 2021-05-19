@@ -14,6 +14,8 @@ using Poco::SharedPtr;
 #include <Poco/Data/Statement.h>
 using Poco::Data::Keywords::now;
 using Poco::Data::Keywords::use;
+using Poco::Data::Keywords::in;
+using Poco::Data::Keywords::out;
 using Poco::Data::Keywords::into;
 using Poco::Data::Keywords::bind;
 
@@ -37,6 +39,8 @@ using Poco::SHA2Engine;
 #define INFO AlefLog::LogPrio::LOG_INFO
 
 #define COLIDX(x) static_cast<int>(x)
+
+#define MAX_CHARACTERS 3
 
 //Global Interfaces
 extern AlefLog* AlefLogger;

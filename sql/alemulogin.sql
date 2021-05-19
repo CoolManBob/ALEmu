@@ -28,7 +28,7 @@ CREATE TABLE `account` (
   `acctPW` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`acctID`),
   UNIQUE KEY `name_UNIQUE` (`acctName`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `worldgroup` (
   `groupName` varchar(45) NOT NULL,
   PRIMARY KEY (`groupID`),
   UNIQUE KEY `groupName_UNIQUE` (`groupName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +83,7 @@ CREATE TABLE `worldlist` (
   PRIMARY KEY (`worldID`),
   UNIQUE KEY `worldName_UNIQUE` (`worldName`),
   UNIQUE KEY `worldAddress_UNIQUE` (`worldAddress`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

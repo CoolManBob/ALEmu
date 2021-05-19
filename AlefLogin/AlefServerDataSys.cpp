@@ -278,3 +278,24 @@ SharedPtr<TemplateData> AlefServerDataSys::getTemplateFromTID(UInt32 TID)
 
 	return nullptr;
 }
+
+Var AlefServerDataSys::getTemplateField(UInt32 TID, UInt32 fieldID)
+{
+	for (charTemplateVec::iterator itr = templateDataVec.begin(); itr != templateDataVec.end(); itr++)
+	{
+		if (itr->get()->templateID == TID)
+		{
+			for (charTemplateFieldVec::iterator fieldItr = itr->get()->templateFields.begin(); fieldItr != itr->get()->templateFields.end(); fieldItr++)
+			{
+				if (fieldItr->get()->fieldID == fieldID)
+					return fieldItr->get()->fieldValue;
+				else
+					continue;
+			}
+		}
+		else
+			continue;
+	}
+
+	return nullptr;
+}
