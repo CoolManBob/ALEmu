@@ -1,4 +1,3 @@
-#include "AlefWorldGlobal.h"
 #include "AlefWorldAGSMCharMgr.h"
 
 bool AlefWorldAGSMCharMgr::processPacket(const localInfo& local)
@@ -16,14 +15,20 @@ bool AlefWorldAGSMCharMgr::processPacket(const localInfo& local)
     &v54,
     &v45);*/
 	//{	Alef::INT8, Alef::CHAR, Alef::INT32, Alef::CHAR, Alef::INT32, Alef::VEC3F, Alef::INT32 }
+	//{	1, 12, 1, 49, 1, 1, 1 }
 	localInfo& localObj = const_cast<localInfo&>(local);
 	AlefPacket* packet = localObj.packet;
 	Int8 i8Operation = 0;
-	pktInterface->processPacket(packet, &i8Operation, 0, 0, 0, 0, 0, 0);
+	string cUnk1 = "", cCharName = "";
+	Int32 i32Unk1 = 0, i32Unk2 = 0, authToken = 0;
+	Alef::AlefVec3F vPos;
+	cUnk1.reserve(12);
+	cCharName.reserve(49);
+	pktInterface->processPacket(packet, &i8Operation, &cUnk1, &i32Unk2, &cCharName, &i32Unk2, &vPos, &authToken);
 	switch (i8Operation)
 	{
 		case 2:
-			return processGameEnterCharacterName(localObj); break;
+			return processGameEnterCharacterName(localObj, cCharName, authToken); break;
 		case 9:
 			return processEnterWorld(localObj); break;
 		default:
@@ -37,9 +42,13 @@ bool AlefWorldAGSMCharMgr::processPacket(const localInfo& local)
 	return false;
 }
 
-bool AlefWorldAGSMCharMgr::processGameEnterCharacterName(localInfo& local)
+bool AlefWorldAGSMCharMgr::processGameEnterCharacterName(localInfo& local, string charName, Int32 authToken)
 {
 	LOG("processGameEnterCharacterName");
+
+	//check the authKey and get the acctID
+	//use acctID and charName to get the characterData
+	UInt32 acctID = serverCharSys->getAcctID(authToken);
 
 	//{	Alef::INT32, Alef::INT32, Alef::INT8 }
 	Int8 i8IsTestServer = 0;

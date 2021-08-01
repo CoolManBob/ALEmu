@@ -7,7 +7,9 @@ using std::endl;
 #include "AlefWorldServer.h"
 
 AlefLog* AlefLogger;
+AlefWorldConfig* worldConfig;
 AlefPacketInterface* pktInterface;
+AlefDBInterface* dbInterface;
 
 int AlefWorldApp::main(const vector<string>& args)
 {
@@ -18,13 +20,16 @@ int AlefWorldApp::main(const vector<string>& args)
 	<<  "|----------------------------------------------------------------|" << endl;*/
 
 	AlefLogger = new AlefLog("AlefWorld.log", "AlefWorld");
+	worldConfig = new AlefWorldConfig("AlefWorld.ini");
 	pktInterface = new AlefPacketInterface();
+	dbInterface = new AlefDBInterface();
 
 	cout << "ALEmu - AlefWorld v0.1" << endl;
+	
 	AlefWorldServer * worldServer = new AlefWorldServer();
 	worldServer->runServer();
 
-	LOG("Server Start");
+	LOG("HALT!", FATAL);
 
 	waitForTerminationRequest();
 

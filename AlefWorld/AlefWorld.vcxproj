@@ -133,9 +133,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlefDBCharSys.cpp" />
+    <ClCompile Include="AlefDBDataSys.cpp" />
+    <ClCompile Include="AlefServerCharSys.cpp" />
+    <ClCompile Include="AlefServerDataSys.cpp" />
+    <ClCompile Include="AlefServerEncryptionSys.cpp" />
     <ClCompile Include="AlefWorldAGSMCharMgr.cpp" />
     <ClCompile Include="AlefWorldApp.cpp" />
     <ClCompile Include="AlefWorldCharacter.cpp" />
+    <ClCompile Include="AlefWorldConfig.cpp" />
     <ClCompile Include="AlefWorldOptimizedCharMove.cpp" />
     <ClCompile Include="AlefWorldServer.cpp" />
     <ClCompile Include="AlefWorldStartupEncryption.cpp" />
@@ -143,16 +149,27 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlefDBCharSys.h" />
+    <ClInclude Include="AlefDBDataSys.h" />
+    <ClInclude Include="AlefMap.h" />
+    <ClInclude Include="AlefMapRegion.h" />
+    <ClInclude Include="AlefServerCharSys.h" />
+    <ClInclude Include="AlefServerDataSys.h" />
+    <ClInclude Include="AlefServerEncryptionSys.h" />
+    <ClInclude Include="AlefWorld.h" />
     <ClInclude Include="AlefWorldAGSMCharMgr.h" />
     <ClInclude Include="AlefWorldApp.h" />
     <ClInclude Include="AlefWorldCharacter.h" />
     <ClInclude Include="AlefWorldClientConnection.h" />
     <ClInclude Include="AlefWorldClientFactory.h" />
+    <ClInclude Include="AlefWorldConfig.h" />
     <ClInclude Include="AlefWorldGlobal.h" />
     <ClInclude Include="AlefWorldOptimizedCharMove.h" />
     <ClInclude Include="AlefWorldPacketHandler.h" />
     <ClInclude Include="AlefWorldServer.h" />
+    <ClInclude Include="AlefWorldServerSystems.h" />
     <ClInclude Include="AlefWorldStartupEncryption.h" />
+    <ClInclude Include="AlefWorldTypes.h" />
     <ClInclude Include="AlefWorldUIStatus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

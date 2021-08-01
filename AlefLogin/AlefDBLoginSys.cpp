@@ -131,3 +131,22 @@ SharedPtr<RecordSet> AlefDBLoginSys::dbCheckCharName(string charName)
 		return nullptr;
 	}
 }
+
+bool AlefDBLoginSys::dbSetAuthKey(UInt32 acctID, Int32 authKey)
+{
+	try
+	{
+		Session dbSession = dbInterface->getLoginDB();
+
+		Statement authSetup(dbSession);
+
+		authSetup << "UPDATE account SET authToken = ? WHERE acctID = ?", use(authKey), use(acctID), now;
+	}
+	catch (const Poco::Exception& ex)
+	{
+		LOG(ex.displayText(), FATAL);
+		return false;
+	}
+
+	return true;
+}

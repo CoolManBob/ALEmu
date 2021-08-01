@@ -16,4 +16,5 @@ protected:
 	bool dbCreateCharacter(UInt32 acctID, UInt32 tID, UInt32 face, UInt32 hair, string charName);
 	bool dbDeleteCharacter(UInt32 acctID, string charName);
 	SharedPtr<RecordSet> dbCheckCharName(string charName);
+	bool dbSetAuthKey(UInt32 acctID, Int32 authKey);
 };

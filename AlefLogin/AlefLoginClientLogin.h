@@ -15,8 +15,8 @@ public:
 	//virtual bool processPacket(localInfo& local);
 	virtual bool processPacket(const localInfo& local);
 	bool processHashKeyPacket(localInfo& local);
-	bool processUserLoginPacket(localInfo& local, const char* acct, UInt8 acctLen, const char* pw, UInt8 pwLen);
-	bool processUnionInfo(localInfo& local);
+	bool processUserLoginPacket(localInfo& local, string acct, UInt8 acctLen, string pw, UInt8 pwLen);
+	bool processUnionInfo(localInfo& local, string worldName);
 	bool processCharacterList(localInfo& local);
 	bool processCharacterCreation(localInfo& local);
 	bool processCreateCharacter(localInfo& local, SharedPtr<AlefPacket> charDetail);
@@ -85,5 +85,5 @@ private:
 	clientCharDataVec baseChars;
 
 	int baseSessionID;
-	string worldName;
+	string curWorld;
 };

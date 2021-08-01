@@ -296,7 +296,7 @@ SharedPtr<CharDataInfo> AlefServerDataSys::getCharDataFromTemplID(UInt32 templID
 			continue;
 	}
 
-		return nullptr;
+	return nullptr;
 }
 
 SharedPtr<TemplateData> AlefServerDataSys::getTemplateFromTID(UInt32 TID)

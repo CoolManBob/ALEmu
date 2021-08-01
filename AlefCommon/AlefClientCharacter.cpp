@@ -12,12 +12,16 @@ AlefClientCharacter::~AlefClientCharacter()
 
 CharacterData AlefClientCharacter::getCharAtSlot(Int32 slotIdx)
 {
+	CharacterData nullData;
+	nullData.charID = -1;
 	for (clientCharDataVec::iterator itr = characters.begin(); itr != characters.end(); itr++)
 	{
 		UInt32 slot = itr->get()->slot;
 		if (slot == slotIdx)
 			return *itr->get();
 	}
+
+	return nullData;
 }
 
 UInt32 AlefClientCharacter::getAvailableSlotNum()

@@ -6,6 +6,8 @@
 
 #include <cstdarg>
 
+using std::string;
+
 //Main interface for interacting with incoming/outgoing packets
 class AlefPacketInterface 
 {

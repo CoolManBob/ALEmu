@@ -7,17 +7,15 @@ bool AlefLoginServerList::processPacket(const localInfo& local)
 	localInfo& localObj = const_cast<localInfo&>(local);
 	AlefPacket* packet = localObj.packet;
 	Int8 i8Operation = 0;
-	char unkChar[32] = { 0 }, unkChar2[32] = { 0 };
 	Int16 i16EncodedSize = 0;
 	UInt32 i32Size = 0;
-	char * encodedWorld = nullptr;
-	//Int16 i16Status = 0;
-	//int Src = 0;
-	//int nStatus;
+	string cUnk1 = "", cUnk2 = "", encodedWorld = "";
+	cUnk1.reserve(32);
+	cUnk2.reserve(32);
 	
 	//{	Alef::INT8, Alef::CHAR, Alef::INT16, Alef::MEMORY_BLOCK, Alef::CHAR }
 	//{	1, 32, 1, 1, 32 }
-	pktInterface->processPacket(packet, &i8Operation, unkChar, &i16EncodedSize, &i32Size, encodedWorld, unkChar2);
+	pktInterface->processPacket(packet, &i8Operation, &cUnk1, &i16EncodedSize, &i32Size, &encodedWorld, &cUnk2);
 
 	switch (i8Operation)
 	{
@@ -46,9 +44,9 @@ bool AlefLoginServerList::processServerList(localInfo& local)
 		LOG("processServerList: BAD worlistListStr", FATAL);
 		return false;
 	}
-	UInt32 worldListLen = worldListStr.length()+1;
+	UInt32 worldListLen = (UInt32)worldListStr.length()+1;
 	
-	SharedPtr<AlefPacket> serverList = pktInterface->buildPacket(Alef::AGPMWORLD_PACKET_TYPE, &i8Operation, 0, 0, &worldListLen, worldListStr.c_str(), 0);
+	SharedPtr<AlefPacket> serverList = pktInterface->buildPacket(Alef::AGPMWORLD_PACKET_TYPE, &i8Operation, 0, 0, &worldListLen, &worldListStr, 0);
 
 	_localSock.sendPacket(serverList);
 

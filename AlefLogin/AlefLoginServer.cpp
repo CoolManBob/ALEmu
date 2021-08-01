@@ -12,6 +12,7 @@ AlefLoginServer::AlefLoginServer()
 	handler = new AlefLoginPacketHandler();
 	clientFactory = new AlefLoginClientFactory(handler);
 	params = new TCPServerParams();
+	loginServer = nullptr;
 }
 
 AlefLoginServer::~AlefLoginServer()

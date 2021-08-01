@@ -32,9 +32,10 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 		{
 			case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
 			{
-				unsigned char* arg = va_arg(args, unsigned char*);
+				//unsigned char* arg = va_arg(args, unsigned char*);
+				string* arg = va_arg(args, string*);
 				if (arg)
-					response->WriteArbitraryData(arg, itr->FieldSize);
+					response->WriteArbitraryData(arg->c_str(), itr->FieldSize);
 			} break;
 			case Alef::AlefType::INT8:
 			{
@@ -168,8 +169,9 @@ AlefPacket * AlefPacketInterface::buildPacket(UInt16 packetType, ...)
 
 						if (*arg_sz) //size of mem block != 0 
 						{
-							char* arg = va_arg(args, char*);
-							response->WriteArbitraryData(arg, *arg_sz);
+							//char* arg = va_arg(args, char*);
+							string* arg = va_arg(args, string*);
+							response->WriteArbitraryData(arg->c_str(), *arg_sz);
 						}
 					}
 				}
@@ -217,9 +219,10 @@ AlefPacket * AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 		{
 			case Alef::AlefType::CHAR: //Assumes character data is already setup with proper sizing before passing into buildPacket
 			{
-				char* arg = va_arg(args, char*);
+				//char* arg = va_arg(args, char*);
+				string* arg = va_arg(args, string*);
 				if (arg)
-					response->WriteArbitraryData(arg, itr->FieldSize);
+					response->WriteArbitraryData(arg->c_str(), itr->FieldSize);
 			} break;
 			case Alef::AlefType::INT8:
 			{
@@ -336,8 +339,9 @@ AlefPacket * AlefPacketInterface::buildMiniPacket(UInt16 miniType, ...)
 
 						if (*arg_sz) //size of mem block != 0 
 						{
-							char* arg = va_arg(args, char*);
-							response->WriteArbitraryData(arg, *arg_sz);
+							//char* arg = va_arg(args, char*);
+							string* arg = va_arg(args, string*);
+							response->WriteArbitraryData(arg->c_str(), *arg_sz);
 						}
 					}
 				}
@@ -398,10 +402,12 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 					{
 						UInt32 charSize = itr->FieldSize; //Is the size ALWAYS static?
 
-						unsigned char* temp = new unsigned char[charSize];
+						unsigned char* temp = new unsigned char[charSize]; //is unsigned char necessary?
 						packet->GetDataBlock(charSize, temp);
 
-						memcpy(arg, temp, charSize);
+						//memcpy(arg, temp, charSize);
+						string tempStr = reinterpret_cast<char*>(temp);
+						*(((string*)arg)) = tempStr;
 
 						delete[] temp;
 					}	

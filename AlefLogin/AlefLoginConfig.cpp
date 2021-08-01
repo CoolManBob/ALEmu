@@ -32,9 +32,6 @@ std::string AlefLoginConfig::loadConfig()
 
 	autogenCryptKey = getBool("AlefLogin.UseAutoGenCryptKey");
 
-	//Deprecated
-	worldAddress = getString("AlefLogin.WorldAddress");
-
 	//LoginDB
 	loginDBAddress = getString("AlefLogin.LoginDBAddress");
 	loginDBPort = getString("AlefLogin.LoginDBPort");

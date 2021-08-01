@@ -4,8 +4,10 @@
 
 using Poco::SharedPtr;
 
+#include <fstream>
 #include <vector>
 
+using std::ofstream;
 using std::vector;
 
 #include "AlefTypes.h"
@@ -148,6 +150,8 @@ public:
 	inline void setSize(int newSize) { size = newSize; }
 
 	inline int getSize() { return size; }
+
+	void dumpPacket();
 
 private:
 	vector<UInt8> buf;

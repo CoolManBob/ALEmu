@@ -1,7 +1,7 @@
 #pragma once
 
-#include "AlefLoginGlobal.h"
-#include "AlefLoginTypes.h"
+#include "AlefWorldGlobal.h"
+#include "AlefWorldTypes.h"
 
 class AlefDBDataSys
 {

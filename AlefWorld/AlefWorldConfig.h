@@ -5,47 +5,47 @@
 #include <iostream>
 using std::endl;
 
-class AlefLoginConfig : AlefConfig
+class AlefWorldConfig : AlefConfig
 {
 public:
-	AlefLoginConfig();
-	AlefLoginConfig(std::string configPath);
-	~AlefLoginConfig();
+	AlefWorldConfig();
+	AlefWorldConfig(std::string configPath);
+	~AlefWorldConfig();
 
 	std::string loadConfig();
 
-	int			getLoginPort() { return loginPort; }
+	int			getWorldPort() { return worldPort; }
 
 	std::string getCryptKey() { return cryptoKey; }
-	bool		getAutoGenKey() { return autogenCryptKey;  }
-	
+	bool		getAutoGenKey() { return autogenCryptKey; }
+
 	//LoginDB
 	std::string getLoginDBAddress() { return loginDBAddress; }
 	std::string getLoginDBPort() { return loginDBPort; }
 	std::string getLoginDBUser() { return loginDBUser; }
 	std::string getLoginDBPass() { return loginDBPass; }
 	std::string getLoginDB() { return loginDB; }
-	
+
 	//WorldDB
 	std::string getWorldDBAddress() { return worldDBAddress; }
 	std::string getWorldDBPort() { return worldDBPort; }
 	std::string getWorldDBUser() { return worldDBUser; }
 	std::string getWorldDBPass() { return worldDBPass; }
 	std::string getWorldDB() { return worldDB; }
-	
+
 	//DataDB
 	std::string getDataDBAddress() { return dataDBAddress; }
 	std::string getDataDBPort() { return dataDBPort; }
 	std::string getDataDBUser() { return dataDBUser; }
 	std::string getDataDBPass() { return dataDBPass; }
 	std::string getDataDB() { return dataDB; }
-	
+
 
 private:
 #pragma region Configuration Values
-	
+
 	//Networking
-	int			loginPort;
+	int			worldPort;
 
 	//Encryption
 	std::string cryptoKey;

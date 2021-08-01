@@ -3,6 +3,7 @@
 AlefServerLoginSys::AlefServerLoginSys()
 {
 	dbLoginSys = new AlefDBLoginSys();
+	random.seed();
 }
 
 AlefServerLoginSys::~AlefServerLoginSys()
@@ -71,6 +72,16 @@ bool AlefServerLoginSys::deleteChar(UInt32 acctID, string charName)
 		ret = false; //error with deleting character
 
 	return ret;
+}
+
+Int32 AlefServerLoginSys::generateAuthKey(UInt32 acctID)
+{
+	UInt32 authKey = random.next();
+
+	if (!dbLoginSys->dbSetAuthKey(acctID, authKey))
+		return -1;
+
+	return authKey;
 }
 
 bool AlefServerLoginSys::getCharData(UInt32 acctID, clientCharDataVec& charVec)
@@ -164,6 +175,7 @@ bool AlefServerLoginSys::initStatusFactor(SharedPtr<CharacterData>& charData)
 bool AlefServerLoginSys::initTypeFactor(SharedPtr<CharacterData>& charData)
 {
 	UInt32 TID = charData->charTID;
+
 	charData->charFactors.result.type.charRace = serverDataSys->getTemplateField(TID, 23);
 	charData->charFactors.result.type.charGender = serverDataSys->getTemplateField(TID, 24);
 	charData->charFactors.result.type.charClass = serverDataSys->getTemplateField(TID, 25);

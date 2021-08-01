@@ -28,6 +28,30 @@
     <Filter Include="Header Files\Map System">
       <UniqueIdentifier>{1d8c8f86-180d-468a-b5e9-f53baf64bc7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Server Systems">
+      <UniqueIdentifier>{2edc69bf-a204-43d1-990d-d6e8f58c83de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server Systems\StartupEncryption">
+      <UniqueIdentifier>{4790f533-c6f6-406d-a234-27cc9efdac25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems">
+      <UniqueIdentifier>{2b7d1144-5a0a-4239-83aa-7009c985afa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems\StartupEncryption">
+      <UniqueIdentifier>{6b53cff3-deae-49a2-9fbf-1e9460cd8ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server Systems\Character">
+      <UniqueIdentifier>{bfc73538-c2ef-4b0b-b137-d339d8c07be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems\Character">
+      <UniqueIdentifier>{9243290b-5770-47b5-8889-57c304480754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server Systems\Data">
+      <UniqueIdentifier>{70830e32-a6e3-49b9-b689-9a06d00b9631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems\Data">
+      <UniqueIdentifier>{56170f48-d630-470e-aedf-b875439bcc2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +77,24 @@
     </ClCompile>
     <ClCompile Include="AlefWorldOptimizedCharMove.cpp">
       <Filter>Source Files\Packet Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefWorldConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefServerEncryptionSys.cpp">
+      <Filter>Source Files\Server Systems\StartupEncryption</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefServerCharSys.cpp">
+      <Filter>Source Files\Server Systems\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefDBDataSys.cpp">
+      <Filter>Source Files\Server Systems\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefServerDataSys.cpp">
+      <Filter>Source Files\Server Systems\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefDBCharSys.cpp">
+      <Filter>Source Files\Server Systems\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +130,39 @@
     </ClInclude>
     <ClInclude Include="AlefWorldOptimizedCharMove.h">
       <Filter>Header Files\Packet Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerEncryptionSys.h">
+      <Filter>Header Files\Server Systems\StartupEncryption</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldServerSystems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorld.h">
+      <Filter>Header Files\Map System</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefMap.h">
+      <Filter>Header Files\Map System</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefMapRegion.h">
+      <Filter>Header Files\Map System</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerCharSys.h">
+      <Filter>Header Files\Server Systems\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefWorldTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefDBDataSys.h">
+      <Filter>Header Files\Server Systems\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerDataSys.h">
+      <Filter>Header Files\Server Systems\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefDBCharSys.h">
+      <Filter>Header Files\Server Systems\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

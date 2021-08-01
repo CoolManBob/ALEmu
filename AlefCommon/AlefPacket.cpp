@@ -665,3 +665,15 @@ void AlefPacket::GetGeneric(int position, data &val, int size)
 	ValidateReadTo(position + sizeof(data));
 	memcpy(&val, &buf[position], sizeof(data));
 }
+
+void AlefPacket::dumpPacket()
+{
+	ofstream out("packetDump.txt", std::ios::app);
+
+	out << std::hex << std::endl;
+
+	for (vector<UInt8>::iterator itr = buf.begin(); itr != buf.end(); itr++)
+	{
+		out  << (int)*itr << " ";
+	}
+}
