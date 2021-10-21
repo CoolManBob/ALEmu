@@ -4,7 +4,7 @@
 
 AlefServerEncryptionSys* serverEncryptionSys;
 AlefServerCharSys* serverCharSys;
-//AlefServerDataSys* serverDataSys;
+AlefServerDataSys* serverDataSys;
 
 AlefWorldServer::AlefWorldServer()
 {
@@ -83,16 +83,8 @@ void AlefWorldServer::initDatabase()
 
 bool AlefWorldServer::initServerSystems()
 {
-	//serverLoginSys = new AlefServerLoginSys();
-	//serverListSys = new AlefServerWorldListSys();
 	serverEncryptionSys = new AlefServerEncryptionSys();
 	serverCharSys = new AlefServerCharSys();
-
-	/*if (!serverListSys->initWorldList())
-	{
-		LOG("ERROR: initWorldList FAIL!", FATAL);
-		return false;
-	}
 
 	serverDataSys = new AlefServerDataSys();
 
@@ -100,7 +92,7 @@ bool AlefWorldServer::initServerSystems()
 	{
 		LOG("ERROR: initData FAIL!", FATAL);
 		return false;
-	}*/
+	}
 
 	LOG("Success: ServerSys Init");
 	return true;

@@ -30,3 +30,24 @@ SharedPtr<RecordSet> AlefDBCharSys::dbGetAcctID(Int32 authToken)
 		return nullptr;
 	}
 }
+
+SharedPtr<RecordSet> AlefDBCharSys::dbGetChara(UInt32 acctID, string& charName)
+{
+	try
+	{
+		Session dbSession = dbInterface->getWorldDB();
+
+		Statement charData(dbSession);
+
+		charData << "SELECT * FROM character_data WHERE acctID = ? AND charName = ?", use(acctID), bind(charName), now;
+
+		SharedPtr<RecordSet> rs = new RecordSet(charData);
+
+		return rs;
+	}
+	catch (const Poco::Exception& ex)
+	{
+		LOG(ex.displayText(), FATAL);
+		return nullptr;
+	}
+}

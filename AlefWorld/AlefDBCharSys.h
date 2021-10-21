@@ -11,4 +11,5 @@ protected:
 	~AlefDBCharSys();
 
 	SharedPtr<RecordSet> dbGetAcctID(Int32 authKey);
+	SharedPtr<RecordSet> dbGetChara(UInt32 acctID, string& charName);
 };

@@ -18,6 +18,8 @@ using Poco::Exception;
 #include "AlefCrypto.h"
 #include "AlefFlagLengthLookup.h"
 
+#include "AlefLocalSys.h"
+
 const int maxReceiveBytes = 4096;
 
 class AlefWorldClientConnection : public AlefServerConnection
@@ -32,12 +34,16 @@ public:
 		blowfish_init(cryptSession->serverCtx);
 		blowfish_init(cryptSession->clientCtx);
 		sock.setCryptoSession(cryptSession);
+
+		localSys = new AlefLocalSys();
 	};
 	virtual ~AlefWorldClientConnection()
 	{
+		//Save character data here maybe?
 		delete cryptSession->serverCtx;
 		delete cryptSession->clientCtx;
 		delete cryptSession;
+		delete localSys;
 		LOG("Client disconnected");
 	};
 
@@ -60,7 +66,7 @@ public:
 						continue;
 					}
 
-					localInfo info(sock);
+					localInfo info(localSys, sock);
 					bool success = pktInterface->setupPkt(packet);
 					if (!success)
 					{
@@ -132,4 +138,6 @@ private:
 	AlefWorldPacketHandler * handler;
 	AlefSocket sock;
 	blowfish_session * cryptSession;
+
+	AlefLocalSys* localSys;
 };

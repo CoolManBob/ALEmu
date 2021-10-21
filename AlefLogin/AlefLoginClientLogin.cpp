@@ -263,8 +263,6 @@ bool AlefLoginClientLogin::processCreateCharacter(localInfo& local, SharedPtr<Al
 		return false;
 	}
 
-	//For some reason charName becomes malformed and POCO doesn't like it, so passing it into the function
-	//results in the SQL query to have a NULL where the name should be, passing in the c_str seems to fix it.
 	//Check if char name is already in use.
 	if (!serverLoginSys->checkCharName(charName))
 	{

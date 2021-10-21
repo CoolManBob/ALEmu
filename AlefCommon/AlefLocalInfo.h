@@ -3,6 +3,7 @@
 #define _localSock local.sock
 #define _localPkt local.packet
 #define _localSys local.localSys
+#define _curChar local.localSys->_localChar()
 
 #include "AlefPacket.h"
 #include "AlefSocket.h"
