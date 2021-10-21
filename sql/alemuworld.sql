@@ -42,7 +42,7 @@ CREATE TABLE `character_data` (
   `face` int DEFAULT '0',
   PRIMARY KEY (`charID`),
   UNIQUE KEY `charName_UNIQUE` (`charName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
