@@ -26,6 +26,7 @@ CREATE TABLE `account` (
   `acctID` int NOT NULL AUTO_INCREMENT,
   `acctName` varchar(45) DEFAULT NULL,
   `acctPW` varchar(64) DEFAULT NULL,
+  `authToken` int DEFAULT NULL,
   PRIMARY KEY (`acctID`),
   UNIQUE KEY `name_UNIQUE` (`acctName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -37,7 +38,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'test','test'),(2,'test2','9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+INSERT INTO `account` VALUES (1,'test','test',NULL),(2,'test2','9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08',1673321960);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
