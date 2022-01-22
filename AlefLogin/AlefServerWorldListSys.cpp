@@ -55,8 +55,7 @@ string AlefServerWorldListSys::buildWorldInfoStr()
 		{
 			worldListStr << (*worldItr)->worldName << "=";
 			worldListStr << (*groupItr)->groupName << "=";
-			worldListStr << "0=" << (*worldItr)->worldStatus << "=" << (*worldItr)->worldFlag << "=";
-			worldListStr << "0=0=0=0;";
+			worldListStr << "0=" << (*worldItr)->worldStatus << "=" << (*worldItr)->worldFlag << ";";
 		}
 	}
 
