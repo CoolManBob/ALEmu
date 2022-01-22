@@ -37,8 +37,8 @@ void AlefFieldLookup::initMainMaps()
 
 	typeMap[Alef::AGPMUISTATUS_PACKET_TYPE]				=	buildTypeVec({	Alef::INT8, Alef::INT32, Alef::PACKET, Alef::INT8, Alef::PACKET, Alef::MEMORY_BLOCK, Alef::INT32, Alef::INT32, Alef::INT8, 
 																			Alef::INT8, Alef::INT8, Alef::MEMORY_BLOCK });
-	
-	typeMap[Alef::AGPMWORLD_PACKET_TYPE]				=	buildTypeVec({	Alef::INT8, Alef::CHAR, Alef::INT16, Alef::MEMORY_BLOCK, Alef::CHAR });
+
+	typeMap[Alef::AGPMWORLD_PACKET_TYPE]				=	buildTypeVec({	Alef::INT8, Alef::CHAR, Alef::INT16, Alef::MEMORY_BLOCK });
 
 	typeMap[Alef::AGPMOPTIMIZEDCHARMOVE_PACKET_TYPE]	=	buildTypeVec({	Alef::INT32, Alef::VEC3F, Alef::VEC3F, Alef::INT32, Alef::UINT16, Alef::INT8, Alef::INT8, Alef::INT8, Alef::INT32 });
 
@@ -67,7 +67,8 @@ void AlefFieldLookup::initMainMaps()
 
 	sizeMap[Alef::AGPMUISTATUS_PACKET_TYPE]				=	buildSizeVec({	1, 1, 40, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
 	
-	sizeMap[Alef::AGPMWORLD_PACKET_TYPE]				=	buildSizeVec({	1, 32, 1, 1, 32 });
+	sizeMap[Alef::AGPMWORLD_PACKET_TYPE]				=	buildSizeVec({ 1, 32, 1, 1 });
+
 
 	sizeMap[Alef::AGPMOPTIMIZEDCHARMOVE_PACKET_TYPE]	=	buildSizeVec({	1, 1, 1, 1, 1, 1, 1, 1, 1 });
 
