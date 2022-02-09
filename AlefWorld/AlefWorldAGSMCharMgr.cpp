@@ -70,7 +70,6 @@ bool AlefWorldAGSMCharMgr::processGameEnterCharacterName(localInfo& local, strin
 	_localSock.sendPacket(eventEffectPkt);
 
 	//{	Alef::INT8, Alef::CHAR, Alef::INT32, Alef::CHAR, Alef::INT32, Alef::VEC3F, Alef::INT32 }
-	//Alef::AlefVec3F loadingPos(-466672, 3190.88, -46247.6);
 	Alef::AlefVec3F loadingPos = _curChar->getCurPos();
 	i8Operation = 8;
 	SharedPtr<AlefPacket> loadingPosPkt = pktInterface->buildPacket(Alef::AGSMCHARMANAGER_PACKET_TYPE, &i8Operation, 0, 0, 0, &i32CID, &loadingPos, 0);
@@ -133,6 +132,8 @@ bool AlefWorldAGSMCharMgr::processEnterWorld(localInfo& local)
 
 	_localSock.sendPacket(updateMovePkt);
 
+	//Add character to map
+
 	//{	Alef::INT8, Alef::CHAR, Alef::INT32, Alef::CHAR, Alef::INT32, Alef::VEC3F, Alef::INT32 }
 	i8Operation = 7;
 	SharedPtr<AlefPacket> finishEnterPkt = pktInterface->buildPacket(Alef::AGSMCHARMANAGER_PACKET_TYPE, &i8Operation, 0, 0, 0, &i32ID, 0, 0);
@@ -160,19 +161,6 @@ bool AlefWorldAGSMCharMgr::processEnterWorld(localInfo& local)
 	_localSock.sendPacket(charFactorUpdPkt);
 
 	//Send PassiveSkill
-
-	/*AlefPacket res(0x12, 0x07, 0x00);
-	res.WriteUInt8(0);
-	res.WriteUInt32(1012); //ID
-
-	res.WriteUInt16(0x10); //Size
-	res.WriteUInt8(0x0F);
-	res.WriteUInt8(1);
-	res.WriteUInt32(1012);
-	res.WriteByteArray("Dummy#test");
-	res.ClosePacket();
-
-	_localSock.sendPacket(&res);*/
 
 	return true;
 }

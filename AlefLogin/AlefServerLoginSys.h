@@ -24,10 +24,15 @@ private:
 
 	Random random;
 
+
+	bool initCharFactors(SharedPtr<CharacterData>& charData);
+
 	bool initStatusFactor(SharedPtr<CharacterData>& charData);
 	bool initTypeFactor(SharedPtr<CharacterData>& charData);
 	bool initPointMaxFactor(SharedPtr<CharacterData>& charData);
 	bool initAttackFactor(SharedPtr<CharacterData>& charData);
+
+	
 
 	enum class ACCOUNTCOL
 	{

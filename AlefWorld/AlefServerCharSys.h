@@ -13,6 +13,8 @@ public:
 
 private:
 
+	void initCharFactors(CharacterData& charData);
+
 	void initStatusFactor(CharacterData& charData);
 	void initTypeFactor(CharacterData& charData);
 	void initPointMaxFactor(CharacterData& charData);

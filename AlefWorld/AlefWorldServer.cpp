@@ -33,6 +33,12 @@ void AlefWorldServer::runServer()
 		return;
 	}
 
+	if (!initWorldMap())
+	{
+		LOG("ERROR: initWorldMap FAIL!", FATAL);
+		return;
+	}
+
 	timeStamp.update(); //set timeStamp to current time.
 
 	//create worldServer and start it
@@ -85,7 +91,6 @@ bool AlefWorldServer::initServerSystems()
 {
 	serverEncryptionSys = new AlefServerEncryptionSys();
 	serverCharSys = new AlefServerCharSys();
-
 	serverDataSys = new AlefServerDataSys();
 
 	if (!serverDataSys->initData())
@@ -95,5 +100,12 @@ bool AlefWorldServer::initServerSystems()
 	}
 
 	LOG("Success: ServerSys Init");
+	return true;
+}
+
+bool AlefWorldServer::initWorldMap()
+{
+
+	LOG("Success: WorldMap Init");
 	return true;
 }

@@ -52,6 +52,15 @@
     <Filter Include="Source Files\Server Systems\Data">
       <UniqueIdentifier>{56170f48-d630-470e-aedf-b875439bcc2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Map System">
+      <UniqueIdentifier>{4c051360-cd8f-44cd-82d9-0ca2c7266793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Systems\Map">
+      <UniqueIdentifier>{de00d12b-81b6-441d-8363-92380bca1b7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server Systems\Map">
+      <UniqueIdentifier>{f36c42cb-6bb5-4f4f-b6c3-97d73a3bcb49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -95,6 +104,15 @@
     </ClCompile>
     <ClCompile Include="AlefDBCharSys.cpp">
       <Filter>Source Files\Server Systems\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefMap.cpp">
+      <Filter>Source Files\Map System</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefMapSector.cpp">
+      <Filter>Source Files\Map System</Filter>
+    </ClCompile>
+    <ClCompile Include="AlefWorld.cpp">
+      <Filter>Source Files\Map System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +164,7 @@
     <ClInclude Include="AlefMap.h">
       <Filter>Header Files\Map System</Filter>
     </ClInclude>
-    <ClInclude Include="AlefMapRegion.h">
+    <ClInclude Include="AlefMapSector.h">
       <Filter>Header Files\Map System</Filter>
     </ClInclude>
     <ClInclude Include="AlefServerCharSys.h">
@@ -163,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="AlefDBCharSys.h">
       <Filter>Header Files\Server Systems\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefDBMapSys.h">
+      <Filter>Header Files\Server Systems\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="AlefServerMapSys.h">
+      <Filter>Header Files\Server Systems\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

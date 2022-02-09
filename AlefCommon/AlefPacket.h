@@ -144,11 +144,13 @@ public:
 	inline UInt8*	getBufferAt(int pos) { return &buf[pos]; }
 	inline UInt8*	getBufferAtCurPos() { return &buf[pos]; }
 	inline UInt8	getSingleElement(int pos) { return buf[pos]; };
+	
 	inline int		getPosition() { return pos; };
-
-	inline void	setPosition(int newPos) { pos = newPos; };
+	inline void		posForward(int forwardPos) { pos = pos + forwardPos; }
+	inline void		posBackward(int backwardPos) { pos = pos - backwardPos; }
+	inline void		setPosition(int newPos) { pos = newPos; };
+	
 	inline void setSize(int newSize) { size = newSize; }
-
 	inline int getSize() { return size; }
 
 	void dumpPacket();

@@ -126,17 +126,8 @@ bool AlefServerLoginSys::getCharData(UInt32 acctID, clientCharDataVec& charVec)
 			charData->charFactors.point.skillPoints = charSP;
 		}
 
-		if (!initStatusFactor(charData))
-			return false;
-
-		if (!initTypeFactor(charData))
-			return false;
-
-		if (!initPointMaxFactor(charData))
-			return false;
-
-		if (!initAttackFactor(charData))
-			return false;
+		if (!initCharFactors(charData))
+			return false;		
 
 		charVec.push_back(charData);
 
@@ -145,29 +136,49 @@ bool AlefServerLoginSys::getCharData(UInt32 acctID, clientCharDataVec& charVec)
 	return true;
 }
 
+bool AlefServerLoginSys::initCharFactors(SharedPtr<CharacterData>& charData)
+{
+	if (!initStatusFactor(charData))
+		return false;
+
+	if (!initTypeFactor(charData))
+		return false;
+
+	if (!initPointMaxFactor(charData))
+		return false;
+
+	if (!initAttackFactor(charData))
+		return false;
+}
+
 bool AlefServerLoginSys::initStatusFactor(SharedPtr<CharacterData>& charData)
 {
 	UInt32 TID = charData->charTID;
+	SharedPtr<CharDataInfo> serverChar = serverDataSys->getCharDataFromTemplID(TID);
 
-	charData->charFactors.result.status.stamina = serverDataSys->getTemplateField(TID, 11) * 100; //* levelFactor
-	charData->charFactors.result.status.strength = serverDataSys->getTemplateField(TID, 12) * 100;
-	charData->charFactors.result.status.intelligence = serverDataSys->getTemplateField(TID, 13) * 100;
-	charData->charFactors.result.status.dexterity = serverDataSys->getTemplateField(TID, 14) * 100;
-	charData->charFactors.result.status.charisma = serverDataSys->getTemplateField(TID, 15) * 100;
-	charData->charFactors.result.status.luck = serverDataSys->getTemplateField(TID, 16) * 100;
-	charData->charFactors.result.status.wisdom = serverDataSys->getTemplateField(TID, 17) * 100;
-	charData->charFactors.result.status.moveSpeed = serverDataSys->getTemplateField(TID, 19);
-	charData->charFactors.result.status.runSpeed = serverDataSys->getTemplateField(TID, 20);
+	if (serverChar.isNull())
+		return false;
+	
 
-	charData->charFactors.status.stamina = serverDataSys->getTemplateField(TID, 11) * 100; //* levelFactor
-	charData->charFactors.status.strength = serverDataSys->getTemplateField(TID, 12) * 100;
-	charData->charFactors.status.intelligence = serverDataSys->getTemplateField(TID, 13) * 100;
-	charData->charFactors.status.dexterity = serverDataSys->getTemplateField(TID, 14) * 100;
-	charData->charFactors.status.charisma = serverDataSys->getTemplateField(TID, 15) * 100;
-	charData->charFactors.status.luck = serverDataSys->getTemplateField(TID, 16) * 100;
-	charData->charFactors.status.wisdom = serverDataSys->getTemplateField(TID, 17) * 100;
-	charData->charFactors.status.moveSpeed = serverDataSys->getTemplateField(TID, 19);
-	charData->charFactors.status.runSpeed = serverDataSys->getTemplateField(TID, 20);
+	charData->charFactors.result.status.stamina = serverChar->CON * 100; //* levelFactor
+	charData->charFactors.result.status.strength = serverChar->STR * 100;
+	charData->charFactors.result.status.intelligence = serverChar->INT * 100;
+	charData->charFactors.result.status.dexterity = serverChar->DEX * 100;
+	charData->charFactors.result.status.charisma = serverChar->CHA * 100;
+	charData->charFactors.result.status.luck = 0;
+	charData->charFactors.result.status.wisdom = serverChar->WIS * 100;
+	charData->charFactors.result.status.moveSpeed = serverChar->walkSpeed;
+	charData->charFactors.result.status.runSpeed = serverChar->runSpeed;
+
+	charData->charFactors.status.stamina = serverChar->CON * 100; //* levelFactor
+	charData->charFactors.status.strength = serverChar->STR * 100;
+	charData->charFactors.status.intelligence = serverChar->INT * 100;
+	charData->charFactors.status.dexterity = serverChar->DEX * 100;
+	charData->charFactors.status.charisma = serverChar->CHA * 100;
+	charData->charFactors.status.luck = 0;
+	charData->charFactors.status.wisdom = serverChar->WIS * 100;
+	charData->charFactors.status.moveSpeed = serverChar->walkSpeed;
+	charData->charFactors.status.runSpeed = serverChar->runSpeed;
 
 	return true;
 }
@@ -175,14 +186,18 @@ bool AlefServerLoginSys::initStatusFactor(SharedPtr<CharacterData>& charData)
 bool AlefServerLoginSys::initTypeFactor(SharedPtr<CharacterData>& charData)
 {
 	UInt32 TID = charData->charTID;
+	SharedPtr<CharDataInfo> serverChar = serverDataSys->getCharDataFromTemplID(TID);
 
-	charData->charFactors.result.type.charRace = serverDataSys->getTemplateField(TID, 23);
-	charData->charFactors.result.type.charGender = serverDataSys->getTemplateField(TID, 24);
-	charData->charFactors.result.type.charClass = serverDataSys->getTemplateField(TID, 25);
+	if (serverChar.isNull())
+		return false;
 
-	charData->charFactors.type.charRace = serverDataSys->getTemplateField(TID, 23);
-	charData->charFactors.type.charGender = serverDataSys->getTemplateField(TID, 24);
-	charData->charFactors.type.charClass = serverDataSys->getTemplateField(TID, 25);
+	charData->charFactors.result.type.charRace = serverChar->race;
+	charData->charFactors.result.type.charGender = serverChar->gender;
+	charData->charFactors.result.type.charClass = serverChar->clss;
+
+	charData->charFactors.type.charRace = serverChar->race;
+	charData->charFactors.type.charGender = serverChar->gender;
+	charData->charFactors.type.charClass = serverChar->clss;
 
 	return true;
 }
@@ -191,27 +206,32 @@ bool AlefServerLoginSys::initPointMaxFactor(SharedPtr<CharacterData>& charData)
 {
 	UInt32 TID = charData->charTID;
 
-	charData->charFactors.result.pointMax.maxHP = serverDataSys->getTemplateField(TID, 28); //* levelFactor
-	charData->charFactors.result.pointMax.maxMana = serverDataSys->getTemplateField(TID, 29);
-	charData->charFactors.result.pointMax.maxSkillPoints = serverDataSys->getTemplateField(TID, 30);
-	charData->charFactors.result.pointMax.xpLow = serverDataSys->getTemplateField(TID, 31);
-	charData->charFactors.result.pointMax.xpHigh = serverDataSys->getTemplateField(TID, 32);
-	charData->charFactors.result.pointMax.AP = serverDataSys->getTemplateField(TID, 33);
-	charData->charFactors.result.pointMax.MAP = serverDataSys->getTemplateField(TID, 34);
-	charData->charFactors.result.pointMax.MI = serverDataSys->getTemplateField(TID, 35);
-	charData->charFactors.result.pointMax.AR = serverDataSys->getTemplateField(TID, 36);
-	charData->charFactors.result.pointMax.DR = serverDataSys->getTemplateField(TID, 37);
+	SharedPtr<CharDataInfo> serverChar = serverDataSys->getCharDataFromTemplID(TID);
 
-	charData->charFactors.pointMax.maxHP = serverDataSys->getTemplateField(TID, 28);
-	charData->charFactors.pointMax.maxMana = serverDataSys->getTemplateField(TID, 29);
-	charData->charFactors.pointMax.maxSkillPoints = serverDataSys->getTemplateField(TID, 30);
-	charData->charFactors.pointMax.xpLow = serverDataSys->getTemplateField(TID, 31);
-	charData->charFactors.pointMax.xpHigh = serverDataSys->getTemplateField(TID, 32);
-	charData->charFactors.pointMax.AP = serverDataSys->getTemplateField(TID, 33);
-	charData->charFactors.pointMax.MAP = serverDataSys->getTemplateField(TID, 34);
-	charData->charFactors.pointMax.MI = serverDataSys->getTemplateField(TID, 35);
-	charData->charFactors.pointMax.AR = serverDataSys->getTemplateField(TID, 36);
-	charData->charFactors.pointMax.DR = serverDataSys->getTemplateField(TID, 37);
+	if (serverChar.isNull())
+		return false;
+
+	charData->charFactors.result.pointMax.maxHP = serverChar->MAXHP; //* levelFactor
+	charData->charFactors.result.pointMax.maxMana = serverChar->MAXMP;
+	charData->charFactors.result.pointMax.maxSkillPoints = serverChar->MAXSP;
+	//charData->charFactors.result.pointMax.xpLow = serverChar->exp;
+	//charData->charFactors.result.pointMax.xpHigh = serverDataSys->getTemplateField(TID, 32);
+	//charData->charFactors.result.pointMax.AP = serverChar->;
+	charData->charFactors.result.pointMax.MAP = serverChar->MAR; //Is this correct?
+	//charData->charFactors.result.pointMax.MI = serverChar->;
+	charData->charFactors.result.pointMax.AR = serverChar->AR;
+	charData->charFactors.result.pointMax.DR = serverChar->DR;
+
+	charData->charFactors.pointMax.maxHP = serverChar->MAXHP; //* levelFactor
+	charData->charFactors.pointMax.maxMana = serverChar->MAXMP;
+	charData->charFactors.pointMax.maxSkillPoints = serverChar->MAXSP;
+	//charData->charFactors.pointMax.xpLow = serverChar->exp;
+	//charData->charFactors.pointMax.xpHigh = serverDataSys->getTemplateField(TID, 32);
+	//charData->charFactors.pointMax.AP = serverChar->;
+	charData->charFactors.pointMax.MAP = serverChar->MAR; //Is this correct?
+	//charData->charFactors.pointMax.MI = serverChar->;
+	charData->charFactors.pointMax.AR = serverChar->AR;
+	charData->charFactors.pointMax.DR = serverChar->DR;
 
 	return true;
 }
@@ -219,14 +239,18 @@ bool AlefServerLoginSys::initPointMaxFactor(SharedPtr<CharacterData>& charData)
 bool AlefServerLoginSys::initAttackFactor(SharedPtr<CharacterData>& charData)
 {
 	UInt32 TID = charData->charTID;
+	SharedPtr<CharDataInfo> serverChar = serverDataSys->getCharDataFromTemplID(TID);
 
-	charData->charFactors.result.attack.range = serverDataSys->getTemplateField(TID, 64);
-	charData->charFactors.result.attack.hitRange = serverDataSys->getTemplateField(TID, 65);
-	charData->charFactors.result.attack.attackSpeed = serverDataSys->getTemplateField(TID, 66);
+	if (serverChar.isNull())
+		return false;
 
-	charData->charFactors.attack.range = serverDataSys->getTemplateField(TID, 64);
-	charData->charFactors.attack.hitRange = serverDataSys->getTemplateField(TID, 65);
-	charData->charFactors.attack.attackSpeed = serverDataSys->getTemplateField(TID, 66);
+	charData->charFactors.result.attack.range = serverChar->range;
+	//charData->charFactors.result.attack.hitRange = serverChar->hit;
+	charData->charFactors.result.attack.attackSpeed = serverChar->atkSpeed;
+
+	charData->charFactors.attack.range = serverChar->range;
+	//charData->charFactors.attack.hitRange = serverDataSys->getTemplateField(TID, 65);
+	charData->charFactors.attack.attackSpeed = serverChar->atkSpeed;
 
 	return true;
 

@@ -27,26 +27,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -135,9 +135,12 @@
   <ItemGroup>
     <ClCompile Include="AlefDBCharSys.cpp" />
     <ClCompile Include="AlefDBDataSys.cpp" />
+    <ClCompile Include="AlefMap.cpp" />
+    <ClCompile Include="AlefMapSector.cpp" />
     <ClCompile Include="AlefServerCharSys.cpp" />
     <ClCompile Include="AlefServerDataSys.cpp" />
     <ClCompile Include="AlefServerEncryptionSys.cpp" />
+    <ClCompile Include="AlefWorld.cpp" />
     <ClCompile Include="AlefWorldAGSMCharMgr.cpp" />
     <ClCompile Include="AlefWorldApp.cpp" />
     <ClCompile Include="AlefWorldCharacter.cpp" />
@@ -151,11 +154,13 @@
   <ItemGroup>
     <ClInclude Include="AlefDBCharSys.h" />
     <ClInclude Include="AlefDBDataSys.h" />
+    <ClInclude Include="AlefDBMapSys.h" />
     <ClInclude Include="AlefMap.h" />
-    <ClInclude Include="AlefMapRegion.h" />
+    <ClInclude Include="AlefMapSector.h" />
     <ClInclude Include="AlefServerCharSys.h" />
     <ClInclude Include="AlefServerDataSys.h" />
     <ClInclude Include="AlefServerEncryptionSys.h" />
+    <ClInclude Include="AlefServerMapSys.h" />
     <ClInclude Include="AlefWorld.h" />
     <ClInclude Include="AlefWorldAGSMCharMgr.h" />
     <ClInclude Include="AlefWorldApp.h" />

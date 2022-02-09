@@ -29,6 +29,7 @@ public:
 private:
 	void initDatabase();
 	bool initServerSystems();
+	bool initWorldMap();
 
 	Timestamp timeStamp;
 	AlefWorldClientFactory * clientFactory;

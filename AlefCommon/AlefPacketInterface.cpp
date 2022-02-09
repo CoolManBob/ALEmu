@@ -410,7 +410,7 @@ bool AlefPacketInterface::processPacket(AlefPacket * packet, ...)
 						*(((string*)arg)) = tempStr;
 
 						delete[] temp;
-					}	
+					}
 				} break;
 				case Alef::AlefType::INT8:
 				{

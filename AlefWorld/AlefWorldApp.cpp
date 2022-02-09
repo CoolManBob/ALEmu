@@ -24,7 +24,7 @@ int AlefWorldApp::main(const vector<string>& args)
 	pktInterface = new AlefPacketInterface();
 	dbInterface = new AlefDBInterface();
 
-	cout << "ALEmu - AlefWorld v0.1" << endl;
+	cout << "ALEmu - AlefWorld" << endl;
 	
 	AlefWorldServer * worldServer = new AlefWorldServer();
 	worldServer->runServer();

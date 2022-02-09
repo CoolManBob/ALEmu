@@ -45,6 +45,8 @@ namespace Alef
 		float z;
 	};
 
+	
+
 	struct AlefPktField
 	{
 		AlefPktField() { FieldType = 0; FieldSize = 0; }
@@ -198,3 +200,7 @@ namespace Alef
 		}*/
 
 }
+
+
+//Global Typedefs
+typedef Alef::AlefVec3F AlefPos;

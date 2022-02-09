@@ -66,6 +66,11 @@ bool AlefLoginClientLogin::processPacket(const localInfo& local)
 	SharedPtr<AlefPacket> pktCharInfo = new AlefPacket(Alef::AGPMLOGIN_CHAR_INFO), pktVersionInfo = new AlefPacket(Alef::AGPMLOGIN_VERSION_INFO), pktServerInfo = new AlefPacket(Alef::AGPMLOGIN_SERVER_INFO);
 
 	pktInterface->processPacket(packet, &i8Operation, &cKey, &cAcct, &ui8AcctLen, &cPW, &ui8PWLen, &i32Unk1, &cWorld, &pktCharInfo, &pktVersionInfo, &i32Unk2, &pktServerInfo, &cUnk2, &cUnk3, &i32IsLimited, &i32IsProtected);
+
+	stringstream msg;
+	msg << "User Login processPacket Operation: " << (int)i8Operation;
+	LOG(msg.str());
+
 	switch(i8Operation)
 	{
 		case CLIENTLOGIN_HASHKEY: //Initial Packet Opcode
@@ -249,10 +254,10 @@ bool AlefLoginClientLogin::processCreateCharacter(localInfo& local, SharedPtr<Al
 {
 	//{	Alef::INT32, Alef::CHAR, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::INT32, Alef::CHAR }
 	Int32 tID = 0, faceIdx = 0, hairIdx = 0;
-	Int32 unk1 = 0, unk2 = 0;
+	Int32 cSlotIdx = 0, unionInfo = 0;
 	string charName = "";
 	charName.reserve(49);
-	pktInterface->processPacket(charDetail.get(), &tID, &charName, 0, &unk1, &unk2, 0, &hairIdx, &faceIdx, 0);
+	pktInterface->processPacket(charDetail.get(), &tID, &charName, 0, 0, 0, 0, &hairIdx, &faceIdx, 0);
 
 
 	//Need to check for max chars.

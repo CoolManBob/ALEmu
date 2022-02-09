@@ -24,7 +24,7 @@ int AlefLoginApp::main(const vector<string>& args)
 	pktInterface = new AlefPacketInterface();
 	dbInterface = new AlefDBInterface();
 
-	cout << "ALEmu - AlefLogin v0.1" << endl;
+	cout << "ALEmu - AlefLogin" << endl;
 	
 	AlefLoginServer * loginServer = new AlefLoginServer();
 	loginServer->runServer();
